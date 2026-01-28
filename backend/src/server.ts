@@ -1,13 +1,30 @@
 import express from "express";
 import dotenv from "dotenv";
 import { prisma } from './lib/prisma'
+import multer from 'multer';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT;
 
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now().toString() + file.originalname)
+  }
+})
+
+const upload = multer({storage})
+
 app.use(express.json());
+
+app.post('/upload', upload.array('file'), (req, res) => {
+  console.log(req.body)
+  return res.json(req.files)
+})
 
 app.post("/register", async (req, res) => {
   const { username, email, password } = req.body;
@@ -39,7 +56,7 @@ app.post("/login", async (req, res) => {
     });
 
     if (!user) {
-      return res.status(404).json({"message": "User not found!"});
+      return res.status(404).json({ "message": "User not found!" });
     }
     else {
       return res.status(200).json(user);
