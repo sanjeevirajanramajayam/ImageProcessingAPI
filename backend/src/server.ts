@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import { prisma } from './lib/prisma'
-import multer from 'multer';
+import multer, { MulterError } from 'multer';
 
 dotenv.config();
 
@@ -17,12 +17,14 @@ const storage = multer.diskStorage({
   }
 })
 
-const upload = multer({storage})
+const upload = multer({ storage })
 
 app.use(express.json());
 
-app.post('/upload', upload.array('file'), (req, res) => {
-  console.log(req.body)
+
+
+app.post('/upload', upload.array('file', 2), (req, res) => {
+  // console.log(req.body)
   return res.json(req.files)
 })
 
@@ -68,6 +70,11 @@ app.post("/login", async (req, res) => {
   }
 });
 
+app.use(async (err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  if (err instanceof MulterError) {
+    return res.status(400).json({ error: err })
+  }
+})
 
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);
