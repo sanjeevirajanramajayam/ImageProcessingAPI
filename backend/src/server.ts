@@ -1,8 +1,11 @@
 import express from "express";
 import dotenv from "dotenv";
+import cookieParser from 'cookie-parser';
 import { MulterError } from 'multer';
-import uploadRoutes from './routes/fileRoutes'
-import userRoutes from './routes/fileRoutes'
+import fileRoutes from './routes/fileRoutes'
+import userRoutes from './routes/userRoutes'
+import refreshRoutes from './routes/refreshRoutes'
+import verifyJWT from "./middleware/verifyJWT";
 
 dotenv.config();
 
@@ -10,8 +13,10 @@ const app = express();
 const PORT = process.env.PORT;
 
 app.use(express.json());
+app.use(cookieParser())
 
-app.use('/image', uploadRoutes)
+app.use('/image', verifyJWT, fileRoutes)
+app.use('/', refreshRoutes)
 app.use('/', userRoutes)
 
 
