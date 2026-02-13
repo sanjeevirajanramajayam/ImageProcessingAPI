@@ -14,17 +14,25 @@ datasource db {
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
-  name     String
-  email    String   @unique
-  password String
+  id           Int      @id @default(autoincrement())
+  name         String
+  email        String   @unique
+  password     String
   refreshToken String?
-  images   Images[]
+  images       Images[]
 }
 
 model Images {
   id           Int    @id @default(autoincrement())
   image_id     String
   user_id      Int
+  imageVersions ImageVersion[]
   uploadedUser User   @relation(fields: [user_id], references: [id])
+}
+
+model ImageVersion {
+  id Int @id @default(autoincrement())
+  orig_image_id Int
+  image_id String
+  originalImage Images @relation(fields: [orig_image_id], references: [id])
 }

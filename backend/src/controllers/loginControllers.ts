@@ -1,7 +1,6 @@
 import { prisma } from '../lib/prisma'
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { ref } from 'node:process';
 
 const accessSecret = process.env.JWT_ACCESS_TOKEN!
 const refreshSecret = process.env.JWT_REFRESH_TOKEN!
@@ -38,7 +37,7 @@ export const loginUser = async (req: Request, res: Response) => {
             return res.status(404).json({ "message": "User not found!" });
         }
 
-        const accessToken = jwt.sign({ email }, accessSecret, { expiresIn: '60s' })
+        const accessToken = jwt.sign({ email }, accessSecret, { expiresIn: '15m' })
         const refreshToken = jwt.sign({ email }, refreshSecret, { expiresIn: '1d' })
 
         await prisma.user.update({ where: { email: email }, data: { refreshToken: refreshToken } })

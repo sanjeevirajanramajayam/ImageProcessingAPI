@@ -26,6 +26,11 @@ app.use(async (err: Error, req: express.Request, res: express.Response, next: ex
   }
 })
 
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  console.error("Body parse error:", err.message)
+  res.status(400).json({ error: "Invalid JSON body" })
+})
+
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);
 });
