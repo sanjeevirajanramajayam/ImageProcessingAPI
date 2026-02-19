@@ -1,7 +1,7 @@
 import s3 from "../config/s3Client";
 import { prisma } from "../lib/prisma";
-import getRandomImageName from "../utils/utils";
-import { PutObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
+import { getRandomImageName, applyTransformations, generateHash } from "../utils/utils";
+import { PutObjectCommand, GetObjectCommand, HeadObjectCommand } from "@aws-sdk/client-s3";
 import { Request, Response } from "express";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import sharp from 'sharp'
@@ -23,10 +23,10 @@ export const uploadFile = async (req: Request, res: Response) => {
     return res.status(404).json({ error: "User not found" })
   }
 
-  await prisma.images.create({ data: { image_id: ImageId, uploadedUser: { connect: { id: foundUser.id } } } })
+  const image = await prisma.images.create({ data: { image_id: ImageId, user_id: foundUser.id } })
   await s3.send(command)
 
-  return res.json(req.file)
+  return res.json({ image })
 }
 
 export const viewFiles = async (req: Request, res: Response) => {
@@ -36,11 +36,11 @@ export const viewFiles = async (req: Request, res: Response) => {
     return res.status(404).json({ error: "User not found" })
   }
 
-  const images = await prisma.images.findMany({ where: { user_id: req.user.id } })
+  const images = await prisma.images.findMany({ where: { user_id: foundUser.id } })
   const userImages: (typeof images[number] & { url: string })[] = []
 
   for (const image of images) {
-    const getObjectParams = { Bucket: bucketName, Key: image.image_id }
+    const getObjectParams = { Bucket: bucketName, Key: image.image_id, ResponseContentDisposition: "inline" }
 
     const command = new GetObjectCommand(getObjectParams);
     const url = await getSignedUrl(s3, command, { expiresIn: 3600 })
@@ -54,18 +54,41 @@ export const viewFiles = async (req: Request, res: Response) => {
 
 export const transformImage = async (req: Request, res: Response) => {
   try {
-    const foundUser = await prisma.user.findFirst({
-      where: { email: req.user.email }
-    })
 
-    if (!foundUser) {
-      return res.status(404).json({ error: "User not found" })
-    }
+    // const foundUser = await prisma.user.findFirst({
+    //   where: { email: req.user.email }
+    // })
 
-    const { transformations } = req.body
+    // if (!foundUser) {
+    //   return res.status(404).json({ error: "User not found" })
+    // }
+
+    const {
+      w, h,
+      crop_w, crop_h, crop_x, crop_y,
+      rotate, format,
+      gray, sepia, remove_bg
+    } = req.query;
+
+    const transformations = {
+      resize: (w || h) ? { width: w, height: h } : undefined,
+      crop: (crop_w && crop_h) ? {
+        width: crop_w, height: crop_h,
+        x: crop_x || 0, y: crop_y || 0
+      } : undefined,
+      rotate: rotate,
+      format: format,
+      filters: {
+        grayscale: gray === 'true',
+        sepia: sepia === 'true'
+      },
+      remove_bg: remove_bg === 'true'
+    };
+
+    console.log(transformations)
 
     if (!transformations) {
-      return res.status(400).json({ error: "Invalid body" })
+      return res.status(400).json({ error: "Invalid query" })
     }
 
     const imageId = Number(req.params.id)
@@ -74,9 +97,8 @@ export const transformImage = async (req: Request, res: Response) => {
       return res.status(400).json({ error: "Invalid imageId" })
     }
 
-    const requiredImage = await prisma.images.findFirst({
+    let requiredImage = await prisma.images.findFirst({
       where: {
-        user_id: foundUser.id,
         id: imageId
       }
     })
@@ -85,9 +107,25 @@ export const transformImage = async (req: Request, res: Response) => {
       return res.status(404).json({ error: "Image not found" })
     }
 
+    let finalVersion = requiredImage
+
+    const cacheKey = generateHash(finalVersion?.image_id!, transformations)
+
+    try {
+      const headCommand = new HeadObjectCommand({ Bucket: bucketName, Key: cacheKey })
+      await s3.send(headCommand)
+      const command = new GetObjectCommand({ Bucket: bucketName, Key: cacheKey, ResponseContentDisposition: "inline" });
+      const url = await getSignedUrl(s3, command, { expiresIn: 3600 })
+      console.error({ message: "CACHE HIT SUCCESSFUL" })
+      return res.redirect(url)
+    }
+    catch (err) {
+      console.error({ message: "CACHE HIT FAILED", error: err })
+    }
+
     const command = new GetObjectCommand({
       Bucket: bucketName,
-      Key: requiredImage.image_id
+      Key: finalVersion.image_id
     })
 
     const response = await s3.send(command)
@@ -99,102 +137,26 @@ export const transformImage = async (req: Request, res: Response) => {
     const byteArray = await response.Body.transformToByteArray()
     const imageBuffer = Buffer.from(byteArray)
 
-    const metadata = await sharp(imageBuffer).metadata()
-    const imgWidth = metadata.width ?? 0
-    const imgHeight = metadata.height ?? 0
-
-    let image = sharp(imageBuffer)
-
-    const {
-      resize,
-      crop,
-      rotate,
-      format,
-      filters
-    } = transformations || {}
-
-    if (crop) {
-      const width = Number(crop.width)
-      const height = Number(crop.height)
-      const x = Number(crop.x)
-      const y = Number(crop.y)
-
-      if (
-        !isNaN(width) &&
-        !isNaN(height) &&
-        !isNaN(x) &&
-        !isNaN(y) &&
-        width > 0 &&
-        height > 0 &&
-        x >= 0 &&
-        y >= 0 &&
-        x + width <= imgWidth &&
-        y + height <= imgHeight
-      ) {
-        image = image.extract({
-          left: x,
-          top: y,
-          width,
-          height
-        })
-      } else {
-        return res.status(400).json({
-          error: "Invalid crop dimensions"
-        })
-      }
-    }
-
-    if (resize) {
-      const width = Number(resize.width)
-      const height = Number(resize.height)
-
-      if (!isNaN(width) || !isNaN(height)) {
-        image = image.resize(
-          !isNaN(width) ? width : undefined,
-          !isNaN(height) ? height : undefined
-        ) 
-      }
-    }
-
-    if (rotate !== undefined) {
-      const angle = Number(rotate)
-      if (!isNaN(angle)) {
-        image = image.rotate(angle)
-      }
-    }
-
-    if (filters?.grayscale === true) {
-      image = image.grayscale()
-    }
-
-    if (filters?.sepia === true) {
-      image = image
-        .modulate({ saturation: 0.5 })
-        .tint({ r: 112, g: 66, b: 20 })
-    }
-
+    let metadata = await sharp(imageBuffer).metadata()
     let outputFormat = metadata.format || "jpeg"
 
-    if (format) {
-      const f = format.toLowerCase()
+    const finalBuffer = await applyTransformations(imageBuffer, transformations)
 
-      if (["jpeg", "jpg", "png", "webp"].includes(f)) {
-        outputFormat = f === "jpg" ? "jpeg" : f
-      }
+    const putCommandParams = {
+      Bucket: bucketName,
+      Key: cacheKey,
+      Body: finalBuffer,
+      ContentType: `image/${outputFormat}`
     }
 
-    if (outputFormat === "jpeg") {
-      image = image.jpeg({ quality: 80 })
-    } else if (outputFormat === "png") {
-      image = image.png()
-    } else if (outputFormat === "webp") {
-      image = image.webp()
-    }
+    const putCommand = new PutObjectCommand(putCommandParams)
 
-    const finalBuffer = await image.toBuffer()
+    await s3.send(putCommand) // await ensures this runs now and not in the background while others is running.
 
-    res.set("Content-Type", `image/${outputFormat}`)
-    return res.send(finalBuffer)
+    const getCommand = new GetObjectCommand({ Bucket: bucketName, Key: cacheKey });
+    const url = await getSignedUrl(s3, getCommand, { expiresIn: 3600 });
+
+    return res.redirect(url);
 
   } catch (err) {
     console.error("Transform error:", err)

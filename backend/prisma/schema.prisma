@@ -34,5 +34,6 @@ model ImageVersion {
   id Int @id @default(autoincrement())
   orig_image_id Int
   image_id String
+  version Int
   originalImage Images @relation(fields: [orig_image_id], references: [id])
 }

@@ -22,7 +22,7 @@ const handleRefreshToken = async (req: Request, res: Response) => {
     jwt.verify(refreshToken, refreshSecret, (err: VerifyErrors | null, decoded: any) => {
         if (err) return res.sendStatus(403);
         if (decoded.email == foundUser.email) {
-            const accessToken = jwt.sign({ email: foundUser.email }, accessSecret, { expiresIn: '30s' })
+            const accessToken = jwt.sign({ email: foundUser.email }, accessSecret, { expiresIn: '15m' })
             return res.json({ accessToken })
         }
         else {

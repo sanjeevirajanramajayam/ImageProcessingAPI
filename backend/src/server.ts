@@ -10,12 +10,12 @@ import verifyJWT from "./middleware/verifyJWT";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT;
+const PORT = parseInt(process.env.PORT || "4000", 10);
 
 app.use(express.json());
 app.use(cookieParser())
 
-app.use('/image', verifyJWT, fileRoutes)
+app.use('/image', fileRoutes)
 app.use('/', refreshRoutes)
 app.use('/', userRoutes)
 
@@ -31,6 +31,11 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
   res.status(400).json({ error: "Invalid JSON body" })
 })
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);
+});
+
+server.on('error', (err) => {
+  console.error('Server error:', err);
+  process.exit(1);
 });
