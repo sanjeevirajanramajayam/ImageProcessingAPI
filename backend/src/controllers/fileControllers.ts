@@ -55,14 +55,6 @@ export const viewFiles = async (req: Request, res: Response) => {
 export const transformImage = async (req: Request, res: Response) => {
   try {
 
-    // const foundUser = await prisma.user.findFirst({
-    //   where: { email: req.user.email }
-    // })
-
-    // if (!foundUser) {
-    //   return res.status(404).json({ error: "User not found" })
-    // }
-
     const {
       w, h,
       crop_w, crop_h, crop_x, crop_y,
