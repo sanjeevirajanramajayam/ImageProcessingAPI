@@ -27,11 +27,15 @@ export const viewUsers = async (req: Request, res: Response) => {
 export const loginUser = async (req: Request, res: Response) => {
     try {
         const { email, password } = req.body;
+        if (!email || !password) {
+            return res.status(400).json({
+                message: "Email and password are required"
+            });
+        }
 
         const user = await prisma.user.findFirst({
             where: { email, password: password },
         });
-
 
         if (!user) {
             return res.status(404).json({ "message": "User not found!" });

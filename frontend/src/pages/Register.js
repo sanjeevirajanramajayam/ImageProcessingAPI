@@ -5,9 +5,7 @@ function Register() {
     <div className="h-screen">
       <div className="flex justify-center items-center h-full">
         <div className="border p-5 w-1/4">
-          <div className="text-2xl my-1 text-center">
-            <b>Register User</b>
-          </div>
+          <div className="text-lg my-1 text-center ">Register User</div>
           <p>Email</p>
           <input
             type="email"

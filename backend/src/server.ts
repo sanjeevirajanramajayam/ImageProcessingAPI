@@ -5,13 +5,17 @@ import { MulterError } from 'multer';
 import fileRoutes from './routes/fileRoutes'
 import userRoutes from './routes/userRoutes'
 import refreshRoutes from './routes/refreshRoutes'
-import verifyJWT from "./middleware/verifyJWT";
+import cors from "cors";
 
 dotenv.config();
 
 const app = express();
 const PORT = parseInt(process.env.PORT || "4000", 10);
 
+app.use(cors({
+  origin: 'http://localhost:1234',
+  credentials: true // allow credentials to be sent from browser
+}))
 app.use(express.json());
 app.use(cookieParser())
 

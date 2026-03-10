@@ -13,7 +13,7 @@ const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
     const accessSecret = process.env.JWT_ACCESS_TOKEN!
     const authHeader = req.headers['authorization'];
     if (!authHeader) {
-        return res.status(401).json({message: "You are not authorized."})
+        return res.status(401).json({message: "You are not authenticated."})
     }
     const token = authHeader.split(' ')[1]
 
