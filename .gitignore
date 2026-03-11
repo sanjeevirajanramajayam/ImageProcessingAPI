@@ -16,13 +16,13 @@ yarn-error.log
 uploads/
 
 # Ignore database credential files
-/generated/prisma
+backend/generated/prisma
 
-/src/generated/prisma
+backend/src/generated/prisma
 
-/src/generated/prisma
+backend/src/generated/prisma
 
-/src/generated/prisma
+backend/src/generated/prisma
 
 node_modules
 .env
