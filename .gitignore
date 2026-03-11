@@ -30,3 +30,5 @@ node_modules
 dist
 frontend/dist
 frontend/.parcel-cache
+.vscode
+.git.bfg-report
