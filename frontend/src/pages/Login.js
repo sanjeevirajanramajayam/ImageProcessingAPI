@@ -1,6 +1,6 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { authContext } from "../context/AuthContext";
-import { useNavigate } from "react-router";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function Login() {
   const [loginPayload, setLoginPayload] = useState({ email: "", password: "" });
@@ -42,10 +42,6 @@ function Login() {
     }
   }
 
-  useEffect(() => {
-    console.log(auth);
-  }, [auth]);
-
   return (
     <div className="h-screen">
       <div className="flex flex-col gap-4 justify-center items-center h-full">
@@ -82,6 +78,9 @@ function Login() {
             >
               Login
             </button>
+            <p>
+              <NavLink to='/register'>Don't have an account? Register...</NavLink>
+            </p>
           </form>
         </div>
       </div>
