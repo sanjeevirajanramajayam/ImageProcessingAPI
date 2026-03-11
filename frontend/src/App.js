@@ -14,6 +14,8 @@ import Navbar from "./components/Navbar";
 import UploadImage from "./pages/UploadImage";
 import HomePage from "./pages/HomePage";
 
+// Hello, Everyone!
+
 const AppLayout = () => {
   return (
     <AuthProvider>
