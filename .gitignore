@@ -23,3 +23,10 @@ uploads/
 /src/generated/prisma
 
 /src/generated/prisma
+
+node_modules
+.env
+.parcel-cache
+dist
+frontend/dist
+frontend/.parcel-cache
