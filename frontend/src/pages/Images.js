@@ -30,13 +30,6 @@ function Images() {
     };
   }, []);
 
-  // const refresh = useRefreshToken();
-  useEffect(() => {
-    console.log(images);
-  }, [images]);
-
-  // const columns = images.length ? Object.keys(images[0]) : [];
-
   return (
     <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
       {images.map((image, index) => (

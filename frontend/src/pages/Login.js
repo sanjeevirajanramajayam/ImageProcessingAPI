@@ -28,7 +28,6 @@ function Login() {
       res = await res.json();
 
       setAuth((p) => {
-        console.log({ ...p, accessToken: res.accessToken });
         return { ...p, accessToken: res.accessToken };
       });
 

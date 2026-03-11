@@ -14,7 +14,6 @@ function Register() {
     e.preventDefault()
     try {
       const res = await axios.post("/register", registerPayload);
-      console.log(res.data);
     } catch (err) {
       console.error(err);
       setErr(err)

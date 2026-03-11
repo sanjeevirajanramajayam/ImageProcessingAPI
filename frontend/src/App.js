@@ -12,7 +12,7 @@ import { AuthProvider } from "./context/AuthContext";
 import PersistLogin from "./components/PersistLogin";
 import Navbar from "./components/Navbar";
 import UploadImage from "./pages/UploadImage";
-import Home from "./pages/Home";
+import HomePage from "./pages/HomePage";
 
 const AppLayout = () => {
   return (
@@ -60,7 +60,7 @@ const router = createBrowserRouter([
               },
               {
                 path: "/",
-                element: <HomePage />,
+                element: <HomePage></HomePage>,
               },
             ],
           },

@@ -14,8 +14,8 @@ const useRefreshToken = () => {
     // only allow bank website with credentials
     // console.log(res.data);
     setAuth((prev) => {
-      console.log(prev.accessToken);
-      console.log(res.data.accessToken);
+      console.log(`OLD ACCESS TOKEN ${prev.accessToken}`);
+      console.log(`NEW ACCESS TOKEN ${res.data.accessToken}`);
       return { ...prev, accessToken: res.data.accessToken };
     });
     // console.log(res.data)
