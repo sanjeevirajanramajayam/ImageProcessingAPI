@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import useAxiosPrivate from "./../hooks/useAxiosPrivate";
+import axios from "axios";
 
 function Images() {
   const [images, setImages] = useState([]);
@@ -16,6 +17,9 @@ function Images() {
         );
         isMounted && setImages(res.data.userImages);
       } catch (err) {
+        if (axios.isCancel(err)) {
+          return;
+        }
         console.error(err);
       }
     }

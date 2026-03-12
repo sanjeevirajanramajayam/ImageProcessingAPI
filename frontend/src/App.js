@@ -46,10 +46,12 @@ const router = createBrowserRouter([
         children: [
           {
             element: (
-              <>
+              <div className="flex h-screen flex-col">
                 <Navbar />
-                <Outlet />
-              </>
+                <div className="flex-1">
+                  <Outlet />
+                </div>
+              </div>
             ),
             children: [
               {
@@ -61,8 +63,8 @@ const router = createBrowserRouter([
                 element: <UploadImage />,
               },
               {
-                path: "/",
-                element: <HomePage></HomePage>,
+                path: "/home",
+                element: <HomePage />,
               },
             ],
           },

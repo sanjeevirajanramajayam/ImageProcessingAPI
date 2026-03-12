@@ -16,6 +16,8 @@ export const uploadFile = async (req: Request, res: Response) => {
     Body: req.file?.buffer,
   }
 
+  console.log(req.file)
+
   const command = new PutObjectCommand(params)
 
   const foundUser = await prisma.user.findFirst({ where: { email: req.user.email } })
