@@ -2,20 +2,40 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import axios from "axios";
+import Cropper from "react-easy-crop";
 
 const TransformImage = () => {
   const { id } = useParams();
   const axiosPrivate = useAxiosPrivate();
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState("");
   const [transform, setTransform] = useState({
     resize: { width: null, height: null },
-    crop: { width: null, height: null, x: null, y: null },
+    crop: { width: 10, height: 10, x: 0, y: 0 },
     rotate: null,
     format: "",
     filters: { grayscale: false, sepia: false },
     remove_bg: false,
   });
-  const [transformedImage, setTransformedImage] = useState(null);
+  const [transformedImage, setTransformedImage] = useState("");
+  const [backendURL, setBackendURL] = useState("");
+  const [isCropping, setIsCropping] = useState(false);
+  const [crop, setCrop] = useState({ x: 50, y: 0 });
+  const [wh, setwh] = useState({ width: 100, height: 100, x: 0, y: 0 });
+
+  const [zoom, setZoom] = useState(1);
+
+  function onCropComplete(_, croppedAreaPixels) {
+    setTransform((t) => ({
+      ...t,
+      crop: {
+        ...t.crop,
+        x: Math.round(croppedAreaPixels.x),
+        y: Math.round(croppedAreaPixels.y),
+        width: Math.round(croppedAreaPixels.width),
+        height: Math.round(croppedAreaPixels.height),
+      },
+    }));
+  }
 
   const applyTransform = () => {
     const params = new URLSearchParams();
@@ -29,8 +49,10 @@ const TransformImage = () => {
       params.append("crop_w", transform.crop.width);
     if (transform.crop.height != null)
       params.append("crop_h", transform.crop.height);
-    if (transform.crop.x != null) params.append("crop_x", transform.crop.x);
-    if (transform.crop.y != null) params.append("crop_y", transform.crop.y);
+    if (transform.crop.x != null)
+      params.append("crop_x", Number(transform.crop.x));
+    if (transform.crop.y != null)
+      params.append("crop_y", Number(transform.crop.y));
 
     if (transform.rotate != null) params.append("rotate", transform.rotate);
     if (transform.format) params.append("format", transform.format);
@@ -44,7 +66,9 @@ const TransformImage = () => {
 
     console.log(url);
     setTransformedImage(url);
+    setBackendURL(url);
   };
+
   useEffect(() => {
     let isMounted = true;
     const abortController = new AbortController();
@@ -69,27 +93,79 @@ const TransformImage = () => {
       isMounted = false;
     };
   }, []);
+
+  const handleCopy = async () => {
+    console.log("copy");
+    await navigator.clipboard.writeText(backendURL);
+  };
+
   return (
     <div className="flex h-full gap-8 p-6">
-      {/* Left: Image Preview */}
-      <div className="w-1/2 flex flex-col items-center">
+      <div className="w-1/2 flex flex-col items-center ">
         <p className="font-bold mb-3">Original Image</p>
+        {isCropping ? (
+          <div className="relative w-full h-75">
+            <Cropper
+              image={image}
+              crop={crop}
+              zoom={zoom}
+              cropSize={{
+                width: wh.width,
+                height: wh.height,
+              }}
+              onCropChange={setCrop}
+              // onCropSizeChange={(size) => {
+              //   setTransform((t) => ({
+              //     ...t,
+              //     crop: {
+              //       ...t.crop,
+              //       width: Math.round(size.width),
+              //       height: Math.round(size.height),
+              //     },
+              //   }));
+              // }}
+              onCropComplete={onCropComplete}
+              onZoomChange={setZoom}
+            />
+          </div>
+        ) : (
+          <img
+            src={image === "" ? null : image}
+            className="max-w-full border"
+          />
+        )}
 
-        <img src={image} className="max-w-full border" />
+        {isCropping ? (
+          <input
+            type="range"
+            min={1}
+            max={90}
+            step={10}
+            value={wh.width}
+            onChange={(e) =>
+              setwh((wh) => ({ ...wh, width: Number(e.target.value) }))
+            }
+          />
+        ) : (
+          <></>
+        )}
+
+        {/* <img src={image === "" ? null : image} className="max-w-full border" /> */}
 
         {transformedImage && (
           <>
             <p className="font-bold mt-6 mb-3">Transformed Image</p>
-            <img src={transformedImage} className="max-w-full border" />
+            <img
+              src={transformedImage === "" ? null : transformedImage}
+              className="max-w-full border"
+            />
           </>
         )}
       </div>
 
-      {/* Right: Transform Options */}
       <div className="w-1/2 flex flex-col gap-4">
-        <h2 className="text-xl font-bold">Transformations</h2>
+        <h2 className="text-xl font-bold">Apply Transformations</h2>
 
-        {/* Resize */}
         <div className="flex gap-2">
           <input
             type="number"
@@ -116,7 +192,64 @@ const TransformImage = () => {
           />
         </div>
 
-        {/* Rotate */}
+        <div className="flex gap-2 flex-wrap">
+          <input
+            type="number"
+            placeholder="Crop Height"
+            value={wh.height}
+            className="border p-1"
+            onChange={(e) => {
+              // setTransform((t) => ({
+              //   ...t,
+              //   crop: { ...t.crop, height: Number(e.target.value) },
+              // }));
+              setwh({ ...wh, height: Number(e.target.value) });
+            }}
+          />
+
+          <input
+            type="number"
+            placeholder="Crop Width"
+            className="border p-1"
+            value={wh.width}
+            onChange={(e) => {
+              // setTransform((t) => ({
+              //   ...t,
+              //   crop: { ...t.crop, width: Number(e.target.value) },
+              // }));
+              setwh({ ...wh, width: Number(e.target.value) });
+            }}
+          />
+
+          <input
+            type="number"
+            placeholder="Crop X"
+            className="border p-1"
+            value={parseInt(crop.x)}
+            onChange={(e) =>
+              setCrop((crop) => ({ ...crop, x: Number(e.target.value) }))
+            }
+          />
+
+          <input
+            type="number"
+            placeholder="Crop Y"
+            className="border p-1"
+            value={parseInt(crop.y)}
+            onChange={(e) =>
+              setCrop((crop) => ({ ...crop, y: Number(e.target.value) }))
+            }
+          />
+
+          <button
+            onClick={() => {
+              setIsCropping(!isCropping);
+            }}
+          >
+            {isCropping ? "Stop Crop" : "Start Crop"}
+          </button>
+        </div>
+
         <input
           type="number"
           placeholder="Rotate degrees"
@@ -129,7 +262,6 @@ const TransformImage = () => {
           }
         />
 
-        {/* Format */}
         <select
           className="border p-1"
           onChange={(e) =>
@@ -145,7 +277,6 @@ const TransformImage = () => {
           <option value="webp">WEBP</option>
         </select>
 
-        {/* Filters */}
         <label>
           <input
             type="checkbox"
@@ -172,7 +303,6 @@ const TransformImage = () => {
           Sepia
         </label>
 
-        {/* Remove background */}
         <label>
           <input
             type="checkbox"
@@ -189,6 +319,18 @@ const TransformImage = () => {
         <button className="border p-2 mt-4" onClick={applyTransform}>
           Apply Transform
         </button>
+
+        <div className="max-w flex gap-4">
+          <input
+            className="flex-1 outline-none border p-2 disabled:bg-gray-200 disabled:border-gray-500  "
+            value={backendURL}
+            readOnly
+            disabled={backendURL === ""}
+          />
+          <button onClick={handleCopy} className="border p-2">
+            Copy
+          </button>
+        </div>
       </div>
     </div>
   );
