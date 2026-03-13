@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import useAxiosPrivate from "./../hooks/useAxiosPrivate";
 import axios from "axios";
+import { useNavigate } from "react-router";
 
 function Images() {
   const [images, setImages] = useState([]);
   const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
   useEffect(() => {
     const abortController = new AbortController();
     let isMounted = true;
@@ -36,14 +38,21 @@ function Images() {
 
   return (
     <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-      {images.map((image, index) => (
-        <img
-          key={image.id ?? index}
-          src={image.url}
-          alt={`User upload ${index + 1}`}
-          className="w-full h-48 object-cover rounded border"
-        />
-      ))}
+      {images.length > 0 ? (
+        images.map((image, index) => (
+          <img
+            key={image.id ?? index}
+            src={image.url}
+            alt={`User upload ${index + 1}`}
+            className="w-full h-48 object-cover rounded border"
+            onClick={() => {
+              navigate(`/image/${image.id}/transform`);
+            }}
+          />
+        ))
+      ) : (
+        <p>No images found.</p>
+      )}
     </div>
   );
 }

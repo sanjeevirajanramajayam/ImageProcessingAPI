@@ -9,6 +9,15 @@ import sharp from 'sharp'
 const bucketName = process.env.BUCKET_NAME!
 
 export const uploadFile = async (req: Request, res: Response) => {
+  // if (req.aborted) {
+  //   console.log("Upload aborted by client");
+  //   return res.status(499).end();
+  // }
+
+  // req.on("aborted", () => {
+  //   console.log("Client aborted upload");
+  // });
+
   const ImageId = getRandomImageName()
   const params = {
     Bucket: bucketName,
@@ -16,7 +25,7 @@ export const uploadFile = async (req: Request, res: Response) => {
     Body: req.file?.buffer,
   }
 
-  console.log(req.file)
+  // console.log(req.file)
 
   const command = new PutObjectCommand(params)
 
@@ -54,9 +63,37 @@ export const viewFiles = async (req: Request, res: Response) => {
 
 }
 
+export const viewFile = async (req: Request, res: Response) => {
+  let image_id = Number(req.params.id);
+
+  if (isNaN(image_id)) {
+    return res.status(400).json({ error: "Invalid imageId" })
+  }
+  // console.log(image_id)
+  const foundUser = await prisma.user.findFirst({ where: { email: req.user.email } })
+
+  if (!foundUser) {
+    return res.status(404).json({ "message": "User not found!" })
+  }
+
+  const image = await prisma.images.findFirst({ where: { id: image_id, user_id: req.user.id } })
+  // console.log(image)
+
+  if (image) {
+    const getObjectParams = { Bucket: bucketName, Key: image.image_id, ResponseContentDisposition: "inline" }
+
+    const command = new GetObjectCommand(getObjectParams);
+    const url = await getSignedUrl(s3, command, { expiresIn: 3600 })
+    return res.status(200).json({ image_id: image.image_id, url: url})
+  }
+  else {
+    return res.status(404).json({ 'message': 'No Image found.' })
+  }
+
+}
+
 export const transformImage = async (req: Request, res: Response) => {
   try {
-
     const {
       w, h,
       crop_w, crop_h, crop_x, crop_y,

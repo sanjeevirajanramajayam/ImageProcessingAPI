@@ -13,6 +13,7 @@ import PersistLogin from "./components/PersistLogin";
 import Navbar from "./components/Navbar";
 import UploadImage from "./pages/UploadImage";
 import HomePage from "./pages/HomePage";
+import TransformImage from "./pages/TransformImage";
 
 // Hello, Everyone!
 
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
               {
                 path: "/upload-image",
                 element: <UploadImage />,
+              },
+              {
+                path: "/image/:id/transform",
+                element: <TransformImage />,
               },
               {
                 path: "/home",

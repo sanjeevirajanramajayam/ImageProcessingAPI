@@ -100,7 +100,7 @@ const UploadImage = () => {
     disabled:cursor-not-allowed
   "
           onClick={handleCancel}
-          disabled={!abortRef.current}
+          disabled={!isUploading}
         >
           Cancel
         </button>

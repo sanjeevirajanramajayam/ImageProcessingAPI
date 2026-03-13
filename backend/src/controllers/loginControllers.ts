@@ -41,7 +41,7 @@ export const loginUser = async (req: Request, res: Response) => {
             return res.status(404).json({ "message": "User not found!" });
         }
 
-        const accessToken = jwt.sign({ email }, accessSecret, { expiresIn: '15m' })
+        const accessToken = jwt.sign({ email }, accessSecret, { expiresIn: '10s' })
         const refreshToken = jwt.sign({ email }, refreshSecret, { expiresIn: '1d' })
 
         await prisma.user.update({ where: { email: email }, data: { refreshToken: refreshToken } })

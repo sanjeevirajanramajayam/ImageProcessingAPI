@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useLogout from "./../hooks/useLogout";
+import TransformImage from './../pages/TransformImage';
 
 const Navbar = () => {
   const logout = useLogout();
@@ -12,11 +13,13 @@ const Navbar = () => {
         <div className="flex gap-6">
           <Link to="/home">Home</Link>
           <Link to="/images">Image</Link>
+          {/* <Link to="/image/:id/transform">Transform Image</Link> */}
           <Link to="/upload-image">Upload Image</Link>
           <p
+            className="cursor-pointer"
             onClick={async () => {
               await logout();
-              navigate('/');
+              navigate("/");
             }}
           >
             Log out
