@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import useAxiosPrivate from "./../hooks/useAxiosPrivate";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import loadContext from "../context/LoadingContext";
 
 function Images() {
   const [images, setImages] = useState([]);
+  const { loading, setLoading } = useContext(loadContext);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   useEffect(() => {
@@ -38,7 +40,9 @@ function Images() {
 
   return (
     <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-      {images.length > 0 ? (
+      {loading ? (
+        <p>Loading...</p>
+      ) : images.length > 0 ? (
         images.map((image, index) => (
           <img
             key={image.id ?? index}

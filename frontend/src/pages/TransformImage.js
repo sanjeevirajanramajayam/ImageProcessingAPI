@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import axios from "axios";
 import Cropper from "react-easy-crop";
+import loadContext from "../context/LoadingContext";
 
 const TransformImage = () => {
   const { id } = useParams();
   const axiosPrivate = useAxiosPrivate();
+  const [loading, setLoading] = useState(true);
   const [image, setImage] = useState("");
   const [transform, setTransform] = useState({
     resize: { width: null, height: null },
@@ -67,6 +69,7 @@ const TransformImage = () => {
     console.log(url);
     setTransformedImage(url);
     setBackendURL(url);
+    setLoading(true);
   };
 
   useEffect(() => {
@@ -151,13 +154,17 @@ const TransformImage = () => {
         )}
 
         {/* <img src={image === "" ? null : image} className="max-w-full border" /> */}
+        <p className="font-bold mt-6 mb-3">Transformed Image</p>
 
+        {loading ? <div className="loader"></div> : null}
         {transformedImage && (
           <>
-            <p className="font-bold mt-6 mb-3">Transformed Image</p>
             <img
               src={transformedImage === "" ? null : transformedImage}
-              className="max-w-full border"
+              onLoad={() => {
+                setLoading(false);
+              }}
+              className={`max-w-full border ${loading ? `hidden` : `block`}`}
             />
           </>
         )}

@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { authContext } from "../context/AuthContext";
 import { NavLink, useNavigate } from "react-router-dom";
+import loadContext from "../context/LoadingContext";
 
 function Login() {
   const [loginPayload, setLoginPayload] = useState({ email: "", password: "" });
@@ -9,6 +10,7 @@ function Login() {
   const navigate = useNavigate();
 
   const { auth, setAuth } = useContext(authContext);
+  const { loading, setLoading } = useContext(loadContext);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -49,39 +51,48 @@ function Login() {
             <p className="text-red-600">{"Error : " + errMesg}</p>
           </div>
         )}
-        <div className="border p-5 w-1/4">
-          <div className="text-lg my-1 text-center ">Login</div>
-          <form onSubmit={handleSubmit}>
-            <p>Email</p>
-            <input
-              type="email"
-              className="border border-black h-10 w-full p-2 my-2"
-              value={loginPayload.email}
-              onChange={(e) => {
-                setLoginPayload({ ...loginPayload, email: e.target.value });
-              }}
-              required
-            />
-            <p>Password</p>
-            <input
-              className="border border-black h-10 w-full p-2 my-2"
-              type="password"
-              value={loginPayload.password}
-              onChange={(e) => {
-                setLoginPayload({ ...loginPayload, password: e.target.value });
-              }}
-            />
-            <button
-              className="bg-black text-white p-2 w-full my-4"
-              type="submit"
-            >
-              Login
-            </button>
-            <p>
-              <NavLink to='/register'>Don't have an account? Register...</NavLink>
-            </p>
-          </form>
-        </div>
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          <div className="border p-5 w-1/4">
+            <div className="text-lg my-1 text-center ">Login</div>
+            <form onSubmit={handleSubmit}>
+              <p>Email</p>
+              <input
+                type="email"
+                className="border border-black h-10 w-full p-2 my-2"
+                value={loginPayload.email}
+                onChange={(e) => {
+                  setLoginPayload({ ...loginPayload, email: e.target.value });
+                }}
+                required
+              />
+              <p>Password</p>
+              <input
+                className="border border-black h-10 w-full p-2 my-2"
+                type="password"
+                value={loginPayload.password}
+                onChange={(e) => {
+                  setLoginPayload({
+                    ...loginPayload,
+                    password: e.target.value,
+                  });
+                }}
+              />
+              <button
+                className="bg-black text-white p-2 w-full my-4"
+                type="submit"
+              >
+                Login
+              </button>
+              <p>
+                <NavLink to="/register">
+                  Don't have an account? Register...
+                </NavLink>
+              </p>
+            </form>
+          </div>
+        )}
       </div>
     </div>
   );

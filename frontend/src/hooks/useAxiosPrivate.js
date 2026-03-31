@@ -2,9 +2,11 @@ import { privateAxios } from "../api/axios";
 import { authContext } from "../context/AuthContext";
 import { useContext, useEffect, useRef } from "react";
 import useRefreshToken from "./useRefreshToken";
+import loadContext from "../context/LoadingContext";
 
 const useAxiosPrivate = () => {
   const { auth, setAuth } = useContext(authContext);
+  const { loading, setLoading } = useContext(loadContext)
   const refresh = useRefreshToken();
 
   useEffect(() => {
@@ -19,6 +21,7 @@ const useAxiosPrivate = () => {
         if (!config.headers["Authorization"]) {
           config.headers["Authorization"] = `Bearer ${auth?.accessToken}`;
         }
+        setLoading(true);
         return config;
       },
       (error) => {
@@ -27,7 +30,10 @@ const useAxiosPrivate = () => {
     );
 
     const resInterceptors = privateAxios.interceptors.response.use(
-      (response) => response,
+      (response) => {
+        setLoading(false)
+        return response
+      },
       async (error) => {
         let prevRequest = error?.config;
         if (error?.response?.status == 403 && !prevRequest?.sent) {
@@ -36,6 +42,7 @@ const useAxiosPrivate = () => {
           const accessToken = await refresh();
           prevRequest.headers["Authorization"] = `Bearer ${accessToken}`;
           console.log(`NEW ACCESS TOKEN ${accessToken}`)
+          setLoading(false)
           return privateAxios(prevRequest);
         }
         return Promise.reject(error); // any other error it goes to ui in catch block

@@ -14,13 +14,16 @@ import Navbar from "./components/Navbar";
 import UploadImage from "./pages/UploadImage";
 import HomePage from "./pages/HomePage";
 import TransformImage from "./pages/TransformImage";
+import { LoadProvdier } from "./context/LoadingContext";
 
 // Hello, Everyone!
 
 const AppLayout = () => {
   return (
     <AuthProvider>
-      <Outlet />
+      <LoadProvdier>
+        <Outlet />
+      </LoadProvdier>
     </AuthProvider>
   );
 };

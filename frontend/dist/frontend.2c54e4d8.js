@@ -741,16 +741,26 @@ var _uploadImage = require("./pages/UploadImage");
 var _uploadImageDefault = parcelHelpers.interopDefault(_uploadImage);
 var _homePage = require("./pages/HomePage");
 var _homePageDefault = parcelHelpers.interopDefault(_homePage);
+var _transformImage = require("./pages/TransformImage");
+var _transformImageDefault = parcelHelpers.interopDefault(_transformImage);
+var _loadingContext = require("./context/LoadingContext");
+// Hello, Everyone!
 const AppLayout = ()=>{
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _authContext.AuthProvider), {
-        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Outlet), {}, void 0, false, {
+        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _loadingContext.LoadProvdier), {
+            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Outlet), {}, void 0, false, {
+                fileName: "src/App.js",
+                lineNumber: 25,
+                columnNumber: 9
+            }, undefined)
+        }, void 0, false, {
             fileName: "src/App.js",
-            lineNumber: 20,
+            lineNumber: 24,
             columnNumber: 7
         }, undefined)
     }, void 0, false, {
         fileName: "src/App.js",
-        lineNumber: 19,
+        lineNumber: 23,
         columnNumber: 5
     }, undefined);
 };
@@ -760,7 +770,7 @@ const router = (0, _reactRouterDom.createBrowserRouter)([
         path: "/",
         element: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(AppLayout, {}, void 0, false, {
             fileName: "src/App.js",
-            lineNumber: 28,
+            lineNumber: 34,
             columnNumber: 14
         }, undefined),
         children: [
@@ -770,7 +780,7 @@ const router = (0, _reactRouterDom.createBrowserRouter)([
                     to: "/login"
                 }, void 0, false, {
                     fileName: "src/App.js",
-                    lineNumber: 32,
+                    lineNumber: 38,
                     columnNumber: 18
                 }, undefined)
             },
@@ -778,7 +788,7 @@ const router = (0, _reactRouterDom.createBrowserRouter)([
                 path: "/login",
                 element: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _loginDefault.default), {}, void 0, false, {
                     fileName: "src/App.js",
-                    lineNumber: 36,
+                    lineNumber: 42,
                     columnNumber: 18
                 }, undefined)
             },
@@ -786,38 +796,50 @@ const router = (0, _reactRouterDom.createBrowserRouter)([
                 path: "/register",
                 element: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _registerDefault.default), {}, void 0, false, {
                     fileName: "src/App.js",
-                    lineNumber: 40,
+                    lineNumber: 46,
                     columnNumber: 18
                 }, undefined)
             },
             {
                 element: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _persistLoginDefault.default), {}, void 0, false, {
                     fileName: "src/App.js",
-                    lineNumber: 43,
+                    lineNumber: 49,
                     columnNumber: 18
                 }, undefined),
                 children: [
                     {
-                        element: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
+                        element: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                            className: "flex h-screen flex-col",
                             children: [
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _navbarDefault.default), {}, void 0, false, {
                                     fileName: "src/App.js",
-                                    lineNumber: 48,
+                                    lineNumber: 54,
                                     columnNumber: 17
                                 }, undefined),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Outlet), {}, void 0, false, {
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    className: "flex-1",
+                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Outlet), {}, void 0, false, {
+                                        fileName: "src/App.js",
+                                        lineNumber: 56,
+                                        columnNumber: 19
+                                    }, undefined)
+                                }, void 0, false, {
                                     fileName: "src/App.js",
-                                    lineNumber: 49,
+                                    lineNumber: 55,
                                     columnNumber: 17
                                 }, undefined)
                             ]
-                        }, void 0, true),
+                        }, void 0, true, {
+                            fileName: "src/App.js",
+                            lineNumber: 53,
+                            columnNumber: 15
+                        }, undefined),
                         children: [
                             {
                                 path: "/images",
                                 element: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _imagesDefault.default), {}, void 0, false, {
                                     fileName: "src/App.js",
-                                    lineNumber: 55,
+                                    lineNumber: 63,
                                     columnNumber: 26
                                 }, undefined)
                             },
@@ -825,15 +847,23 @@ const router = (0, _reactRouterDom.createBrowserRouter)([
                                 path: "/upload-image",
                                 element: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _uploadImageDefault.default), {}, void 0, false, {
                                     fileName: "src/App.js",
-                                    lineNumber: 59,
+                                    lineNumber: 67,
                                     columnNumber: 26
                                 }, undefined)
                             },
                             {
-                                path: "/",
+                                path: "/image/:id/transform",
+                                element: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _transformImageDefault.default), {}, void 0, false, {
+                                    fileName: "src/App.js",
+                                    lineNumber: 71,
+                                    columnNumber: 26
+                                }, undefined)
+                            },
+                            {
+                                path: "/home",
                                 element: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _homePageDefault.default), {}, void 0, false, {
                                     fileName: "src/App.js",
-                                    lineNumber: 63,
+                                    lineNumber: 75,
                                     columnNumber: 26
                                 }, undefined)
                             }
@@ -849,7 +879,7 @@ root.render(/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.RouterP
     router: router
 }, void 0, false, {
     fileName: "src/App.js",
-    lineNumber: 74,
+    lineNumber: 86,
     columnNumber: 13
 }, undefined));
 var _c;
@@ -860,7 +890,7 @@ $RefreshReg$(_c, "AppLayout");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react-dom/client":"hrvwu","./pages/Login":"6O7Ur","react-router-dom":"61z4w","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","./pages/Register":"k8Hue","./pages/Images":"kPYqA","./context/AuthContext":"lhbhb","./components/PersistLogin":"9xfJj","./components/Navbar":"99RRu","./pages/UploadImage":"aNIQw","./pages/HomePage":"eq3nB"}],"dVPUn":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react-dom/client":"hrvwu","./pages/Login":"6O7Ur","react-router-dom":"61z4w","./pages/Register":"k8Hue","./pages/Images":"kPYqA","./context/AuthContext":"lhbhb","./components/PersistLogin":"9xfJj","./components/Navbar":"99RRu","./pages/UploadImage":"aNIQw","./pages/HomePage":"eq3nB","./pages/TransformImage":"3curM","./context/LoadingContext":"feAfd","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"dVPUn":[function(require,module,exports,__globalThis) {
 'use strict';
 module.exports = require("ee51401569654d91");
 
@@ -17528,6 +17558,8 @@ var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _authContext = require("../context/AuthContext");
 var _reactRouterDom = require("react-router-dom");
+var _loadingContext = require("../context/LoadingContext");
+var _loadingContextDefault = parcelHelpers.interopDefault(_loadingContext);
 var _s = $RefreshSig$();
 function Login() {
     _s();
@@ -17538,6 +17570,7 @@ function Login() {
     const [errMesg, setErrMesg] = (0, _react.useState)("");
     const navigate = (0, _reactRouterDom.useNavigate)();
     const { auth, setAuth } = (0, _react.useContext)((0, _authContext.authContext));
+    const { loading, setLoading } = (0, _react.useContext)((0, _loadingContextDefault.default));
     async function handleSubmit(e) {
         e.preventDefault();
         try {
@@ -17577,15 +17610,21 @@ function Login() {
                         children: "Error : " + errMesg
                     }, void 0, false, {
                         fileName: "src/pages/Login.js",
-                        lineNumber: 49,
+                        lineNumber: 51,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "src/pages/Login.js",
-                    lineNumber: 48,
+                    lineNumber: 50,
                     columnNumber: 11
                 }, this),
-                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                loading ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                    children: "Loading..."
+                }, void 0, false, {
+                    fileName: "src/pages/Login.js",
+                    lineNumber: 55,
+                    columnNumber: 11
+                }, this) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                     className: "border p-5 w-1/4",
                     children: [
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -17593,8 +17632,8 @@ function Login() {
                             children: "Login"
                         }, void 0, false, {
                             fileName: "src/pages/Login.js",
-                            lineNumber: 53,
-                            columnNumber: 11
+                            lineNumber: 58,
+                            columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("form", {
                             onSubmit: handleSubmit,
@@ -17603,8 +17642,8 @@ function Login() {
                                     children: "Email"
                                 }, void 0, false, {
                                     fileName: "src/pages/Login.js",
-                                    lineNumber: 55,
-                                    columnNumber: 13
+                                    lineNumber: 60,
+                                    columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
                                     type: "email",
@@ -17619,15 +17658,15 @@ function Login() {
                                     required: true
                                 }, void 0, false, {
                                     fileName: "src/pages/Login.js",
-                                    lineNumber: 56,
-                                    columnNumber: 13
+                                    lineNumber: 61,
+                                    columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
                                     children: "Password"
                                 }, void 0, false, {
                                     fileName: "src/pages/Login.js",
-                                    lineNumber: 65,
-                                    columnNumber: 13
+                                    lineNumber: 70,
+                                    columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
                                     className: "border border-black h-10 w-full p-2 my-2",
@@ -17641,8 +17680,8 @@ function Login() {
                                     }
                                 }, void 0, false, {
                                     fileName: "src/pages/Login.js",
-                                    lineNumber: 66,
-                                    columnNumber: 13
+                                    lineNumber: 71,
+                                    columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                                     className: "bg-black text-white p-2 w-full my-4",
@@ -17650,8 +17689,8 @@ function Login() {
                                     children: "Login"
                                 }, void 0, false, {
                                     fileName: "src/pages/Login.js",
-                                    lineNumber: 74,
-                                    columnNumber: 13
+                                    lineNumber: 82,
+                                    columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
                                     children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.NavLink), {
@@ -17659,39 +17698,39 @@ function Login() {
                                         children: "Don't have an account? Register..."
                                     }, void 0, false, {
                                         fileName: "src/pages/Login.js",
-                                        lineNumber: 81,
-                                        columnNumber: 15
+                                        lineNumber: 89,
+                                        columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "src/pages/Login.js",
-                                    lineNumber: 80,
-                                    columnNumber: 13
+                                    lineNumber: 88,
+                                    columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "src/pages/Login.js",
-                            lineNumber: 54,
-                            columnNumber: 11
+                            lineNumber: 59,
+                            columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "src/pages/Login.js",
-                    lineNumber: 52,
-                    columnNumber: 9
+                    lineNumber: 57,
+                    columnNumber: 11
                 }, this)
             ]
         }, void 0, true, {
             fileName: "src/pages/Login.js",
-            lineNumber: 46,
+            lineNumber: 48,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "src/pages/Login.js",
-        lineNumber: 45,
+        lineNumber: 47,
         columnNumber: 5
     }, this);
 }
-_s(Login, "k/pCpmAlyn4vX51dQUcp0GFLvRo=", false, function() {
+_s(Login, "3LMjX//EAha3E2jYb6JW4Pnhr9c=", false, function() {
     return [
         (0, _reactRouterDom.useNavigate)
     ];
@@ -17706,7 +17745,48 @@ $RefreshReg$(_c, "Login");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","../context/AuthContext":"lhbhb","react-router-dom":"61z4w"}],"jnFvT":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","../context/AuthContext":"lhbhb","react-router-dom":"61z4w","../context/LoadingContext":"feAfd","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"lhbhb":[function(require,module,exports,__globalThis) {
+var $parcel$ReactRefreshHelpers$34b5 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+$parcel$ReactRefreshHelpers$34b5.init();
+var prevRefreshReg = globalThis.$RefreshReg$;
+var prevRefreshSig = globalThis.$RefreshSig$;
+$parcel$ReactRefreshHelpers$34b5.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "authContext", ()=>authContext);
+parcelHelpers.export(exports, "AuthProvider", ()=>AuthProvider);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _s = $RefreshSig$();
+const authContext = /*#__PURE__*/ (0, _react.createContext)({});
+const AuthProvider = ({ children })=>{
+    _s();
+    const [auth, setAuth] = (0, _react.useState)({});
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(authContext.Provider, {
+        value: {
+            auth,
+            setAuth
+        },
+        children: children
+    }, void 0, false, {
+        fileName: "src/context/AuthContext.js",
+        lineNumber: 8,
+        columnNumber: 5
+    }, undefined);
+};
+_s(AuthProvider, "taPzfEibMw/EhAy8vagBpo82vCE=");
+_c = AuthProvider;
+var _c;
+$RefreshReg$(_c, "AuthProvider");
+
+  $parcel$ReactRefreshHelpers$34b5.postlude(module);
+} finally {
+  globalThis.$RefreshReg$ = prevRefreshReg;
+  globalThis.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"jnFvT":[function(require,module,exports,__globalThis) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -20014,48 +20094,7 @@ function $da9882e673ac146b$var$ErrorOverlay() {
     return null;
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"lhbhb":[function(require,module,exports,__globalThis) {
-var $parcel$ReactRefreshHelpers$34b5 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
-$parcel$ReactRefreshHelpers$34b5.init();
-var prevRefreshReg = globalThis.$RefreshReg$;
-var prevRefreshSig = globalThis.$RefreshSig$;
-$parcel$ReactRefreshHelpers$34b5.prelude(module);
-
-try {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "authContext", ()=>authContext);
-parcelHelpers.export(exports, "AuthProvider", ()=>AuthProvider);
-var _jsxDevRuntime = require("react/jsx-dev-runtime");
-var _react = require("react");
-var _s = $RefreshSig$();
-const authContext = /*#__PURE__*/ (0, _react.createContext)({});
-const AuthProvider = ({ children })=>{
-    _s();
-    const [auth, setAuth] = (0, _react.useState)({});
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(authContext.Provider, {
-        value: {
-            auth,
-            setAuth
-        },
-        children: children
-    }, void 0, false, {
-        fileName: "src/context/AuthContext.js",
-        lineNumber: 8,
-        columnNumber: 5
-    }, undefined);
-};
-_s(AuthProvider, "taPzfEibMw/EhAy8vagBpo82vCE=");
-_c = AuthProvider;
-var _c;
-$RefreshReg$(_c, "AuthProvider");
-
-  $parcel$ReactRefreshHelpers$34b5.postlude(module);
-} finally {
-  globalThis.$RefreshReg$ = prevRefreshReg;
-  globalThis.$RefreshSig$ = prevRefreshSig;
-}
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"61z4w":[function(require,module,exports,__globalThis) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"61z4w":[function(require,module,exports,__globalThis) {
 /**
  * React Router DOM v6.30.3
  *
@@ -27319,7 +27358,53 @@ function persistAppliedTransitions(_window, transitions) {
     }
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"k8Hue":[function(require,module,exports,__globalThis) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"feAfd":[function(require,module,exports,__globalThis) {
+var $parcel$ReactRefreshHelpers$93a4 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+$parcel$ReactRefreshHelpers$93a4.init();
+var prevRefreshReg = globalThis.$RefreshReg$;
+var prevRefreshSig = globalThis.$RefreshSig$;
+$parcel$ReactRefreshHelpers$93a4.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "LoadProvdier", ()=>LoadProvdier);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _s = $RefreshSig$();
+const loadContext = /*#__PURE__*/ (0, _react.createContext)({});
+const LoadProvdier = ({ children })=>{
+    _s();
+    const [loading, setLoading] = (0, _react.useState)(false);
+    (0, _react.useEffect)(()=>{
+        console.log(loading);
+    }, [
+        loading
+    ]);
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(loadContext.Provider, {
+        value: {
+            loading,
+            setLoading
+        },
+        children: children
+    }, void 0, false, {
+        fileName: "src/context/LoadingContext.js",
+        lineNumber: 13,
+        columnNumber: 5
+    }, undefined);
+};
+_s(LoadProvdier, "bp7W7BLZaxNmS0ceaCBH82+KoGQ=");
+_c = LoadProvdier;
+exports.default = loadContext;
+var _c;
+$RefreshReg$(_c, "LoadProvdier");
+
+  $parcel$ReactRefreshHelpers$93a4.postlude(module);
+} finally {
+  globalThis.$RefreshReg$ = prevRefreshReg;
+  globalThis.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"k8Hue":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$a9c9 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$a9c9.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -27519,7 +27604,7 @@ $RefreshReg$(_c, "Register");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","react-router-dom":"61z4w","../api/axios":"2wcbt"}],"2wcbt":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","react-router-dom":"61z4w","../api/axios":"2wcbt","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"2wcbt":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "privateAxios", ()=>privateAxios);
@@ -32538,11 +32623,18 @@ var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _useAxiosPrivate = require("./../hooks/useAxiosPrivate");
 var _useAxiosPrivateDefault = parcelHelpers.interopDefault(_useAxiosPrivate);
+var _axios = require("axios");
+var _axiosDefault = parcelHelpers.interopDefault(_axios);
+var _reactRouter = require("react-router");
+var _loadingContext = require("../context/LoadingContext");
+var _loadingContextDefault = parcelHelpers.interopDefault(_loadingContext);
 var _s = $RefreshSig$();
 function Images() {
     _s();
     const [images, setImages] = (0, _react.useState)([]);
+    const { loading, setLoading } = (0, _react.useContext)((0, _loadingContextDefault.default));
     const axiosPrivate = (0, _useAxiosPrivateDefault.default)();
+    const navigate = (0, _reactRouter.useNavigate)();
     (0, _react.useEffect)(()=>{
         const abortController = new AbortController();
         let isMounted = true;
@@ -32553,6 +32645,7 @@ function Images() {
                 });
                 isMounted && setImages(res.data.userImages);
             } catch (err) {
+                if ((0, _axiosDefault.default).isCancel(err)) return;
                 console.error(err);
             }
         }
@@ -32566,24 +32659,40 @@ function Images() {
     }, []);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         className: "p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4",
-        children: images.map((image, index)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+        children: loading ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+            children: "Loading..."
+        }, void 0, false, {
+            fileName: "src/pages/Images.js",
+            lineNumber: 44,
+            columnNumber: 9
+        }, this) : images.length > 0 ? images.map((image, index)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
                 src: image.url,
                 alt: `User upload ${index + 1}`,
-                className: "w-full h-48 object-cover rounded border"
+                className: "w-full h-48 object-cover rounded border",
+                onClick: ()=>{
+                    navigate(`/image/${image.id}/transform`);
+                }
             }, image.id ?? index, false, {
                 fileName: "src/pages/Images.js",
-                lineNumber: 36,
-                columnNumber: 9
-            }, this))
+                lineNumber: 47,
+                columnNumber: 11
+            }, this)) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+            children: "No images found."
+        }, void 0, false, {
+            fileName: "src/pages/Images.js",
+            lineNumber: 58,
+            columnNumber: 9
+        }, this)
     }, void 0, false, {
         fileName: "src/pages/Images.js",
-        lineNumber: 34,
+        lineNumber: 42,
         columnNumber: 5
     }, this);
 }
-_s(Images, "+WjWzOsRDJZCGcM6nLcrLhEF5xs=", false, function() {
+_s(Images, "JtANMHqiDleRDvA2ezh2sx08s3Y=", false, function() {
     return [
-        (0, _useAxiosPrivateDefault.default)
+        (0, _useAxiosPrivateDefault.default),
+        (0, _reactRouter.useNavigate)
     ];
 });
 _c = Images;
@@ -32596,7 +32705,7 @@ $RefreshReg$(_c, "Images");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","./../hooks/useAxiosPrivate":"flztI"}],"flztI":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","./../hooks/useAxiosPrivate":"flztI","axios":"kooH4","react-router":"4ChVy","../context/LoadingContext":"feAfd","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"flztI":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$03b4 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$03b4.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -32611,10 +32720,13 @@ var _authContext = require("../context/AuthContext");
 var _react = require("react");
 var _useRefreshToken = require("./useRefreshToken");
 var _useRefreshTokenDefault = parcelHelpers.interopDefault(_useRefreshToken);
+var _loadingContext = require("../context/LoadingContext");
+var _loadingContextDefault = parcelHelpers.interopDefault(_loadingContext);
 var _s = $RefreshSig$();
 const useAxiosPrivate = ()=>{
     _s();
     const { auth, setAuth } = (0, _react.useContext)((0, _authContext.authContext));
+    const { loading, setLoading } = (0, _react.useContext)((0, _loadingContextDefault.default));
     const refresh = (0, _useRefreshTokenDefault.default)();
     (0, _react.useEffect)(()=>{
         console.log(auth);
@@ -32626,11 +32738,15 @@ const useAxiosPrivate = ()=>{
             console.log("ADD ACCESS TOKEN FOR REQUEST");
             console.log(auth?.accessToken);
             if (!config.headers["Authorization"]) config.headers["Authorization"] = `Bearer ${auth?.accessToken}`;
+            setLoading(true);
             return config;
         }, (error)=>{
             return Promise.reject(error);
         });
-        const resInterceptors = (0, _axios.privateAxios).interceptors.response.use((response)=>response, async (error)=>{
+        const resInterceptors = (0, _axios.privateAxios).interceptors.response.use((response)=>{
+            setLoading(false);
+            return response;
+        }, async (error)=>{
             let prevRequest = error?.config;
             if (error?.response?.status == 403 && !prevRequest?.sent) {
                 console.log("ACCESS TOKEN EXIPRED");
@@ -32638,6 +32754,7 @@ const useAxiosPrivate = ()=>{
                 const accessToken = await refresh();
                 prevRequest.headers["Authorization"] = `Bearer ${accessToken}`;
                 console.log(`NEW ACCESS TOKEN ${accessToken}`);
+                setLoading(false);
                 return (0, _axios.privateAxios)(prevRequest);
             }
             return Promise.reject(error); // any other error it goes to ui in catch block
@@ -32652,7 +32769,7 @@ const useAxiosPrivate = ()=>{
     ]);
     return 0, _axios.privateAxios;
 };
-_s(useAxiosPrivate, "wFItMjnuOKTmzlK4TjrBIOJ/9jo=", false, function() {
+_s(useAxiosPrivate, "Gd/GBUdMlcpqQKDagOU9QzAkazA=", false, function() {
     return [
         (0, _useRefreshTokenDefault.default)
     ];
@@ -32664,7 +32781,7 @@ exports.default = useAxiosPrivate;
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"../api/axios":"2wcbt","../context/AuthContext":"lhbhb","react":"jMk1U","./useRefreshToken":"PqYj7","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"PqYj7":[function(require,module,exports,__globalThis) {
+},{"../api/axios":"2wcbt","../context/AuthContext":"lhbhb","react":"jMk1U","./useRefreshToken":"PqYj7","../context/LoadingContext":"feAfd","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"PqYj7":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$3c0e = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$3c0e.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -32790,7 +32907,15 @@ var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 var _reactRouterDom = require("react-router-dom");
+var _useLogout = require("./../hooks/useLogout");
+var _useLogoutDefault = parcelHelpers.interopDefault(_useLogout);
+var _transformImage = require("./../pages/TransformImage");
+var _transformImageDefault = parcelHelpers.interopDefault(_transformImage);
+var _s = $RefreshSig$();
 const Navbar = ()=>{
+    _s();
+    const logout = (0, _useLogoutDefault.default)();
+    const navigate = (0, _reactRouterDom.useNavigate)();
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("nav", {
         className: "p-4",
         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -32801,18 +32926,18 @@ const Navbar = ()=>{
                     children: "ImgTransformer"
                 }, void 0, false, {
                     fileName: "src/components/Navbar.js",
-                    lineNumber: 8,
+                    lineNumber: 12,
                     columnNumber: 9
                 }, undefined),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                     className: "flex gap-6",
                     children: [
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
-                            to: "/",
+                            to: "/home",
                             children: "Home"
                         }, void 0, false, {
                             fileName: "src/components/Navbar.js",
-                            lineNumber: 10,
+                            lineNumber: 14,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
@@ -32820,7 +32945,7 @@ const Navbar = ()=>{
                             children: "Image"
                         }, void 0, false, {
                             fileName: "src/components/Navbar.js",
-                            lineNumber: 11,
+                            lineNumber: 15,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
@@ -32828,35 +32953,45 @@ const Navbar = ()=>{
                             children: "Upload Image"
                         }, void 0, false, {
                             fileName: "src/components/Navbar.js",
-                            lineNumber: 12,
+                            lineNumber: 17,
                             columnNumber: 11
                         }, undefined),
-                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
-                            to: "/",
+                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                            className: "cursor-pointer",
+                            onClick: async ()=>{
+                                await logout();
+                                navigate("/");
+                            },
                             children: "Log out"
                         }, void 0, false, {
                             fileName: "src/components/Navbar.js",
-                            lineNumber: 13,
+                            lineNumber: 18,
                             columnNumber: 11
                         }, undefined)
                     ]
                 }, void 0, true, {
                     fileName: "src/components/Navbar.js",
-                    lineNumber: 9,
+                    lineNumber: 13,
                     columnNumber: 9
                 }, undefined)
             ]
         }, void 0, true, {
             fileName: "src/components/Navbar.js",
-            lineNumber: 7,
+            lineNumber: 11,
             columnNumber: 7
         }, undefined)
     }, void 0, false, {
         fileName: "src/components/Navbar.js",
-        lineNumber: 6,
+        lineNumber: 10,
         columnNumber: 5
     }, undefined);
 };
+_s(Navbar, "zic5uvScJ5w2qHC68MZ4JvEhfvs=", false, function() {
+    return [
+        (0, _useLogoutDefault.default),
+        (0, _reactRouterDom.useNavigate)
+    ];
+});
 _c = Navbar;
 exports.default = Navbar;
 var _c;
@@ -32867,7 +33002,2407 @@ $RefreshReg$(_c, "Navbar");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","react-router-dom":"61z4w","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"aNIQw":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","react-router-dom":"61z4w","./../hooks/useLogout":"H6j2V","./../pages/TransformImage":"3curM","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"H6j2V":[function(require,module,exports,__globalThis) {
+var $parcel$ReactRefreshHelpers$e88c = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+$parcel$ReactRefreshHelpers$e88c.init();
+var prevRefreshReg = globalThis.$RefreshReg$;
+var prevRefreshSig = globalThis.$RefreshSig$;
+$parcel$ReactRefreshHelpers$e88c.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _authContext = require("../context/AuthContext");
+var _axios = require("../api/axios");
+var _axiosDefault = parcelHelpers.interopDefault(_axios);
+var _s = $RefreshSig$();
+const useLogout = ()=>{
+    _s();
+    const { setAuth } = (0, _react.useContext)((0, _authContext.authContext));
+    const logout = async ()=>{
+        setAuth({});
+        try {
+            await (0, _axiosDefault.default).get("/logout", {
+                withCredentials: true
+            });
+        } catch (err) {
+            console.error(err);
+        }
+    };
+    return logout;
+};
+_s(useLogout, "AZA/luGjUcwYYzxX4dX6WlN32LE=");
+exports.default = useLogout;
+
+  $parcel$ReactRefreshHelpers$e88c.postlude(module);
+} finally {
+  globalThis.$RefreshReg$ = prevRefreshReg;
+  globalThis.$RefreshSig$ = prevRefreshSig;
+}
+},{"react":"jMk1U","../context/AuthContext":"lhbhb","../api/axios":"2wcbt","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"3curM":[function(require,module,exports,__globalThis) {
+var $parcel$ReactRefreshHelpers$dc41 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+$parcel$ReactRefreshHelpers$dc41.init();
+var prevRefreshReg = globalThis.$RefreshReg$;
+var prevRefreshSig = globalThis.$RefreshSig$;
+$parcel$ReactRefreshHelpers$dc41.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _reactRouter = require("react-router");
+var _useAxiosPrivate = require("../hooks/useAxiosPrivate");
+var _useAxiosPrivateDefault = parcelHelpers.interopDefault(_useAxiosPrivate);
+var _axios = require("axios");
+var _axiosDefault = parcelHelpers.interopDefault(_axios);
+var _reactEasyCrop = require("react-easy-crop");
+var _reactEasyCropDefault = parcelHelpers.interopDefault(_reactEasyCrop);
+var _loadingContext = require("../context/LoadingContext");
+var _loadingContextDefault = parcelHelpers.interopDefault(_loadingContext);
+var _s = $RefreshSig$();
+const TransformImage = ()=>{
+    _s();
+    const { id } = (0, _reactRouter.useParams)();
+    const axiosPrivate = (0, _useAxiosPrivateDefault.default)();
+    const [loading, setLoading] = (0, _react.useState)(true);
+    const [image, setImage] = (0, _react.useState)("");
+    const [transform, setTransform] = (0, _react.useState)({
+        resize: {
+            width: null,
+            height: null
+        },
+        crop: {
+            width: 10,
+            height: 10,
+            x: 0,
+            y: 0
+        },
+        rotate: null,
+        format: "",
+        filters: {
+            grayscale: false,
+            sepia: false
+        },
+        remove_bg: false
+    });
+    const [transformedImage, setTransformedImage] = (0, _react.useState)("");
+    const [backendURL, setBackendURL] = (0, _react.useState)("");
+    const [isCropping, setIsCropping] = (0, _react.useState)(false);
+    const [crop, setCrop] = (0, _react.useState)({
+        x: 50,
+        y: 0
+    });
+    const [wh, setwh] = (0, _react.useState)({
+        width: 100,
+        height: 100,
+        x: 0,
+        y: 0
+    });
+    const [zoom, setZoom] = (0, _react.useState)(1);
+    function onCropComplete(_, croppedAreaPixels) {
+        setTransform((t)=>({
+                ...t,
+                crop: {
+                    ...t.crop,
+                    x: Math.round(croppedAreaPixels.x),
+                    y: Math.round(croppedAreaPixels.y),
+                    width: Math.round(croppedAreaPixels.width),
+                    height: Math.round(croppedAreaPixels.height)
+                }
+            }));
+    }
+    const applyTransform = ()=>{
+        const params = new URLSearchParams();
+        if (transform.resize.width != null) params.append("w", transform.resize.width);
+        if (transform.resize.height != null) params.append("h", transform.resize.height);
+        if (transform.crop.width != null) params.append("crop_w", transform.crop.width);
+        if (transform.crop.height != null) params.append("crop_h", transform.crop.height);
+        if (transform.crop.x != null) params.append("crop_x", Number(transform.crop.x));
+        if (transform.crop.y != null) params.append("crop_y", Number(transform.crop.y));
+        if (transform.rotate != null) params.append("rotate", transform.rotate);
+        if (transform.format) params.append("format", transform.format);
+        if (transform.filters.grayscale) params.append("gray", true);
+        if (transform.filters.sepia) params.append("sepia", true);
+        if (transform.removeBackground) params.append("remove_bg", true);
+        const url = `http://localhost:4000/image/${id}/transform?${params.toString()}`;
+        console.log(url);
+        setTransformedImage(url);
+        setBackendURL(url);
+        setLoading(true);
+    };
+    (0, _react.useEffect)(()=>{
+        let isMounted = true;
+        const abortController = new AbortController();
+        try {
+            const getImage = async ()=>{
+                const res = await axiosPrivate.get(`/image/${id}`, {
+                    signal: abortController.signal
+                });
+                console.log(res.data);
+                isMounted && setImage(res?.data?.url);
+                isMounted && setTransformedImage(res?.data?.url);
+            };
+            getImage();
+        } catch (err) {
+            if ((0, _axiosDefault.default).isCancel(err)) return;
+            console.error(err);
+        }
+        return ()=>{
+            abortController.abort();
+            isMounted = false;
+        };
+    }, []);
+    const handleCopy = async ()=>{
+        console.log("copy");
+        await navigator.clipboard.writeText(backendURL);
+    };
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        className: "flex h-full gap-8 p-6",
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "w-1/2 flex flex-col items-center ",
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                        className: "font-bold mb-3",
+                        children: "Original Image"
+                    }, void 0, false, {
+                        fileName: "src/pages/TransformImage.js",
+                        lineNumber: 108,
+                        columnNumber: 9
+                    }, undefined),
+                    isCropping ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "relative w-full h-75",
+                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactEasyCropDefault.default), {
+                            image: image,
+                            crop: crop,
+                            zoom: zoom,
+                            cropSize: {
+                                width: wh.width,
+                                height: wh.height
+                            },
+                            onCropChange: setCrop,
+                            // onCropSizeChange={(size) => {
+                            //   setTransform((t) => ({
+                            //     ...t,
+                            //     crop: {
+                            //       ...t.crop,
+                            //       width: Math.round(size.width),
+                            //       height: Math.round(size.height),
+                            //     },
+                            //   }));
+                            // }}
+                            onCropComplete: onCropComplete,
+                            onZoomChange: setZoom
+                        }, void 0, false, {
+                            fileName: "src/pages/TransformImage.js",
+                            lineNumber: 111,
+                            columnNumber: 13
+                        }, undefined)
+                    }, void 0, false, {
+                        fileName: "src/pages/TransformImage.js",
+                        lineNumber: 110,
+                        columnNumber: 11
+                    }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+                        src: image === "" ? null : image,
+                        className: "max-w-full border"
+                    }, void 0, false, {
+                        fileName: "src/pages/TransformImage.js",
+                        lineNumber: 135,
+                        columnNumber: 11
+                    }, undefined),
+                    isCropping ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                        type: "range",
+                        min: 1,
+                        max: 90,
+                        step: 10,
+                        value: wh.width,
+                        onChange: (e)=>setwh((wh)=>({
+                                    ...wh,
+                                    width: Number(e.target.value)
+                                }))
+                    }, void 0, false, {
+                        fileName: "src/pages/TransformImage.js",
+                        lineNumber: 142,
+                        columnNumber: 11
+                    }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {}, void 0, false),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                        className: "font-bold mt-6 mb-3",
+                        children: "Transformed Image"
+                    }, void 0, false, {
+                        fileName: "src/pages/TransformImage.js",
+                        lineNumber: 157,
+                        columnNumber: 9
+                    }, undefined),
+                    loading ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "loader"
+                    }, void 0, false, {
+                        fileName: "src/pages/TransformImage.js",
+                        lineNumber: 159,
+                        columnNumber: 20
+                    }, undefined) : null,
+                    transformedImage && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
+                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+                            src: transformedImage === "" ? null : transformedImage,
+                            onLoad: ()=>{
+                                setLoading(false);
+                            },
+                            className: `max-w-full border ${loading ? `hidden` : `block`}`
+                        }, void 0, false, {
+                            fileName: "src/pages/TransformImage.js",
+                            lineNumber: 162,
+                            columnNumber: 13
+                        }, undefined)
+                    }, void 0, false)
+                ]
+            }, void 0, true, {
+                fileName: "src/pages/TransformImage.js",
+                lineNumber: 107,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "w-1/2 flex flex-col gap-4",
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
+                        className: "text-xl font-bold",
+                        children: "Apply Transformations"
+                    }, void 0, false, {
+                        fileName: "src/pages/TransformImage.js",
+                        lineNumber: 174,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "flex gap-2",
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                type: "number",
+                                placeholder: "Width",
+                                className: "border p-1",
+                                onChange: (e)=>setTransform((prev)=>({
+                                            ...prev,
+                                            resize: {
+                                                ...prev.resize,
+                                                width: Number(e.target.value)
+                                            }
+                                        }))
+                            }, void 0, false, {
+                                fileName: "src/pages/TransformImage.js",
+                                lineNumber: 177,
+                                columnNumber: 11
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                type: "number",
+                                placeholder: "Height",
+                                className: "border p-1",
+                                onChange: (e)=>setTransform((prev)=>({
+                                            ...prev,
+                                            resize: {
+                                                ...prev.resize,
+                                                height: Number(e.target.value)
+                                            }
+                                        }))
+                            }, void 0, false, {
+                                fileName: "src/pages/TransformImage.js",
+                                lineNumber: 189,
+                                columnNumber: 11
+                            }, undefined)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/pages/TransformImage.js",
+                        lineNumber: 176,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "flex gap-2 flex-wrap",
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                type: "number",
+                                placeholder: "Crop Height",
+                                value: wh.height,
+                                className: "border p-1",
+                                onChange: (e)=>{
+                                    // setTransform((t) => ({
+                                    //   ...t,
+                                    //   crop: { ...t.crop, height: Number(e.target.value) },
+                                    // }));
+                                    setwh({
+                                        ...wh,
+                                        height: Number(e.target.value)
+                                    });
+                                }
+                            }, void 0, false, {
+                                fileName: "src/pages/TransformImage.js",
+                                lineNumber: 203,
+                                columnNumber: 11
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                type: "number",
+                                placeholder: "Crop Width",
+                                className: "border p-1",
+                                value: wh.width,
+                                onChange: (e)=>{
+                                    // setTransform((t) => ({
+                                    //   ...t,
+                                    //   crop: { ...t.crop, width: Number(e.target.value) },
+                                    // }));
+                                    setwh({
+                                        ...wh,
+                                        width: Number(e.target.value)
+                                    });
+                                }
+                            }, void 0, false, {
+                                fileName: "src/pages/TransformImage.js",
+                                lineNumber: 217,
+                                columnNumber: 11
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                type: "number",
+                                placeholder: "Crop X",
+                                className: "border p-1",
+                                value: parseInt(crop.x),
+                                onChange: (e)=>setCrop((crop)=>({
+                                            ...crop,
+                                            x: Number(e.target.value)
+                                        }))
+                            }, void 0, false, {
+                                fileName: "src/pages/TransformImage.js",
+                                lineNumber: 231,
+                                columnNumber: 11
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                type: "number",
+                                placeholder: "Crop Y",
+                                className: "border p-1",
+                                value: parseInt(crop.y),
+                                onChange: (e)=>setCrop((crop)=>({
+                                            ...crop,
+                                            y: Number(e.target.value)
+                                        }))
+                            }, void 0, false, {
+                                fileName: "src/pages/TransformImage.js",
+                                lineNumber: 241,
+                                columnNumber: 11
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                onClick: ()=>{
+                                    setIsCropping(!isCropping);
+                                },
+                                children: isCropping ? "Stop Crop" : "Start Crop"
+                            }, void 0, false, {
+                                fileName: "src/pages/TransformImage.js",
+                                lineNumber: 251,
+                                columnNumber: 11
+                            }, undefined)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/pages/TransformImage.js",
+                        lineNumber: 202,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                        type: "number",
+                        placeholder: "Rotate degrees",
+                        className: "border p-1",
+                        onChange: (e)=>setTransform((prev)=>({
+                                    ...prev,
+                                    rotate: Number(e.target.value)
+                                }))
+                    }, void 0, false, {
+                        fileName: "src/pages/TransformImage.js",
+                        lineNumber: 260,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("select", {
+                        className: "border p-1",
+                        onChange: (e)=>setTransform((prev)=>({
+                                    ...prev,
+                                    format: e.target.value
+                                })),
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                value: "",
+                                children: "Format"
+                            }, void 0, false, {
+                                fileName: "src/pages/TransformImage.js",
+                                lineNumber: 281,
+                                columnNumber: 11
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                value: "png",
+                                children: "PNG"
+                            }, void 0, false, {
+                                fileName: "src/pages/TransformImage.js",
+                                lineNumber: 282,
+                                columnNumber: 11
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                value: "jpeg",
+                                children: "JPEG"
+                            }, void 0, false, {
+                                fileName: "src/pages/TransformImage.js",
+                                lineNumber: 283,
+                                columnNumber: 11
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                                value: "webp",
+                                children: "WEBP"
+                            }, void 0, false, {
+                                fileName: "src/pages/TransformImage.js",
+                                lineNumber: 284,
+                                columnNumber: 11
+                            }, undefined)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/pages/TransformImage.js",
+                        lineNumber: 272,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                type: "checkbox",
+                                onChange: (e)=>setTransform((prev)=>({
+                                            ...prev,
+                                            filters: {
+                                                ...prev.filters,
+                                                grayscale: e.target.checked
+                                            }
+                                        }))
+                            }, void 0, false, {
+                                fileName: "src/pages/TransformImage.js",
+                                lineNumber: 288,
+                                columnNumber: 11
+                            }, undefined),
+                            "Grayscale"
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/pages/TransformImage.js",
+                        lineNumber: 287,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                type: "checkbox",
+                                onChange: (e)=>setTransform((prev)=>({
+                                            ...prev,
+                                            filters: {
+                                                ...prev.filters,
+                                                sepia: e.target.checked
+                                            }
+                                        }))
+                            }, void 0, false, {
+                                fileName: "src/pages/TransformImage.js",
+                                lineNumber: 301,
+                                columnNumber: 11
+                            }, undefined),
+                            "Sepia"
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/pages/TransformImage.js",
+                        lineNumber: 300,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                type: "checkbox",
+                                onChange: (e)=>setTransform((prev)=>({
+                                            ...prev,
+                                            removeBackground: e.target.checked
+                                        }))
+                            }, void 0, false, {
+                                fileName: "src/pages/TransformImage.js",
+                                lineNumber: 314,
+                                columnNumber: 11
+                            }, undefined),
+                            "Remove Background"
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/pages/TransformImage.js",
+                        lineNumber: 313,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                        className: "border p-2 mt-4",
+                        onClick: applyTransform,
+                        children: "Apply Transform"
+                    }, void 0, false, {
+                        fileName: "src/pages/TransformImage.js",
+                        lineNumber: 326,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "max-w flex gap-4",
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                className: "flex-1 outline-none border p-2 disabled:bg-gray-200 disabled:border-gray-500  ",
+                                value: backendURL,
+                                readOnly: true,
+                                disabled: backendURL === ""
+                            }, void 0, false, {
+                                fileName: "src/pages/TransformImage.js",
+                                lineNumber: 331,
+                                columnNumber: 11
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                onClick: handleCopy,
+                                className: "border p-2",
+                                children: "Copy"
+                            }, void 0, false, {
+                                fileName: "src/pages/TransformImage.js",
+                                lineNumber: 337,
+                                columnNumber: 11
+                            }, undefined)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/pages/TransformImage.js",
+                        lineNumber: 330,
+                        columnNumber: 9
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "src/pages/TransformImage.js",
+                lineNumber: 173,
+                columnNumber: 7
+            }, undefined)
+        ]
+    }, void 0, true, {
+        fileName: "src/pages/TransformImage.js",
+        lineNumber: 106,
+        columnNumber: 5
+    }, undefined);
+};
+_s(TransformImage, "vvCeVxrLLHGX6/vIxX27GUozSV0=", false, function() {
+    return [
+        (0, _reactRouter.useParams),
+        (0, _useAxiosPrivateDefault.default)
+    ];
+});
+_c = TransformImage;
+exports.default = TransformImage;
+var _c;
+$RefreshReg$(_c, "TransformImage");
+
+  $parcel$ReactRefreshHelpers$dc41.postlude(module);
+} finally {
+  globalThis.$RefreshReg$ = prevRefreshReg;
+  globalThis.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","react-router":"4ChVy","../hooks/useAxiosPrivate":"flztI","axios":"kooH4","react-easy-crop":"aYjYs","../context/LoadingContext":"feAfd","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"aYjYs":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "default", ()=>Cropper);
+parcelHelpers.export(exports, "getInitialCropFromCroppedAreaPercentages", ()=>getInitialCropFromCroppedAreaPercentages);
+parcelHelpers.export(exports, "getInitialCropFromCroppedAreaPixels", ()=>getInitialCropFromCroppedAreaPixels);
+var _tslib = require("tslib");
+var _react = require("react");
+var _normalizeWheel = require("normalize-wheel");
+var _normalizeWheelDefault = parcelHelpers.interopDefault(_normalizeWheel);
+/**
+ * Compute the dimension of the crop area based on media size,
+ * aspect ratio and optionally rotation
+ */ function getCropSize(mediaWidth, mediaHeight, containerWidth, containerHeight, aspect, rotation) {
+    if (rotation === void 0) rotation = 0;
+    var _a = rotateSize(mediaWidth, mediaHeight, rotation), width = _a.width, height = _a.height;
+    var fittingWidth = Math.min(width, containerWidth);
+    var fittingHeight = Math.min(height, containerHeight);
+    if (fittingWidth > fittingHeight * aspect) return {
+        width: fittingHeight * aspect,
+        height: fittingHeight
+    };
+    return {
+        width: fittingWidth,
+        height: fittingWidth / aspect
+    };
+}
+/**
+ * Compute media zoom.
+ * We fit the media into the container with "max-width: 100%; max-height: 100%;"
+ */ function getMediaZoom(mediaSize) {
+    // Take the axis with more pixels to improve accuracy
+    return mediaSize.width > mediaSize.height ? mediaSize.width / mediaSize.naturalWidth : mediaSize.height / mediaSize.naturalHeight;
+}
+/**
+ * Ensure a new media position stays in the crop area.
+ */ function restrictPosition(position, mediaSize, cropSize, zoom, rotation) {
+    if (rotation === void 0) rotation = 0;
+    var _a = rotateSize(mediaSize.width, mediaSize.height, rotation), width = _a.width, height = _a.height;
+    return {
+        x: restrictPositionCoord(position.x, width, cropSize.width, zoom),
+        y: restrictPositionCoord(position.y, height, cropSize.height, zoom)
+    };
+}
+function restrictPositionCoord(position, mediaSize, cropSize, zoom) {
+    var maxPosition = mediaSize * zoom / 2 - cropSize / 2;
+    return clamp(position, -maxPosition, maxPosition);
+}
+function getDistanceBetweenPoints(pointA, pointB) {
+    return Math.sqrt(Math.pow(pointA.y - pointB.y, 2) + Math.pow(pointA.x - pointB.x, 2));
+}
+function getRotationBetweenPoints(pointA, pointB) {
+    return Math.atan2(pointB.y - pointA.y, pointB.x - pointA.x) * 180 / Math.PI;
+}
+/**
+ * Compute the output cropped area of the media in percentages and pixels.
+ * x/y are the top-left coordinates on the src media
+ */ function computeCroppedArea(crop, mediaSize, cropSize, aspect, zoom, rotation, restrictPosition) {
+    if (rotation === void 0) rotation = 0;
+    if (restrictPosition === void 0) restrictPosition = true;
+    // if the media is rotated by the user, we cannot limit the position anymore
+    // as it might need to be negative.
+    var limitAreaFn = restrictPosition ? limitArea : noOp;
+    var mediaBBoxSize = rotateSize(mediaSize.width, mediaSize.height, rotation);
+    var mediaNaturalBBoxSize = rotateSize(mediaSize.naturalWidth, mediaSize.naturalHeight, rotation);
+    // calculate the crop area in percentages
+    // in the rotated space
+    var croppedAreaPercentages = {
+        x: limitAreaFn(100, ((mediaBBoxSize.width - cropSize.width / zoom) / 2 - crop.x / zoom) / mediaBBoxSize.width * 100),
+        y: limitAreaFn(100, ((mediaBBoxSize.height - cropSize.height / zoom) / 2 - crop.y / zoom) / mediaBBoxSize.height * 100),
+        width: limitAreaFn(100, cropSize.width / mediaBBoxSize.width * 100 / zoom),
+        height: limitAreaFn(100, cropSize.height / mediaBBoxSize.height * 100 / zoom)
+    };
+    // we compute the pixels size naively
+    var widthInPixels = Math.round(limitAreaFn(mediaNaturalBBoxSize.width, croppedAreaPercentages.width * mediaNaturalBBoxSize.width / 100));
+    var heightInPixels = Math.round(limitAreaFn(mediaNaturalBBoxSize.height, croppedAreaPercentages.height * mediaNaturalBBoxSize.height / 100));
+    var isImgWiderThanHigh = mediaNaturalBBoxSize.width >= mediaNaturalBBoxSize.height * aspect;
+    // then we ensure the width and height exactly match the aspect (to avoid rounding approximations)
+    // if the media is wider than high, when zoom is 0, the crop height will be equals to image height
+    // thus we want to compute the width from the height and aspect for accuracy.
+    // Otherwise, we compute the height from width and aspect.
+    var sizePixels = isImgWiderThanHigh ? {
+        width: Math.round(heightInPixels * aspect),
+        height: heightInPixels
+    } : {
+        width: widthInPixels,
+        height: Math.round(widthInPixels / aspect)
+    };
+    var croppedAreaPixels = (0, _tslib.__assign)((0, _tslib.__assign)({}, sizePixels), {
+        x: Math.round(limitAreaFn(mediaNaturalBBoxSize.width - sizePixels.width, croppedAreaPercentages.x * mediaNaturalBBoxSize.width / 100)),
+        y: Math.round(limitAreaFn(mediaNaturalBBoxSize.height - sizePixels.height, croppedAreaPercentages.y * mediaNaturalBBoxSize.height / 100))
+    });
+    return {
+        croppedAreaPercentages: croppedAreaPercentages,
+        croppedAreaPixels: croppedAreaPixels
+    };
+}
+/**
+ * Ensure the returned value is between 0 and max
+ */ function limitArea(max, value) {
+    return Math.min(max, Math.max(0, value));
+}
+function noOp(_max, value) {
+    return value;
+}
+/**
+ * Compute crop and zoom from the croppedAreaPercentages.
+ */ function getInitialCropFromCroppedAreaPercentages(croppedAreaPercentages, mediaSize, rotation, cropSize, minZoom, maxZoom) {
+    var mediaBBoxSize = rotateSize(mediaSize.width, mediaSize.height, rotation);
+    // This is the inverse process of computeCroppedArea
+    var zoom = clamp(cropSize.width / mediaBBoxSize.width * (100 / croppedAreaPercentages.width), minZoom, maxZoom);
+    var crop = {
+        x: zoom * mediaBBoxSize.width / 2 - cropSize.width / 2 - mediaBBoxSize.width * zoom * (croppedAreaPercentages.x / 100),
+        y: zoom * mediaBBoxSize.height / 2 - cropSize.height / 2 - mediaBBoxSize.height * zoom * (croppedAreaPercentages.y / 100)
+    };
+    return {
+        crop: crop,
+        zoom: zoom
+    };
+}
+/**
+ * Compute zoom from the croppedAreaPixels
+ */ function getZoomFromCroppedAreaPixels(croppedAreaPixels, mediaSize, cropSize) {
+    var mediaZoom = getMediaZoom(mediaSize);
+    return cropSize.height > cropSize.width ? cropSize.height / (croppedAreaPixels.height * mediaZoom) : cropSize.width / (croppedAreaPixels.width * mediaZoom);
+}
+/**
+ * Compute crop and zoom from the croppedAreaPixels
+ */ function getInitialCropFromCroppedAreaPixels(croppedAreaPixels, mediaSize, rotation, cropSize, minZoom, maxZoom) {
+    if (rotation === void 0) rotation = 0;
+    var mediaNaturalBBoxSize = rotateSize(mediaSize.naturalWidth, mediaSize.naturalHeight, rotation);
+    var zoom = clamp(getZoomFromCroppedAreaPixels(croppedAreaPixels, mediaSize, cropSize), minZoom, maxZoom);
+    var cropZoom = cropSize.height > cropSize.width ? cropSize.height / croppedAreaPixels.height : cropSize.width / croppedAreaPixels.width;
+    var crop = {
+        x: ((mediaNaturalBBoxSize.width - croppedAreaPixels.width) / 2 - croppedAreaPixels.x) * cropZoom,
+        y: ((mediaNaturalBBoxSize.height - croppedAreaPixels.height) / 2 - croppedAreaPixels.y) * cropZoom
+    };
+    return {
+        crop: crop,
+        zoom: zoom
+    };
+}
+/**
+ * Return the point that is the center of point a and b
+ */ function getCenter(a, b) {
+    return {
+        x: (b.x + a.x) / 2,
+        y: (b.y + a.y) / 2
+    };
+}
+function getRadianAngle(degreeValue) {
+    return degreeValue * Math.PI / 180;
+}
+/**
+ * Returns the new bounding area of a rotated rectangle.
+ */ function rotateSize(width, height, rotation) {
+    var rotRad = getRadianAngle(rotation);
+    return {
+        width: Math.abs(Math.cos(rotRad) * width) + Math.abs(Math.sin(rotRad) * height),
+        height: Math.abs(Math.sin(rotRad) * width) + Math.abs(Math.cos(rotRad) * height)
+    };
+}
+/**
+ * Clamp value between min and max
+ */ function clamp(value, min, max) {
+    return Math.min(Math.max(value, min), max);
+}
+/**
+ * Combine multiple class names into a single string.
+ */ function classNames() {
+    var args = [];
+    for(var _i = 0; _i < arguments.length; _i++)args[_i] = arguments[_i];
+    return args.filter(function(value) {
+        if (typeof value === 'string' && value.length > 0) return true;
+        return false;
+    }).join(' ').trim();
+}
+var css_248z = ".reactEasyCrop_Container {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  overflow: hidden;\n  user-select: none;\n  touch-action: none;\n  cursor: move;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n.reactEasyCrop_Image,\n.reactEasyCrop_Video {\n  will-change: transform; /* this improves performances and prevent painting issues on iOS Chrome */\n}\n\n.reactEasyCrop_Contain {\n  max-width: 100%;\n  max-height: 100%;\n  margin: auto;\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n}\n.reactEasyCrop_Cover_Horizontal {\n  width: 100%;\n  height: auto;\n}\n.reactEasyCrop_Cover_Vertical {\n  width: auto;\n  height: 100%;\n}\n\n.reactEasyCrop_CropArea {\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  border: 1px solid rgba(255, 255, 255, 0.5);\n  box-sizing: border-box;\n  box-shadow: 0 0 0 9999em;\n  color: rgba(0, 0, 0, 0.5);\n  overflow: hidden;\n}\n\n.reactEasyCrop_CropAreaRound {\n  border-radius: 50%;\n}\n\n.reactEasyCrop_CropAreaGrid::before {\n  content: ' ';\n  box-sizing: border-box;\n  position: absolute;\n  border: 1px solid rgba(255, 255, 255, 0.5);\n  top: 0;\n  bottom: 0;\n  left: 33.33%;\n  right: 33.33%;\n  border-top: 0;\n  border-bottom: 0;\n}\n\n.reactEasyCrop_CropAreaGrid::after {\n  content: ' ';\n  box-sizing: border-box;\n  position: absolute;\n  border: 1px solid rgba(255, 255, 255, 0.5);\n  top: 33.33%;\n  bottom: 33.33%;\n  left: 0;\n  right: 0;\n  border-left: 0;\n  border-right: 0;\n}\n";
+var MIN_ZOOM = 1;
+var MAX_ZOOM = 3;
+var KEYBOARD_STEP = 1;
+var Cropper = /** @class */ function(_super) {
+    (0, _tslib.__extends)(Cropper, _super);
+    function Cropper() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.cropperRef = _react.createRef();
+        _this.imageRef = _react.createRef();
+        _this.videoRef = _react.createRef();
+        _this.containerPosition = {
+            x: 0,
+            y: 0
+        };
+        _this.containerRef = null;
+        _this.styleRef = null;
+        _this.containerRect = null;
+        _this.mediaSize = {
+            width: 0,
+            height: 0,
+            naturalWidth: 0,
+            naturalHeight: 0
+        };
+        _this.dragStartPosition = {
+            x: 0,
+            y: 0
+        };
+        _this.dragStartCrop = {
+            x: 0,
+            y: 0
+        };
+        _this.gestureZoomStart = 0;
+        _this.gestureRotationStart = 0;
+        _this.isTouching = false;
+        _this.lastPinchDistance = 0;
+        _this.lastPinchRotation = 0;
+        _this.rafDragTimeout = null;
+        _this.rafPinchTimeout = null;
+        _this.wheelTimer = null;
+        _this.currentDoc = typeof document !== 'undefined' ? document : null;
+        _this.currentWindow = typeof window !== 'undefined' ? window : null;
+        _this.resizeObserver = null;
+        _this.previousCropSize = null;
+        _this.isInitialized = false;
+        _this.state = {
+            cropSize: null,
+            hasWheelJustStarted: false,
+            mediaObjectFit: undefined
+        };
+        _this.initResizeObserver = function() {
+            if (typeof window.ResizeObserver === 'undefined' || !_this.containerRef) return;
+            var isFirstResize = true;
+            _this.resizeObserver = new window.ResizeObserver(function(entries) {
+                if (isFirstResize) {
+                    isFirstResize = false; // observe() is called on mount, we don't want to trigger a recompute on mount
+                    return;
+                }
+                _this.computeSizes();
+            });
+            _this.resizeObserver.observe(_this.containerRef);
+        };
+        // this is to prevent Safari on iOS >= 10 to zoom the page
+        _this.preventZoomSafari = function(e) {
+            return e.preventDefault();
+        };
+        _this.cleanEvents = function() {
+            if (!_this.currentDoc) return;
+            _this.currentDoc.removeEventListener('mousemove', _this.onMouseMove);
+            _this.currentDoc.removeEventListener('mouseup', _this.onDragStopped);
+            _this.currentDoc.removeEventListener('touchmove', _this.onTouchMove);
+            _this.currentDoc.removeEventListener('touchend', _this.onDragStopped);
+            _this.currentDoc.removeEventListener('gesturechange', _this.onGestureChange);
+            _this.currentDoc.removeEventListener('gestureend', _this.onGestureEnd);
+            _this.currentDoc.removeEventListener('scroll', _this.onScroll);
+        };
+        _this.clearScrollEvent = function() {
+            if (_this.containerRef) _this.containerRef.removeEventListener('wheel', _this.onWheel);
+            if (_this.wheelTimer) clearTimeout(_this.wheelTimer);
+        };
+        _this.onMediaLoad = function() {
+            var cropSize = _this.computeSizes();
+            if (cropSize) {
+                _this.previousCropSize = cropSize;
+                _this.emitCropData();
+                _this.setInitialCrop(cropSize);
+                _this.isInitialized = true;
+            }
+            if (_this.props.onMediaLoaded) _this.props.onMediaLoaded(_this.mediaSize);
+        };
+        _this.setInitialCrop = function(cropSize) {
+            if (_this.props.initialCroppedAreaPercentages) {
+                var _a = getInitialCropFromCroppedAreaPercentages(_this.props.initialCroppedAreaPercentages, _this.mediaSize, _this.props.rotation, cropSize, _this.props.minZoom, _this.props.maxZoom), crop = _a.crop, zoom = _a.zoom;
+                _this.props.onCropChange(crop);
+                _this.props.onZoomChange && _this.props.onZoomChange(zoom);
+            } else if (_this.props.initialCroppedAreaPixels) {
+                var _b = getInitialCropFromCroppedAreaPixels(_this.props.initialCroppedAreaPixels, _this.mediaSize, _this.props.rotation, cropSize, _this.props.minZoom, _this.props.maxZoom), crop = _b.crop, zoom = _b.zoom;
+                _this.props.onCropChange(crop);
+                _this.props.onZoomChange && _this.props.onZoomChange(zoom);
+            }
+        };
+        _this.computeSizes = function() {
+            var _a, _b, _c, _d, _e, _f;
+            var mediaRef = _this.imageRef.current || _this.videoRef.current;
+            if (mediaRef && _this.containerRef) {
+                _this.containerRect = _this.containerRef.getBoundingClientRect();
+                _this.saveContainerPosition();
+                var containerAspect = _this.containerRect.width / _this.containerRect.height;
+                var naturalWidth = ((_a = _this.imageRef.current) === null || _a === void 0 ? void 0 : _a.naturalWidth) || ((_b = _this.videoRef.current) === null || _b === void 0 ? void 0 : _b.videoWidth) || 0;
+                var naturalHeight = ((_c = _this.imageRef.current) === null || _c === void 0 ? void 0 : _c.naturalHeight) || ((_d = _this.videoRef.current) === null || _d === void 0 ? void 0 : _d.videoHeight) || 0;
+                var isMediaScaledDown = mediaRef.offsetWidth < naturalWidth || mediaRef.offsetHeight < naturalHeight;
+                var mediaAspect = naturalWidth / naturalHeight;
+                // We do not rely on the offsetWidth/offsetHeight if the media is scaled down
+                // as the values they report are rounded. That will result in precision losses
+                // when calculating zoom. We use the fact that the media is positionned relative
+                // to the container. That allows us to use the container's dimensions
+                // and natural aspect ratio of the media to calculate accurate media size.
+                // However, for this to work, the container should not be rotated
+                var renderedMediaSize = void 0;
+                if (isMediaScaledDown) switch(_this.state.mediaObjectFit){
+                    default:
+                    case 'contain':
+                        renderedMediaSize = containerAspect > mediaAspect ? {
+                            width: _this.containerRect.height * mediaAspect,
+                            height: _this.containerRect.height
+                        } : {
+                            width: _this.containerRect.width,
+                            height: _this.containerRect.width / mediaAspect
+                        };
+                        break;
+                    case 'horizontal-cover':
+                        renderedMediaSize = {
+                            width: _this.containerRect.width,
+                            height: _this.containerRect.width / mediaAspect
+                        };
+                        break;
+                    case 'vertical-cover':
+                        renderedMediaSize = {
+                            width: _this.containerRect.height * mediaAspect,
+                            height: _this.containerRect.height
+                        };
+                        break;
+                }
+                else renderedMediaSize = {
+                    width: mediaRef.offsetWidth,
+                    height: mediaRef.offsetHeight
+                };
+                _this.mediaSize = (0, _tslib.__assign)((0, _tslib.__assign)({}, renderedMediaSize), {
+                    naturalWidth: naturalWidth,
+                    naturalHeight: naturalHeight
+                });
+                // set media size in the parent
+                if (_this.props.setMediaSize) _this.props.setMediaSize(_this.mediaSize);
+                var cropSize = _this.props.cropSize ? _this.props.cropSize : getCropSize(_this.mediaSize.width, _this.mediaSize.height, _this.containerRect.width, _this.containerRect.height, _this.props.aspect, _this.props.rotation);
+                if (((_e = _this.state.cropSize) === null || _e === void 0 ? void 0 : _e.height) !== cropSize.height || ((_f = _this.state.cropSize) === null || _f === void 0 ? void 0 : _f.width) !== cropSize.width) _this.props.onCropSizeChange && _this.props.onCropSizeChange(cropSize);
+                _this.setState({
+                    cropSize: cropSize
+                }, _this.recomputeCropPosition);
+                // pass crop size to parent
+                if (_this.props.setCropSize) _this.props.setCropSize(cropSize);
+                return cropSize;
+            }
+        };
+        _this.saveContainerPosition = function() {
+            if (_this.containerRef) {
+                var bounds = _this.containerRef.getBoundingClientRect();
+                _this.containerPosition = {
+                    x: bounds.left,
+                    y: bounds.top
+                };
+            }
+        };
+        _this.onMouseDown = function(e) {
+            if (!_this.currentDoc) return;
+            e.preventDefault();
+            _this.currentDoc.addEventListener('mousemove', _this.onMouseMove);
+            _this.currentDoc.addEventListener('mouseup', _this.onDragStopped);
+            _this.saveContainerPosition();
+            _this.onDragStart(Cropper.getMousePoint(e));
+        };
+        _this.onMouseMove = function(e) {
+            return _this.onDrag(Cropper.getMousePoint(e));
+        };
+        _this.onScroll = function(e) {
+            if (!_this.currentDoc) return;
+            e.preventDefault();
+            _this.saveContainerPosition();
+        };
+        _this.onTouchStart = function(e) {
+            if (!_this.currentDoc) return;
+            _this.isTouching = true;
+            if (_this.props.onTouchRequest && !_this.props.onTouchRequest(e)) return;
+            _this.currentDoc.addEventListener('touchmove', _this.onTouchMove, {
+                passive: false
+            }); // iOS 11 now defaults to passive: true
+            _this.currentDoc.addEventListener('touchend', _this.onDragStopped);
+            _this.saveContainerPosition();
+            if (e.touches.length === 2) _this.onPinchStart(e);
+            else if (e.touches.length === 1) _this.onDragStart(Cropper.getTouchPoint(e.touches[0]));
+        };
+        _this.onTouchMove = function(e) {
+            // Prevent whole page from scrolling on iOS.
+            e.preventDefault();
+            if (e.touches.length === 2) _this.onPinchMove(e);
+            else if (e.touches.length === 1) _this.onDrag(Cropper.getTouchPoint(e.touches[0]));
+        };
+        _this.onGestureStart = function(e) {
+            if (!_this.currentDoc) return;
+            e.preventDefault();
+            _this.currentDoc.addEventListener('gesturechange', _this.onGestureChange);
+            _this.currentDoc.addEventListener('gestureend', _this.onGestureEnd);
+            _this.gestureZoomStart = _this.props.zoom;
+            _this.gestureRotationStart = _this.props.rotation;
+        };
+        _this.onGestureChange = function(e) {
+            e.preventDefault();
+            if (_this.isTouching) // this is to avoid conflict between gesture and touch events
+            return;
+            var point = Cropper.getMousePoint(e);
+            var newZoom = _this.gestureZoomStart - 1 + e.scale;
+            _this.setNewZoom(newZoom, point, {
+                shouldUpdatePosition: true
+            });
+            if (_this.props.onRotationChange) {
+                var newRotation = _this.gestureRotationStart + e.rotation;
+                _this.props.onRotationChange(newRotation);
+            }
+        };
+        _this.onGestureEnd = function(e) {
+            _this.cleanEvents();
+        };
+        _this.onDragStart = function(_a) {
+            var _b, _c;
+            var x = _a.x, y = _a.y;
+            _this.dragStartPosition = {
+                x: x,
+                y: y
+            };
+            _this.dragStartCrop = (0, _tslib.__assign)({}, _this.props.crop);
+            (_c = (_b = _this.props).onInteractionStart) === null || _c === void 0 || _c.call(_b);
+        };
+        _this.onDrag = function(_a) {
+            var x = _a.x, y = _a.y;
+            if (!_this.currentWindow) return;
+            if (_this.rafDragTimeout) _this.currentWindow.cancelAnimationFrame(_this.rafDragTimeout);
+            _this.rafDragTimeout = _this.currentWindow.requestAnimationFrame(function() {
+                if (!_this.state.cropSize) return;
+                if (x === undefined || y === undefined) return;
+                var offsetX = x - _this.dragStartPosition.x;
+                var offsetY = y - _this.dragStartPosition.y;
+                var requestedPosition = {
+                    x: _this.dragStartCrop.x + offsetX,
+                    y: _this.dragStartCrop.y + offsetY
+                };
+                var newPosition = _this.props.restrictPosition ? restrictPosition(requestedPosition, _this.mediaSize, _this.state.cropSize, _this.props.zoom, _this.props.rotation) : requestedPosition;
+                _this.props.onCropChange(newPosition);
+            });
+        };
+        _this.onDragStopped = function() {
+            var _a, _b;
+            _this.isTouching = false;
+            _this.cleanEvents();
+            _this.emitCropData();
+            (_b = (_a = _this.props).onInteractionEnd) === null || _b === void 0 || _b.call(_a);
+        };
+        _this.onWheel = function(e) {
+            if (!_this.currentWindow) return;
+            if (_this.props.onWheelRequest && !_this.props.onWheelRequest(e)) return;
+            e.preventDefault();
+            var point = Cropper.getMousePoint(e);
+            var pixelY = (0, _normalizeWheelDefault.default)(e).pixelY;
+            var newZoom = _this.props.zoom - pixelY * _this.props.zoomSpeed / 200;
+            _this.setNewZoom(newZoom, point, {
+                shouldUpdatePosition: true
+            });
+            if (!_this.state.hasWheelJustStarted) _this.setState({
+                hasWheelJustStarted: true
+            }, function() {
+                var _a, _b;
+                return (_b = (_a = _this.props).onInteractionStart) === null || _b === void 0 ? void 0 : _b.call(_a);
+            });
+            if (_this.wheelTimer) clearTimeout(_this.wheelTimer);
+            _this.wheelTimer = _this.currentWindow.setTimeout(function() {
+                return _this.setState({
+                    hasWheelJustStarted: false
+                }, function() {
+                    var _a, _b;
+                    return (_b = (_a = _this.props).onInteractionEnd) === null || _b === void 0 ? void 0 : _b.call(_a);
+                });
+            }, 250);
+        };
+        _this.getPointOnContainer = function(_a, containerTopLeft) {
+            var x = _a.x, y = _a.y;
+            if (!_this.containerRect) throw new Error('The Cropper is not mounted');
+            return {
+                x: _this.containerRect.width / 2 - (x - containerTopLeft.x),
+                y: _this.containerRect.height / 2 - (y - containerTopLeft.y)
+            };
+        };
+        _this.getPointOnMedia = function(_a) {
+            var x = _a.x, y = _a.y;
+            var _b = _this.props, crop = _b.crop, zoom = _b.zoom;
+            return {
+                x: (x + crop.x) / zoom,
+                y: (y + crop.y) / zoom
+            };
+        };
+        _this.setNewZoom = function(zoom, point, _a) {
+            var _b = _a === void 0 ? {} : _a, _c = _b.shouldUpdatePosition, shouldUpdatePosition = _c === void 0 ? true : _c;
+            if (!_this.state.cropSize || !_this.props.onZoomChange) return;
+            var newZoom = clamp(zoom, _this.props.minZoom, _this.props.maxZoom);
+            if (shouldUpdatePosition) {
+                var zoomPoint = _this.getPointOnContainer(point, _this.containerPosition);
+                var zoomTarget = _this.getPointOnMedia(zoomPoint);
+                var requestedPosition = {
+                    x: zoomTarget.x * newZoom - zoomPoint.x,
+                    y: zoomTarget.y * newZoom - zoomPoint.y
+                };
+                var newPosition = _this.props.restrictPosition ? restrictPosition(requestedPosition, _this.mediaSize, _this.state.cropSize, newZoom, _this.props.rotation) : requestedPosition;
+                _this.props.onCropChange(newPosition);
+            }
+            _this.props.onZoomChange(newZoom);
+        };
+        _this.getCropData = function() {
+            if (!_this.state.cropSize) return null;
+            // this is to ensure the crop is correctly restricted after a zoom back (https://github.com/ValentinH/react-easy-crop/issues/6)
+            var restrictedPosition = _this.props.restrictPosition ? restrictPosition(_this.props.crop, _this.mediaSize, _this.state.cropSize, _this.props.zoom, _this.props.rotation) : _this.props.crop;
+            return computeCroppedArea(restrictedPosition, _this.mediaSize, _this.state.cropSize, _this.getAspect(), _this.props.zoom, _this.props.rotation, _this.props.restrictPosition);
+        };
+        _this.emitCropData = function() {
+            var cropData = _this.getCropData();
+            if (!cropData) return;
+            var croppedAreaPercentages = cropData.croppedAreaPercentages, croppedAreaPixels = cropData.croppedAreaPixels;
+            if (_this.props.onCropComplete) _this.props.onCropComplete(croppedAreaPercentages, croppedAreaPixels);
+            if (_this.props.onCropAreaChange) _this.props.onCropAreaChange(croppedAreaPercentages, croppedAreaPixels);
+        };
+        _this.emitCropAreaChange = function() {
+            var cropData = _this.getCropData();
+            if (!cropData) return;
+            var croppedAreaPercentages = cropData.croppedAreaPercentages, croppedAreaPixels = cropData.croppedAreaPixels;
+            if (_this.props.onCropAreaChange) _this.props.onCropAreaChange(croppedAreaPercentages, croppedAreaPixels);
+        };
+        _this.recomputeCropPosition = function() {
+            var _a, _b;
+            if (!_this.state.cropSize) return;
+            var adjustedCrop = _this.props.crop;
+            // Only scale if we're initialized and this is a legitimate resize
+            if (_this.isInitialized && ((_a = _this.previousCropSize) === null || _a === void 0 ? void 0 : _a.width) && ((_b = _this.previousCropSize) === null || _b === void 0 ? void 0 : _b.height)) {
+                var sizeChanged = Math.abs(_this.previousCropSize.width - _this.state.cropSize.width) > 1e-6 || Math.abs(_this.previousCropSize.height - _this.state.cropSize.height) > 1e-6;
+                if (sizeChanged) {
+                    var scaleX = _this.state.cropSize.width / _this.previousCropSize.width;
+                    var scaleY = _this.state.cropSize.height / _this.previousCropSize.height;
+                    adjustedCrop = {
+                        x: _this.props.crop.x * scaleX,
+                        y: _this.props.crop.y * scaleY
+                    };
+                }
+            }
+            var newPosition = _this.props.restrictPosition ? restrictPosition(adjustedCrop, _this.mediaSize, _this.state.cropSize, _this.props.zoom, _this.props.rotation) : adjustedCrop;
+            _this.previousCropSize = _this.state.cropSize;
+            _this.props.onCropChange(newPosition);
+            _this.emitCropData();
+        };
+        _this.onKeyDown = function(event) {
+            var _a, _b;
+            var _c = _this.props, crop = _c.crop, onCropChange = _c.onCropChange, keyboardStep = _c.keyboardStep, zoom = _c.zoom, rotation = _c.rotation;
+            var step = keyboardStep;
+            if (!_this.state.cropSize) return;
+            // if the shift key is pressed, reduce the step to allow finer control
+            if (event.shiftKey) step *= 0.2;
+            var newCrop = (0, _tslib.__assign)({}, crop);
+            switch(event.key){
+                case 'ArrowUp':
+                    newCrop.y -= step;
+                    event.preventDefault();
+                    break;
+                case 'ArrowDown':
+                    newCrop.y += step;
+                    event.preventDefault();
+                    break;
+                case 'ArrowLeft':
+                    newCrop.x -= step;
+                    event.preventDefault();
+                    break;
+                case 'ArrowRight':
+                    newCrop.x += step;
+                    event.preventDefault();
+                    break;
+                default:
+                    return;
+            }
+            if (_this.props.restrictPosition) newCrop = restrictPosition(newCrop, _this.mediaSize, _this.state.cropSize, zoom, rotation);
+            if (!event.repeat) (_b = (_a = _this.props).onInteractionStart) === null || _b === void 0 || _b.call(_a);
+            onCropChange(newCrop);
+        };
+        _this.onKeyUp = function(event) {
+            var _a, _b;
+            switch(event.key){
+                case 'ArrowUp':
+                case 'ArrowDown':
+                case 'ArrowLeft':
+                case 'ArrowRight':
+                    event.preventDefault();
+                    break;
+                default:
+                    return;
+            }
+            _this.emitCropData();
+            (_b = (_a = _this.props).onInteractionEnd) === null || _b === void 0 || _b.call(_a);
+        };
+        return _this;
+    }
+    Cropper.prototype.componentDidMount = function() {
+        if (!this.currentDoc || !this.currentWindow) return;
+        if (this.containerRef) {
+            if (this.containerRef.ownerDocument) this.currentDoc = this.containerRef.ownerDocument;
+            if (this.currentDoc.defaultView) this.currentWindow = this.currentDoc.defaultView;
+            this.initResizeObserver();
+            // only add window resize listener if ResizeObserver is not supported. Otherwise, it would be redundant
+            if (typeof window.ResizeObserver === 'undefined') this.currentWindow.addEventListener('resize', this.computeSizes);
+            this.props.zoomWithScroll && this.containerRef.addEventListener('wheel', this.onWheel, {
+                passive: false
+            });
+            this.containerRef.addEventListener('gesturestart', this.onGestureStart);
+        }
+        this.currentDoc.addEventListener('scroll', this.onScroll);
+        if (!this.props.disableAutomaticStylesInjection) {
+            this.styleRef = this.currentDoc.createElement('style');
+            this.styleRef.setAttribute('type', 'text/css');
+            if (this.props.nonce) this.styleRef.setAttribute('nonce', this.props.nonce);
+            this.styleRef.innerHTML = css_248z;
+            this.currentDoc.head.appendChild(this.styleRef);
+        }
+        // when rendered via SSR, the image can already be loaded and its onLoad callback will never be called
+        if (this.imageRef.current && this.imageRef.current.complete) this.onMediaLoad();
+        // set image and video refs in the parent if the callbacks exist
+        if (this.props.setImageRef) this.props.setImageRef(this.imageRef);
+        if (this.props.setVideoRef) this.props.setVideoRef(this.videoRef);
+        if (this.props.setCropperRef) this.props.setCropperRef(this.cropperRef);
+    };
+    Cropper.prototype.componentWillUnmount = function() {
+        var _a, _b;
+        if (!this.currentDoc || !this.currentWindow) return;
+        if (typeof window.ResizeObserver === 'undefined') this.currentWindow.removeEventListener('resize', this.computeSizes);
+        (_a = this.resizeObserver) === null || _a === void 0 || _a.disconnect();
+        if (this.containerRef) this.containerRef.removeEventListener('gesturestart', this.preventZoomSafari);
+        if (this.styleRef) (_b = this.styleRef.parentNode) === null || _b === void 0 || _b.removeChild(this.styleRef);
+        this.cleanEvents();
+        this.props.zoomWithScroll && this.clearScrollEvent();
+    };
+    Cropper.prototype.componentDidUpdate = function(prevProps) {
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+        if (prevProps.rotation !== this.props.rotation) {
+            this.computeSizes();
+            this.recomputeCropPosition();
+        } else if (prevProps.aspect !== this.props.aspect) this.computeSizes();
+        else if (prevProps.objectFit !== this.props.objectFit) this.computeSizes();
+        else if (prevProps.zoom !== this.props.zoom) this.recomputeCropPosition();
+        else if (((_a = prevProps.cropSize) === null || _a === void 0 ? void 0 : _a.height) !== ((_b = this.props.cropSize) === null || _b === void 0 ? void 0 : _b.height) || ((_c = prevProps.cropSize) === null || _c === void 0 ? void 0 : _c.width) !== ((_d = this.props.cropSize) === null || _d === void 0 ? void 0 : _d.width)) this.computeSizes();
+        else if (((_e = prevProps.crop) === null || _e === void 0 ? void 0 : _e.x) !== ((_f = this.props.crop) === null || _f === void 0 ? void 0 : _f.x) || ((_g = prevProps.crop) === null || _g === void 0 ? void 0 : _g.y) !== ((_h = this.props.crop) === null || _h === void 0 ? void 0 : _h.y)) this.emitCropAreaChange();
+        if (prevProps.zoomWithScroll !== this.props.zoomWithScroll && this.containerRef) this.props.zoomWithScroll ? this.containerRef.addEventListener('wheel', this.onWheel, {
+            passive: false
+        }) : this.clearScrollEvent();
+        if (prevProps.video !== this.props.video) (_j = this.videoRef.current) === null || _j === void 0 || _j.load();
+        var objectFit = this.getObjectFit();
+        if (objectFit !== this.state.mediaObjectFit) this.setState({
+            mediaObjectFit: objectFit
+        }, this.computeSizes);
+    };
+    Cropper.prototype.getAspect = function() {
+        var _a = this.props, cropSize = _a.cropSize, aspect = _a.aspect;
+        if (cropSize) return cropSize.width / cropSize.height;
+        return aspect;
+    };
+    Cropper.prototype.getObjectFit = function() {
+        var _a, _b, _c, _d;
+        if (this.props.objectFit === 'cover') {
+            var mediaRef = this.imageRef.current || this.videoRef.current;
+            if (mediaRef && this.containerRef) {
+                this.containerRect = this.containerRef.getBoundingClientRect();
+                var containerAspect = this.containerRect.width / this.containerRect.height;
+                var naturalWidth = ((_a = this.imageRef.current) === null || _a === void 0 ? void 0 : _a.naturalWidth) || ((_b = this.videoRef.current) === null || _b === void 0 ? void 0 : _b.videoWidth) || 0;
+                var naturalHeight = ((_c = this.imageRef.current) === null || _c === void 0 ? void 0 : _c.naturalHeight) || ((_d = this.videoRef.current) === null || _d === void 0 ? void 0 : _d.videoHeight) || 0;
+                var mediaAspect = naturalWidth / naturalHeight;
+                return mediaAspect < containerAspect ? 'horizontal-cover' : 'vertical-cover';
+            }
+            return 'horizontal-cover';
+        }
+        return this.props.objectFit;
+    };
+    Cropper.prototype.onPinchStart = function(e) {
+        var pointA = Cropper.getTouchPoint(e.touches[0]);
+        var pointB = Cropper.getTouchPoint(e.touches[1]);
+        this.lastPinchDistance = getDistanceBetweenPoints(pointA, pointB);
+        this.lastPinchRotation = getRotationBetweenPoints(pointA, pointB);
+        this.onDragStart(getCenter(pointA, pointB));
+    };
+    Cropper.prototype.onPinchMove = function(e) {
+        var _this = this;
+        if (!this.currentDoc || !this.currentWindow) return;
+        var pointA = Cropper.getTouchPoint(e.touches[0]);
+        var pointB = Cropper.getTouchPoint(e.touches[1]);
+        var center = getCenter(pointA, pointB);
+        this.onDrag(center);
+        if (this.rafPinchTimeout) this.currentWindow.cancelAnimationFrame(this.rafPinchTimeout);
+        this.rafPinchTimeout = this.currentWindow.requestAnimationFrame(function() {
+            var distance = getDistanceBetweenPoints(pointA, pointB);
+            var newZoom = _this.props.zoom * (distance / _this.lastPinchDistance);
+            _this.setNewZoom(newZoom, center, {
+                shouldUpdatePosition: false
+            });
+            _this.lastPinchDistance = distance;
+            var rotation = getRotationBetweenPoints(pointA, pointB);
+            var newRotation = _this.props.rotation + (rotation - _this.lastPinchRotation);
+            _this.props.onRotationChange && _this.props.onRotationChange(newRotation);
+            _this.lastPinchRotation = rotation;
+        });
+    };
+    Cropper.prototype.render = function() {
+        var _this = this;
+        var _a;
+        var _b = this.props, image = _b.image, video = _b.video, mediaProps = _b.mediaProps, cropperProps = _b.cropperProps, transform = _b.transform, _c = _b.crop, x = _c.x, y = _c.y, rotation = _b.rotation, zoom = _b.zoom, cropShape = _b.cropShape, showGrid = _b.showGrid, roundCropAreaPixels = _b.roundCropAreaPixels, _d = _b.style, containerStyle = _d.containerStyle, cropAreaStyle = _d.cropAreaStyle, mediaStyle = _d.mediaStyle, _e = _b.classes, containerClassName = _e.containerClassName, cropAreaClassName = _e.cropAreaClassName, mediaClassName = _e.mediaClassName;
+        var objectFit = (_a = this.state.mediaObjectFit) !== null && _a !== void 0 ? _a : this.getObjectFit();
+        return _react.createElement("div", {
+            onMouseDown: this.onMouseDown,
+            onTouchStart: this.onTouchStart,
+            ref: function ref(el) {
+                return _this.containerRef = el;
+            },
+            "data-testid": "container",
+            style: containerStyle,
+            className: classNames('reactEasyCrop_Container', containerClassName)
+        }, image ? _react.createElement("img", (0, _tslib.__assign)({
+            alt: "",
+            className: classNames('reactEasyCrop_Image', objectFit === 'contain' && 'reactEasyCrop_Contain', objectFit === 'horizontal-cover' && 'reactEasyCrop_Cover_Horizontal', objectFit === 'vertical-cover' && 'reactEasyCrop_Cover_Vertical', mediaClassName)
+        }, mediaProps, {
+            src: image,
+            ref: this.imageRef,
+            style: (0, _tslib.__assign)((0, _tslib.__assign)({}, mediaStyle), {
+                transform: transform || "translate(".concat(x, "px, ").concat(y, "px) rotate(").concat(rotation, "deg) scale(").concat(zoom, ")")
+            }),
+            onLoad: this.onMediaLoad
+        })) : video && _react.createElement("video", (0, _tslib.__assign)({
+            autoPlay: true,
+            playsInline: true,
+            loop: true,
+            muted: true,
+            className: classNames('reactEasyCrop_Video', objectFit === 'contain' && 'reactEasyCrop_Contain', objectFit === 'horizontal-cover' && 'reactEasyCrop_Cover_Horizontal', objectFit === 'vertical-cover' && 'reactEasyCrop_Cover_Vertical', mediaClassName)
+        }, mediaProps, {
+            ref: this.videoRef,
+            onLoadedMetadata: this.onMediaLoad,
+            style: (0, _tslib.__assign)((0, _tslib.__assign)({}, mediaStyle), {
+                transform: transform || "translate(".concat(x, "px, ").concat(y, "px) rotate(").concat(rotation, "deg) scale(").concat(zoom, ")")
+            }),
+            controls: false
+        }), (Array.isArray(video) ? video : [
+            {
+                src: video
+            }
+        ]).map(function(item) {
+            return _react.createElement("source", (0, _tslib.__assign)({
+                key: item.src
+            }, item));
+        })), this.state.cropSize && _react.createElement("div", (0, _tslib.__assign)({
+            ref: this.cropperRef,
+            style: (0, _tslib.__assign)((0, _tslib.__assign)({}, cropAreaStyle), {
+                width: roundCropAreaPixels ? Math.round(this.state.cropSize.width) : this.state.cropSize.width,
+                height: roundCropAreaPixels ? Math.round(this.state.cropSize.height) : this.state.cropSize.height
+            }),
+            tabIndex: 0,
+            onKeyDown: this.onKeyDown,
+            onKeyUp: this.onKeyUp,
+            "data-testid": "cropper",
+            className: classNames('reactEasyCrop_CropArea', cropShape === 'round' && 'reactEasyCrop_CropAreaRound', showGrid && 'reactEasyCrop_CropAreaGrid', cropAreaClassName)
+        }, cropperProps)));
+    };
+    Cropper.defaultProps = {
+        zoom: 1,
+        rotation: 0,
+        aspect: 4 / 3,
+        maxZoom: MAX_ZOOM,
+        minZoom: MIN_ZOOM,
+        cropShape: 'rect',
+        objectFit: 'contain',
+        showGrid: true,
+        style: {},
+        classes: {},
+        mediaProps: {},
+        cropperProps: {},
+        zoomSpeed: 1,
+        restrictPosition: true,
+        zoomWithScroll: true,
+        keyboardStep: KEYBOARD_STEP
+    };
+    Cropper.getMousePoint = function(e) {
+        return {
+            x: Number(e.clientX),
+            y: Number(e.clientY)
+        };
+    };
+    Cropper.getTouchPoint = function(touch) {
+        return {
+            x: Number(touch.clientX),
+            y: Number(touch.clientY)
+        };
+    };
+    return Cropper;
+}(_react.Component);
+
+},{"tslib":"iC1Dx","react":"jMk1U","normalize-wheel":"25M5P","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"iC1Dx":[function(require,module,exports,__globalThis) {
+/******************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */ /* global Reflect, Promise, SuppressedError, Symbol, Iterator */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "__extends", ()=>__extends);
+parcelHelpers.export(exports, "__assign", ()=>__assign);
+parcelHelpers.export(exports, "__rest", ()=>__rest);
+parcelHelpers.export(exports, "__decorate", ()=>__decorate);
+parcelHelpers.export(exports, "__param", ()=>__param);
+parcelHelpers.export(exports, "__esDecorate", ()=>__esDecorate);
+parcelHelpers.export(exports, "__runInitializers", ()=>__runInitializers);
+parcelHelpers.export(exports, "__propKey", ()=>__propKey);
+parcelHelpers.export(exports, "__setFunctionName", ()=>__setFunctionName);
+parcelHelpers.export(exports, "__metadata", ()=>__metadata);
+parcelHelpers.export(exports, "__awaiter", ()=>__awaiter);
+parcelHelpers.export(exports, "__generator", ()=>__generator);
+parcelHelpers.export(exports, "__createBinding", ()=>__createBinding);
+parcelHelpers.export(exports, "__exportStar", ()=>__exportStar);
+parcelHelpers.export(exports, "__values", ()=>__values);
+parcelHelpers.export(exports, "__read", ()=>__read);
+/** @deprecated */ parcelHelpers.export(exports, "__spread", ()=>__spread);
+/** @deprecated */ parcelHelpers.export(exports, "__spreadArrays", ()=>__spreadArrays);
+parcelHelpers.export(exports, "__spreadArray", ()=>__spreadArray);
+parcelHelpers.export(exports, "__await", ()=>__await);
+parcelHelpers.export(exports, "__asyncGenerator", ()=>__asyncGenerator);
+parcelHelpers.export(exports, "__asyncDelegator", ()=>__asyncDelegator);
+parcelHelpers.export(exports, "__asyncValues", ()=>__asyncValues);
+parcelHelpers.export(exports, "__makeTemplateObject", ()=>__makeTemplateObject);
+parcelHelpers.export(exports, "__importStar", ()=>__importStar);
+parcelHelpers.export(exports, "__importDefault", ()=>__importDefault);
+parcelHelpers.export(exports, "__classPrivateFieldGet", ()=>__classPrivateFieldGet);
+parcelHelpers.export(exports, "__classPrivateFieldSet", ()=>__classPrivateFieldSet);
+parcelHelpers.export(exports, "__classPrivateFieldIn", ()=>__classPrivateFieldIn);
+parcelHelpers.export(exports, "__addDisposableResource", ()=>__addDisposableResource);
+parcelHelpers.export(exports, "__disposeResources", ()=>__disposeResources);
+parcelHelpers.export(exports, "__rewriteRelativeImportExtension", ()=>__rewriteRelativeImportExtension);
+var extendStatics = function(d, b) {
+    extendStatics = Object.setPrototypeOf || ({
+        __proto__: []
+    }) instanceof Array && function(d, b) {
+        d.__proto__ = b;
+    } || function(d, b) {
+        for(var p in b)if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p];
+    };
+    return extendStatics(d, b);
+};
+function __extends(d, b) {
+    if (typeof b !== "function" && b !== null) throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+    extendStatics(d, b);
+    function __() {
+        this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+var __assign = function() {
+    __assign = Object.assign || function __assign(t) {
+        for(var s, i = 1, n = arguments.length; i < n; i++){
+            s = arguments[i];
+            for(var p in s)if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+function __rest(s, e) {
+    var t = {};
+    for(var p in s)if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function") {
+        for(var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++)if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
+    }
+    return t;
+}
+function __decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+function __param(paramIndex, decorator) {
+    return function(target, key) {
+        decorator(target, key, paramIndex);
+    };
+}
+function __esDecorate(ctor, descriptorIn, decorators, contextIn, initializers, extraInitializers) {
+    function accept(f) {
+        if (f !== void 0 && typeof f !== "function") throw new TypeError("Function expected");
+        return f;
+    }
+    var kind = contextIn.kind, key = kind === "getter" ? "get" : kind === "setter" ? "set" : "value";
+    var target = !descriptorIn && ctor ? contextIn["static"] ? ctor : ctor.prototype : null;
+    var descriptor = descriptorIn || (target ? Object.getOwnPropertyDescriptor(target, contextIn.name) : {});
+    var _, done = false;
+    for(var i = decorators.length - 1; i >= 0; i--){
+        var context = {};
+        for(var p in contextIn)context[p] = p === "access" ? {} : contextIn[p];
+        for(var p in contextIn.access)context.access[p] = contextIn.access[p];
+        context.addInitializer = function(f) {
+            if (done) throw new TypeError("Cannot add initializers after decoration has completed");
+            extraInitializers.push(accept(f || null));
+        };
+        var result = (0, decorators[i])(kind === "accessor" ? {
+            get: descriptor.get,
+            set: descriptor.set
+        } : descriptor[key], context);
+        if (kind === "accessor") {
+            if (result === void 0) continue;
+            if (result === null || typeof result !== "object") throw new TypeError("Object expected");
+            if (_ = accept(result.get)) descriptor.get = _;
+            if (_ = accept(result.set)) descriptor.set = _;
+            if (_ = accept(result.init)) initializers.unshift(_);
+        } else if (_ = accept(result)) {
+            if (kind === "field") initializers.unshift(_);
+            else descriptor[key] = _;
+        }
+    }
+    if (target) Object.defineProperty(target, contextIn.name, descriptor);
+    done = true;
+}
+function __runInitializers(thisArg, initializers, value) {
+    var useValue = arguments.length > 2;
+    for(var i = 0; i < initializers.length; i++)value = useValue ? initializers[i].call(thisArg, value) : initializers[i].call(thisArg);
+    return useValue ? value : void 0;
+}
+function __propKey(x) {
+    return typeof x === "symbol" ? x : "".concat(x);
+}
+function __setFunctionName(f, name, prefix) {
+    if (typeof name === "symbol") name = name.description ? "[".concat(name.description, "]") : "";
+    return Object.defineProperty(f, "name", {
+        configurable: true,
+        value: prefix ? "".concat(prefix, " ", name) : name
+    });
+}
+function __metadata(metadataKey, metadataValue) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+}
+function __awaiter(thisArg, _arguments, P, generator) {
+    function adopt(value) {
+        return value instanceof P ? value : new P(function(resolve) {
+            resolve(value);
+        });
+    }
+    return new (P || (P = Promise))(function(resolve, reject) {
+        function fulfilled(value) {
+            try {
+                step(generator.next(value));
+            } catch (e) {
+                reject(e);
+            }
+        }
+        function rejected(value) {
+            try {
+                step(generator["throw"](value));
+            } catch (e) {
+                reject(e);
+            }
+        }
+        function step(result) {
+            result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+        }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+}
+function __generator(thisArg, body) {
+    var _ = {
+        label: 0,
+        sent: function() {
+            if (t[0] & 1) throw t[1];
+            return t[1];
+        },
+        trys: [],
+        ops: []
+    }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
+    return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() {
+        return this;
+    }), g;
+    function verb(n) {
+        return function(v) {
+            return step([
+                n,
+                v
+            ]);
+        };
+    }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while(g && (g = 0, op[0] && (_ = 0)), _)try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [
+                op[0] & 2,
+                t.value
+            ];
+            switch(op[0]){
+                case 0:
+                case 1:
+                    t = op;
+                    break;
+                case 4:
+                    _.label++;
+                    return {
+                        value: op[1],
+                        done: false
+                    };
+                case 5:
+                    _.label++;
+                    y = op[1];
+                    op = [
+                        0
+                    ];
+                    continue;
+                case 7:
+                    op = _.ops.pop();
+                    _.trys.pop();
+                    continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+                        _ = 0;
+                        continue;
+                    }
+                    if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+                        _.label = op[1];
+                        break;
+                    }
+                    if (op[0] === 6 && _.label < t[1]) {
+                        _.label = t[1];
+                        t = op;
+                        break;
+                    }
+                    if (t && _.label < t[2]) {
+                        _.label = t[2];
+                        _.ops.push(op);
+                        break;
+                    }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop();
+                    continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) {
+            op = [
+                6,
+                e
+            ];
+            y = 0;
+        } finally{
+            f = t = 0;
+        }
+        if (op[0] & 5) throw op[1];
+        return {
+            value: op[0] ? op[1] : void 0,
+            done: true
+        };
+    }
+}
+var __createBinding = Object.create ? function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) desc = {
+        enumerable: true,
+        get: function() {
+            return m[k];
+        }
+    };
+    Object.defineProperty(o, k2, desc);
+} : function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+};
+function __exportStar(m, o) {
+    for(var p in m)if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) __createBinding(o, m, p);
+}
+function __values(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m) return m.call(o);
+    if (o && typeof o.length === "number") return {
+        next: function() {
+            if (o && i >= o.length) o = void 0;
+            return {
+                value: o && o[i++],
+                done: !o
+            };
+        }
+    };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+}
+function __read(o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while((n === void 0 || n-- > 0) && !(r = i.next()).done)ar.push(r.value);
+    } catch (error) {
+        e = {
+            error: error
+        };
+    } finally{
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        } finally{
+            if (e) throw e.error;
+        }
+    }
+    return ar;
+}
+function __spread() {
+    for(var ar = [], i = 0; i < arguments.length; i++)ar = ar.concat(__read(arguments[i]));
+    return ar;
+}
+function __spreadArrays() {
+    for(var s = 0, i = 0, il = arguments.length; i < il; i++)s += arguments[i].length;
+    for(var r = Array(s), k = 0, i = 0; i < il; i++)for(var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)r[k] = a[j];
+    return r;
+}
+function __spreadArray(to, from, pack) {
+    if (pack || arguments.length === 2) {
+        for(var i = 0, l = from.length, ar; i < l; i++)if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+}
+function __await(v) {
+    return this instanceof __await ? (this.v = v, this) : new __await(v);
+}
+function __asyncGenerator(thisArg, _arguments, generator) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var g = generator.apply(thisArg, _arguments || []), i, q = [];
+    return i = Object.create((typeof AsyncIterator === "function" ? AsyncIterator : Object).prototype), verb("next"), verb("throw"), verb("return", awaitReturn), i[Symbol.asyncIterator] = function() {
+        return this;
+    }, i;
+    function awaitReturn(f) {
+        return function(v) {
+            return Promise.resolve(v).then(f, reject);
+        };
+    }
+    function verb(n, f) {
+        if (g[n]) {
+            i[n] = function(v) {
+                return new Promise(function(a, b) {
+                    q.push([
+                        n,
+                        v,
+                        a,
+                        b
+                    ]) > 1 || resume(n, v);
+                });
+            };
+            if (f) i[n] = f(i[n]);
+        }
+    }
+    function resume(n, v) {
+        try {
+            step(g[n](v));
+        } catch (e) {
+            settle(q[0][3], e);
+        }
+    }
+    function step(r) {
+        r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r);
+    }
+    function fulfill(value) {
+        resume("next", value);
+    }
+    function reject(value) {
+        resume("throw", value);
+    }
+    function settle(f, v) {
+        if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]);
+    }
+}
+function __asyncDelegator(o) {
+    var i, p;
+    return i = {}, verb("next"), verb("throw", function(e) {
+        throw e;
+    }), verb("return"), i[Symbol.iterator] = function() {
+        return this;
+    }, i;
+    function verb(n, f) {
+        i[n] = o[n] ? function(v) {
+            return (p = !p) ? {
+                value: __await(o[n](v)),
+                done: false
+            } : f ? f(v) : v;
+        } : f;
+    }
+}
+function __asyncValues(o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function() {
+        return this;
+    }, i);
+    function verb(n) {
+        i[n] = o[n] && function(v) {
+            return new Promise(function(resolve, reject) {
+                v = o[n](v), settle(resolve, reject, v.done, v.value);
+            });
+        };
+    }
+    function settle(resolve, reject, d, v) {
+        Promise.resolve(v).then(function(v) {
+            resolve({
+                value: v,
+                done: d
+            });
+        }, reject);
+    }
+}
+function __makeTemplateObject(cooked, raw) {
+    if (Object.defineProperty) Object.defineProperty(cooked, "raw", {
+        value: raw
+    });
+    else cooked.raw = raw;
+    return cooked;
+}
+var __setModuleDefault = Object.create ? function(o, v) {
+    Object.defineProperty(o, "default", {
+        enumerable: true,
+        value: v
+    });
+} : function(o, v) {
+    o["default"] = v;
+};
+var ownKeys = function(o) {
+    ownKeys = Object.getOwnPropertyNames || function(o) {
+        var ar = [];
+        for(var k in o)if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+        return ar;
+    };
+    return ownKeys(o);
+};
+function __importStar(mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) {
+        for(var k = ownKeys(mod), i = 0; i < k.length; i++)if (k[i] !== "default") __createBinding(result, mod, k[i]);
+    }
+    __setModuleDefault(result, mod);
+    return result;
+}
+function __importDefault(mod) {
+    return mod && mod.__esModule ? mod : {
+        default: mod
+    };
+}
+function __classPrivateFieldGet(receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+}
+function __classPrivateFieldSet(receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value), value;
+}
+function __classPrivateFieldIn(state, receiver) {
+    if (receiver === null || typeof receiver !== "object" && typeof receiver !== "function") throw new TypeError("Cannot use 'in' operator on non-object");
+    return typeof state === "function" ? receiver === state : state.has(receiver);
+}
+function __addDisposableResource(env, value, async) {
+    if (value !== null && value !== void 0) {
+        if (typeof value !== "object" && typeof value !== "function") throw new TypeError("Object expected.");
+        var dispose, inner;
+        if (async) {
+            if (!Symbol.asyncDispose) throw new TypeError("Symbol.asyncDispose is not defined.");
+            dispose = value[Symbol.asyncDispose];
+        }
+        if (dispose === void 0) {
+            if (!Symbol.dispose) throw new TypeError("Symbol.dispose is not defined.");
+            dispose = value[Symbol.dispose];
+            if (async) inner = dispose;
+        }
+        if (typeof dispose !== "function") throw new TypeError("Object not disposable.");
+        if (inner) dispose = function() {
+            try {
+                inner.call(this);
+            } catch (e) {
+                return Promise.reject(e);
+            }
+        };
+        env.stack.push({
+            value: value,
+            dispose: dispose,
+            async: async
+        });
+    } else if (async) env.stack.push({
+        async: true
+    });
+    return value;
+}
+var _SuppressedError = typeof SuppressedError === "function" ? SuppressedError : function(error, suppressed, message) {
+    var e = new Error(message);
+    return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
+};
+function __disposeResources(env) {
+    function fail(e) {
+        env.error = env.hasError ? new _SuppressedError(e, env.error, "An error was suppressed during disposal.") : e;
+        env.hasError = true;
+    }
+    var r, s = 0;
+    function next() {
+        while(r = env.stack.pop())try {
+            if (!r.async && s === 1) return s = 0, env.stack.push(r), Promise.resolve().then(next);
+            if (r.dispose) {
+                var result = r.dispose.call(r.value);
+                if (r.async) return s |= 2, Promise.resolve(result).then(next, function(e) {
+                    fail(e);
+                    return next();
+                });
+            } else s |= 1;
+        } catch (e) {
+            fail(e);
+        }
+        if (s === 1) return env.hasError ? Promise.reject(env.error) : Promise.resolve();
+        if (env.hasError) throw env.error;
+    }
+    return next();
+}
+function __rewriteRelativeImportExtension(path, preserveJsx) {
+    if (typeof path === "string" && /^\.\.?\//.test(path)) return path.replace(/\.(tsx)$|((?:\.d)?)((?:\.[^./]+?)?)\.([cm]?)ts$/i, function(m, tsx, d, ext, cm) {
+        return tsx ? preserveJsx ? ".jsx" : ".js" : d && (!ext || !cm) ? m : d + ext + "." + cm.toLowerCase() + "js";
+    });
+    return path;
+}
+exports.default = {
+    __extends: __extends,
+    __assign: __assign,
+    __rest: __rest,
+    __decorate: __decorate,
+    __param: __param,
+    __esDecorate: __esDecorate,
+    __runInitializers: __runInitializers,
+    __propKey: __propKey,
+    __setFunctionName: __setFunctionName,
+    __metadata: __metadata,
+    __awaiter: __awaiter,
+    __generator: __generator,
+    __createBinding: __createBinding,
+    __exportStar: __exportStar,
+    __values: __values,
+    __read: __read,
+    __spread: __spread,
+    __spreadArrays: __spreadArrays,
+    __spreadArray: __spreadArray,
+    __await: __await,
+    __asyncGenerator: __asyncGenerator,
+    __asyncDelegator: __asyncDelegator,
+    __asyncValues: __asyncValues,
+    __makeTemplateObject: __makeTemplateObject,
+    __importStar: __importStar,
+    __importDefault: __importDefault,
+    __classPrivateFieldGet: __classPrivateFieldGet,
+    __classPrivateFieldSet: __classPrivateFieldSet,
+    __classPrivateFieldIn: __classPrivateFieldIn,
+    __addDisposableResource: __addDisposableResource,
+    __disposeResources: __disposeResources,
+    __rewriteRelativeImportExtension: __rewriteRelativeImportExtension
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"25M5P":[function(require,module,exports,__globalThis) {
+module.exports = require("b6f79a52eeca1592");
+
+},{"b6f79a52eeca1592":"f6BBT"}],"f6BBT":[function(require,module,exports,__globalThis) {
+/**
+ * Copyright (c) 2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule normalizeWheel
+ * @typechecks
+ */ 'use strict';
+var UserAgent_DEPRECATED = require("8d51cec75a078cf8");
+var isEventSupported = require("e337c3a2c6becc5d");
+// Reasonable defaults
+var PIXEL_STEP = 10;
+var LINE_HEIGHT = 40;
+var PAGE_HEIGHT = 800;
+/**
+ * Mouse wheel (and 2-finger trackpad) support on the web sucks.  It is
+ * complicated, thus this doc is long and (hopefully) detailed enough to answer
+ * your questions.
+ *
+ * If you need to react to the mouse wheel in a predictable way, this code is
+ * like your bestest friend. * hugs *
+ *
+ * As of today, there are 4 DOM event types you can listen to:
+ *
+ *   'wheel'                -- Chrome(31+), FF(17+), IE(9+)
+ *   'mousewheel'           -- Chrome, IE(6+), Opera, Safari
+ *   'MozMousePixelScroll'  -- FF(3.5 only!) (2010-2013) -- don't bother!
+ *   'DOMMouseScroll'       -- FF(0.9.7+) since 2003
+ *
+ * So what to do?  The is the best:
+ *
+ *   normalizeWheel.getEventType();
+ *
+ * In your event callback, use this code to get sane interpretation of the
+ * deltas.  This code will return an object with properties:
+ *
+ *   spinX   -- normalized spin speed (use for zoom) - x plane
+ *   spinY   -- " - y plane
+ *   pixelX  -- normalized distance (to pixels) - x plane
+ *   pixelY  -- " - y plane
+ *
+ * Wheel values are provided by the browser assuming you are using the wheel to
+ * scroll a web page by a number of lines or pixels (or pages).  Values can vary
+ * significantly on different platforms and browsers, forgetting that you can
+ * scroll at different speeds.  Some devices (like trackpads) emit more events
+ * at smaller increments with fine granularity, and some emit massive jumps with
+ * linear speed or acceleration.
+ *
+ * This code does its best to normalize the deltas for you:
+ *
+ *   - spin is trying to normalize how far the wheel was spun (or trackpad
+ *     dragged).  This is super useful for zoom support where you want to
+ *     throw away the chunky scroll steps on the PC and make those equal to
+ *     the slow and smooth tiny steps on the Mac. Key data: This code tries to
+ *     resolve a single slow step on a wheel to 1.
+ *
+ *   - pixel is normalizing the desired scroll delta in pixel units.  You'll
+ *     get the crazy differences between browsers, but at least it'll be in
+ *     pixels!
+ *
+ *   - positive value indicates scrolling DOWN/RIGHT, negative UP/LEFT.  This
+ *     should translate to positive value zooming IN, negative zooming OUT.
+ *     This matches the newer 'wheel' event.
+ *
+ * Why are there spinX, spinY (or pixels)?
+ *
+ *   - spinX is a 2-finger side drag on the trackpad, and a shift + wheel turn
+ *     with a mouse.  It results in side-scrolling in the browser by default.
+ *
+ *   - spinY is what you expect -- it's the classic axis of a mouse wheel.
+ *
+ *   - I dropped spinZ/pixelZ.  It is supported by the DOM 3 'wheel' event and
+ *     probably is by browsers in conjunction with fancy 3D controllers .. but
+ *     you know.
+ *
+ * Implementation info:
+ *
+ * Examples of 'wheel' event if you scroll slowly (down) by one step with an
+ * average mouse:
+ *
+ *   OS X + Chrome  (mouse)     -    4   pixel delta  (wheelDelta -120)
+ *   OS X + Safari  (mouse)     -  N/A   pixel delta  (wheelDelta  -12)
+ *   OS X + Firefox (mouse)     -    0.1 line  delta  (wheelDelta  N/A)
+ *   Win8 + Chrome  (mouse)     -  100   pixel delta  (wheelDelta -120)
+ *   Win8 + Firefox (mouse)     -    3   line  delta  (wheelDelta -120)
+ *
+ * On the trackpad:
+ *
+ *   OS X + Chrome  (trackpad)  -    2   pixel delta  (wheelDelta   -6)
+ *   OS X + Firefox (trackpad)  -    1   pixel delta  (wheelDelta  N/A)
+ *
+ * On other/older browsers.. it's more complicated as there can be multiple and
+ * also missing delta values.
+ *
+ * The 'wheel' event is more standard:
+ *
+ * http://www.w3.org/TR/DOM-Level-3-Events/#events-wheelevents
+ *
+ * The basics is that it includes a unit, deltaMode (pixels, lines, pages), and
+ * deltaX, deltaY and deltaZ.  Some browsers provide other values to maintain
+ * backward compatibility with older events.  Those other values help us
+ * better normalize spin speed.  Example of what the browsers provide:
+ *
+ *                          | event.wheelDelta | event.detail
+ *        ------------------+------------------+--------------
+ *          Safari v5/OS X  |       -120       |       0
+ *          Safari v5/Win7  |       -120       |       0
+ *         Chrome v17/OS X  |       -120       |       0
+ *         Chrome v17/Win7  |       -120       |       0
+ *                IE9/Win7  |       -120       |   undefined
+ *         Firefox v4/OS X  |     undefined    |       1
+ *         Firefox v4/Win7  |     undefined    |       3
+ *
+ */ function normalizeWheel(/*object*/ event) /*object*/ {
+    var sX = 0, sY = 0, pX = 0, pY = 0; // pixelX, pixelY
+    // Legacy
+    if ('detail' in event) sY = event.detail;
+    if ('wheelDelta' in event) sY = -event.wheelDelta / 120;
+    if ('wheelDeltaY' in event) sY = -event.wheelDeltaY / 120;
+    if ('wheelDeltaX' in event) sX = -event.wheelDeltaX / 120;
+    // side scrolling on FF with DOMMouseScroll
+    if ('axis' in event && event.axis === event.HORIZONTAL_AXIS) {
+        sX = sY;
+        sY = 0;
+    }
+    pX = sX * PIXEL_STEP;
+    pY = sY * PIXEL_STEP;
+    if ('deltaY' in event) pY = event.deltaY;
+    if ('deltaX' in event) pX = event.deltaX;
+    if ((pX || pY) && event.deltaMode) {
+        if (event.deltaMode == 1) {
+            pX *= LINE_HEIGHT;
+            pY *= LINE_HEIGHT;
+        } else {
+            pX *= PAGE_HEIGHT;
+            pY *= PAGE_HEIGHT;
+        }
+    }
+    // Fall-back if spin cannot be determined
+    if (pX && !sX) sX = pX < 1 ? -1 : 1;
+    if (pY && !sY) sY = pY < 1 ? -1 : 1;
+    return {
+        spinX: sX,
+        spinY: sY,
+        pixelX: pX,
+        pixelY: pY
+    };
+}
+/**
+ * The best combination if you prefer spinX + spinY normalization.  It favors
+ * the older DOMMouseScroll for Firefox, as FF does not include wheelDelta with
+ * 'wheel' event, making spin speed determination impossible.
+ */ normalizeWheel.getEventType = function() /*string*/ {
+    return UserAgent_DEPRECATED.firefox() ? 'DOMMouseScroll' : isEventSupported('wheel') ? 'wheel' : 'mousewheel';
+};
+module.exports = normalizeWheel;
+
+},{"8d51cec75a078cf8":"iZwyM","e337c3a2c6becc5d":"l7arF"}],"iZwyM":[function(require,module,exports,__globalThis) {
+/**
+ * Copyright 2004-present Facebook. All Rights Reserved.
+ *
+ * @providesModule UserAgent_DEPRECATED
+ */ /**
+ *  Provides entirely client-side User Agent and OS detection. You should prefer
+ *  the non-deprecated UserAgent module when possible, which exposes our
+ *  authoritative server-side PHP-based detection to the client.
+ *
+ *  Usage is straightforward:
+ *
+ *    if (UserAgent_DEPRECATED.ie()) {
+ *      //  IE
+ *    }
+ *
+ *  You can also do version checks:
+ *
+ *    if (UserAgent_DEPRECATED.ie() >= 7) {
+ *      //  IE7 or better
+ *    }
+ *
+ *  The browser functions will return NaN if the browser does not match, so
+ *  you can also do version compares the other way:
+ *
+ *    if (UserAgent_DEPRECATED.ie() < 7) {
+ *      //  IE6 or worse
+ *    }
+ *
+ *  Note that the version is a float and may include a minor version number,
+ *  so you should always use range operators to perform comparisons, not
+ *  strict equality.
+ *
+ *  **Note:** You should **strongly** prefer capability detection to browser
+ *  version detection where it's reasonable:
+ *
+ *    http://www.quirksmode.org/js/support.html
+ *
+ *  Further, we have a large number of mature wrapper functions and classes
+ *  which abstract away many browser irregularities. Check the documentation,
+ *  grep for things, or ask on javascript@lists.facebook.com before writing yet
+ *  another copy of "event || window.event".
+ *
+ */ var _populated = false;
+// Browsers
+var _ie, _firefox, _opera, _webkit, _chrome;
+// Actual IE browser for compatibility mode
+var _ie_real_version;
+// Platforms
+var _osx, _windows, _linux, _android;
+// Architectures
+var _win64;
+// Devices
+var _iphone, _ipad, _native;
+var _mobile;
+function _populate() {
+    if (_populated) return;
+    _populated = true;
+    // To work around buggy JS libraries that can't handle multi-digit
+    // version numbers, Opera 10's user agent string claims it's Opera
+    // 9, then later includes a Version/X.Y field:
+    //
+    // Opera/9.80 (foo) Presto/2.2.15 Version/10.10
+    var uas = navigator.userAgent;
+    var agent = /(?:MSIE.(\d+\.\d+))|(?:(?:Firefox|GranParadiso|Iceweasel).(\d+\.\d+))|(?:Opera(?:.+Version.|.)(\d+\.\d+))|(?:AppleWebKit.(\d+(?:\.\d+)?))|(?:Trident\/\d+\.\d+.*rv:(\d+\.\d+))/.exec(uas);
+    var os = /(Mac OS X)|(Windows)|(Linux)/.exec(uas);
+    _iphone = /\b(iPhone|iP[ao]d)/.exec(uas);
+    _ipad = /\b(iP[ao]d)/.exec(uas);
+    _android = /Android/i.exec(uas);
+    _native = /FBAN\/\w+;/i.exec(uas);
+    _mobile = /Mobile/i.exec(uas);
+    // Note that the IE team blog would have you believe you should be checking
+    // for 'Win64; x64'.  But MSDN then reveals that you can actually be coming
+    // from either x64 or ia64;  so ultimately, you should just check for Win64
+    // as in indicator of whether you're in 64-bit IE.  32-bit IE on 64-bit
+    // Windows will send 'WOW64' instead.
+    _win64 = !!/Win64/.exec(uas);
+    if (agent) {
+        _ie = agent[1] ? parseFloat(agent[1]) : agent[5] ? parseFloat(agent[5]) : NaN;
+        // IE compatibility mode
+        if (_ie && document && document.documentMode) _ie = document.documentMode;
+        // grab the "true" ie version from the trident token if available
+        var trident = /(?:Trident\/(\d+.\d+))/.exec(uas);
+        _ie_real_version = trident ? parseFloat(trident[1]) + 4 : _ie;
+        _firefox = agent[2] ? parseFloat(agent[2]) : NaN;
+        _opera = agent[3] ? parseFloat(agent[3]) : NaN;
+        _webkit = agent[4] ? parseFloat(agent[4]) : NaN;
+        if (_webkit) {
+            // We do not add the regexp to the above test, because it will always
+            // match 'safari' only since 'AppleWebKit' appears before 'Chrome' in
+            // the userAgent string.
+            agent = /(?:Chrome\/(\d+\.\d+))/.exec(uas);
+            _chrome = agent && agent[1] ? parseFloat(agent[1]) : NaN;
+        } else _chrome = NaN;
+    } else _ie = _firefox = _opera = _chrome = _webkit = NaN;
+    if (os) {
+        if (os[1]) {
+            // Detect OS X version.  If no version number matches, set _osx to true.
+            // Version examples:  10, 10_6_1, 10.7
+            // Parses version number as a float, taking only first two sets of
+            // digits.  If only one set of digits is found, returns just the major
+            // version number.
+            var ver = /(?:Mac OS X (\d+(?:[._]\d+)?))/.exec(uas);
+            _osx = ver ? parseFloat(ver[1].replace('_', '.')) : true;
+        } else _osx = false;
+        _windows = !!os[2];
+        _linux = !!os[3];
+    } else _osx = _windows = _linux = false;
+}
+var UserAgent_DEPRECATED = {
+    /**
+   *  Check if the UA is Internet Explorer.
+   *
+   *
+   *  @return float|NaN Version number (if match) or NaN.
+   */ ie: function() {
+        return _populate() || _ie;
+    },
+    /**
+   * Check if we're in Internet Explorer compatibility mode.
+   *
+   * @return bool true if in compatibility mode, false if
+   * not compatibility mode or not ie
+   */ ieCompatibilityMode: function() {
+        return _populate() || _ie_real_version > _ie;
+    },
+    /**
+   * Whether the browser is 64-bit IE.  Really, this is kind of weak sauce;  we
+   * only need this because Skype can't handle 64-bit IE yet.  We need to remove
+   * this when we don't need it -- tracked by #601957.
+   */ ie64: function() {
+        return UserAgent_DEPRECATED.ie() && _win64;
+    },
+    /**
+   *  Check if the UA is Firefox.
+   *
+   *
+   *  @return float|NaN Version number (if match) or NaN.
+   */ firefox: function() {
+        return _populate() || _firefox;
+    },
+    /**
+   *  Check if the UA is Opera.
+   *
+   *
+   *  @return float|NaN Version number (if match) or NaN.
+   */ opera: function() {
+        return _populate() || _opera;
+    },
+    /**
+   *  Check if the UA is WebKit.
+   *
+   *
+   *  @return float|NaN Version number (if match) or NaN.
+   */ webkit: function() {
+        return _populate() || _webkit;
+    },
+    /**
+   *  For Push
+   *  WILL BE REMOVED VERY SOON. Use UserAgent_DEPRECATED.webkit
+   */ safari: function() {
+        return UserAgent_DEPRECATED.webkit();
+    },
+    /**
+   *  Check if the UA is a Chrome browser.
+   *
+   *
+   *  @return float|NaN Version number (if match) or NaN.
+   */ chrome: function() {
+        return _populate() || _chrome;
+    },
+    /**
+   *  Check if the user is running Windows.
+   *
+   *  @return bool `true' if the user's OS is Windows.
+   */ windows: function() {
+        return _populate() || _windows;
+    },
+    /**
+   *  Check if the user is running Mac OS X.
+   *
+   *  @return float|bool   Returns a float if a version number is detected,
+   *                       otherwise true/false.
+   */ osx: function() {
+        return _populate() || _osx;
+    },
+    /**
+   * Check if the user is running Linux.
+   *
+   * @return bool `true' if the user's OS is some flavor of Linux.
+   */ linux: function() {
+        return _populate() || _linux;
+    },
+    /**
+   * Check if the user is running on an iPhone or iPod platform.
+   *
+   * @return bool `true' if the user is running some flavor of the
+   *    iPhone OS.
+   */ iphone: function() {
+        return _populate() || _iphone;
+    },
+    mobile: function() {
+        return _populate() || _iphone || _ipad || _android || _mobile;
+    },
+    nativeApp: function() {
+        // webviews inside of the native apps
+        return _populate() || _native;
+    },
+    android: function() {
+        return _populate() || _android;
+    },
+    ipad: function() {
+        return _populate() || _ipad;
+    }
+};
+module.exports = UserAgent_DEPRECATED;
+
+},{}],"l7arF":[function(require,module,exports,__globalThis) {
+/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule isEventSupported
+ */ 'use strict';
+var ExecutionEnvironment = require("f80f43965a3550fc");
+var useHasFeature;
+if (ExecutionEnvironment.canUseDOM) useHasFeature = document.implementation && document.implementation.hasFeature && // always returns true in newer browsers as per the standard.
+// @see http://dom.spec.whatwg.org/#dom-domimplementation-hasfeature
+document.implementation.hasFeature('', '') !== true;
+/**
+ * Checks if an event is supported in the current execution environment.
+ *
+ * NOTE: This will not work correctly for non-generic events such as `change`,
+ * `reset`, `load`, `error`, and `select`.
+ *
+ * Borrows from Modernizr.
+ *
+ * @param {string} eventNameSuffix Event name, e.g. "click".
+ * @param {?boolean} capture Check if the capture phase is supported.
+ * @return {boolean} True if the event is supported.
+ * @internal
+ * @license Modernizr 3.0.0pre (Custom Build) | MIT
+ */ function isEventSupported(eventNameSuffix, capture) {
+    if (!ExecutionEnvironment.canUseDOM || capture && !('addEventListener' in document)) return false;
+    var eventName = 'on' + eventNameSuffix;
+    var isSupported = eventName in document;
+    if (!isSupported) {
+        var element = document.createElement('div');
+        element.setAttribute(eventName, 'return;');
+        isSupported = typeof element[eventName] === 'function';
+    }
+    if (!isSupported && useHasFeature && eventNameSuffix === 'wheel') // This is the only way to test support for the `wheel` event in IE9+.
+    isSupported = document.implementation.hasFeature('Events.wheel', '3.0');
+    return isSupported;
+}
+module.exports = isEventSupported;
+
+},{"f80f43965a3550fc":"2Swrv"}],"2Swrv":[function(require,module,exports,__globalThis) {
+/**
+ * Copyright (c) 2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule ExecutionEnvironment
+ */ /*jslint evil: true */ 'use strict';
+var canUseDOM = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
+/**
+ * Simple, lightweight module assisting with the detection and context of
+ * Worker. Helps avoid circular dependencies and allows code to reason about
+ * whether or not they are in a Worker, even if they never include the main
+ * `ReactWorker` dependency.
+ */ var ExecutionEnvironment = {
+    canUseDOM: canUseDOM,
+    canUseWorkers: typeof Worker !== 'undefined',
+    canUseEventListeners: canUseDOM && !!(window.addEventListener || window.attachEvent),
+    canUseViewport: canUseDOM && !!window.screen,
+    isInWorker: !canUseDOM // For now, this is true - might change in the future.
+};
+module.exports = ExecutionEnvironment;
+
+},{}],"aNIQw":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$a0e6 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$a0e6.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -32879,16 +35414,142 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
-var _reactDefault = parcelHelpers.interopDefault(_react);
+var _useAxiosPrivate = require("../hooks/useAxiosPrivate");
+var _useAxiosPrivateDefault = parcelHelpers.interopDefault(_useAxiosPrivate);
+var _axios = require("axios");
+var _axiosDefault = parcelHelpers.interopDefault(_axios);
+var _s = $RefreshSig$();
 const UploadImage = ()=>{
+    _s();
+    const fileInputRef = (0, _react.useRef)();
+    const [fileName, setFileName] = (0, _react.useState)("");
+    const [file, setFile] = (0, _react.useState)(null);
+    const abortRef = (0, _react.useRef)(null);
+    const [isUploading, setUploading] = (0, _react.useState)(false);
+    const axiosPrivate = (0, _useAxiosPrivateDefault.default)();
+    const handleDrop = (event)=>{
+        event.preventDefault();
+        const file = event.dataTransfer.files[0];
+        setFileName(file.name);
+        setFile(file);
+    };
+    const handleDragOver = (event)=>{
+        event.preventDefault();
+    };
+    const handleClick = ()=>{
+        fileInputRef.current.click();
+    };
+    const handleFileChange = (event)=>{
+        const file = event.target.files[0];
+        setFileName(file.name);
+        setFile(file);
+    };
+    const handleSubmit = async ()=>{
+        const formData = new FormData();
+        try {
+            const abortController = new AbortController();
+            abortRef.current = abortController;
+            formData.append("file", file);
+            setUploading(true);
+            const res = await axiosPrivate.post("/image/upload", formData, {
+                signal: abortController.signal
+            });
+            console.log(res);
+        } catch (err) {
+            if ((0, _axiosDefault.default).isCancel(err)) return;
+            console.error(err);
+        } finally{
+            abortRef.current = null;
+            setUploading(false);
+        }
+    };
+    const handleCancel = async ()=>{
+        abortRef.current?.abort();
+        setUploading(false);
+    };
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        children: "UploadImage"
-    }, void 0, false, {
+        className: "flex items-center justify-center h-full flex-col",
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                className: "text-xl text-bold m-2",
+                children: "Upload File"
+            }, void 0, false, {
+                fileName: "src/pages/UploadImage.js",
+                lineNumber: 64,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                onDrop: handleDrop,
+                onDragOver: handleDragOver,
+                onClick: handleClick,
+                className: "flex items-center justify-center w-1/2 h-1/2 border-2",
+                children: "Drop file here or click"
+            }, void 0, false, {
+                fileName: "src/pages/UploadImage.js",
+                lineNumber: 65,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                type: "file",
+                accept: "image/*",
+                ref: fileInputRef,
+                onChange: handleFileChange,
+                style: {
+                    display: "none"
+                }
+            }, void 0, false, {
+                fileName: "src/pages/UploadImage.js",
+                lineNumber: 74,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                children: fileName && "File: " + fileName
+            }, void 0, false, {
+                fileName: "src/pages/UploadImage.js",
+                lineNumber: 82,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "flex w-1/2 gap-5",
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                        className: "w-full p-2 border-2 my-2     disabled:border-gray-400   disabled:text-gray-400   disabled:bg-gray-100   disabled:cursor-not-allowed",
+                        onClick: handleSubmit,
+                        disabled: !file,
+                        children: "Upload"
+                    }, void 0, false, {
+                        fileName: "src/pages/UploadImage.js",
+                        lineNumber: 84,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                        className: "   w-full p-2 border-2 my-2 border-red-600 text-red-600   disabled:border-red-300   disabled:text-red-400   disabled:bg-red-100   disabled:cursor-not-allowed   ",
+                        onClick: handleCancel,
+                        disabled: !isUploading,
+                        children: "Cancel"
+                    }, void 0, false, {
+                        fileName: "src/pages/UploadImage.js",
+                        lineNumber: 94,
+                        columnNumber: 9
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "src/pages/UploadImage.js",
+                lineNumber: 83,
+                columnNumber: 7
+            }, undefined)
+        ]
+    }, void 0, true, {
         fileName: "src/pages/UploadImage.js",
-        lineNumber: 5,
+        lineNumber: 63,
         columnNumber: 5
     }, undefined);
 };
+_s(UploadImage, "s6JT4gFDMcJAf+RQCQXfblcL+R0=", false, function() {
+    return [
+        (0, _useAxiosPrivateDefault.default)
+    ];
+});
 _c = UploadImage;
 exports.default = UploadImage;
 var _c;
@@ -32899,7 +35560,7 @@ $RefreshReg$(_c, "UploadImage");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"eq3nB":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","../hooks/useAxiosPrivate":"flztI","axios":"kooH4","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"eq3nB":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$4392 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$4392.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
