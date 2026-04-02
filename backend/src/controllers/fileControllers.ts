@@ -55,6 +55,7 @@ export const viewFiles = async (req: Request, res: Response) => {
 
     const command = new GetObjectCommand(getObjectParams);
     const url = await getSignedUrl(s3, command, { expiresIn: 3600 })
+    // const new_url = new URL
 
     userImages.push({ ...image, url })
   }

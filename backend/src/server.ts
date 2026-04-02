@@ -36,6 +36,7 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 })
 
 const server = app.listen(PORT, () => {
+  console.log(process.env.DB_HOST);
   console.log(`Server running on ${PORT}`);
 });
 

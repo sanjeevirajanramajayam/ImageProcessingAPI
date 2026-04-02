@@ -17585,15 +17585,17 @@ function Login() {
                     password: loginPayload.password
                 })
             });
-            res = await res.json();
-            setAuth((p)=>{
-                return {
-                    ...p,
-                    accessToken: res.accessToken
-                };
-            });
             if (res.status !== 200) setErrMesg("Login Failed!");
-            navigate("/images");
+            else {
+                res = await res.json();
+                setAuth((p)=>{
+                    return {
+                        ...p,
+                        accessToken: res.accessToken
+                    };
+                });
+                navigate("/images");
+            }
         } catch (err) {
             console.error(err);
         }

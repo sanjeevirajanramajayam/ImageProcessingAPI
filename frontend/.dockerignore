@@ -1,18 +1,8 @@
-./env
-node_modules/
+node_modules
 .DS_Store
 .vscode
 npm-debug.log
 yarn-error.log
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-.env.*.local
-.env.test
-.env.production
-.env.development
 uploads/
 
 # Ignore database credential files
@@ -28,7 +18,6 @@ backend/src/generated/prisma
 ./src/generated/prisma
 
 node_modules
-.env
 .parcel-cache
 dist
 dist/

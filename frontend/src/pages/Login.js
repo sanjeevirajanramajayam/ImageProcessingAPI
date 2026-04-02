@@ -27,17 +27,17 @@ function Login() {
         }),
       });
 
-      res = await res.json();
-
-      setAuth((p) => {
-        return { ...p, accessToken: res.accessToken };
-      });
-
       if (res.status !== 200) {
         setErrMesg("Login Failed!");
-      }
+      } else {
+        res = await res.json();
 
-      navigate("/images");
+        setAuth((p) => {
+          return { ...p, accessToken: res.accessToken };
+        });
+
+        navigate("/images");
+      }
     } catch (err) {
       console.error(err);
     }
