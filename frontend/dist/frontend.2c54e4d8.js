@@ -207,11 +207,11 @@
       });
     }
   }
-})({"frqA7":[function(require,module,exports,__globalThis) {
+})({"3I8XU":[function(require,module,exports,__globalThis) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
-var HMR_SERVER_PORT = 1234;
+var HMR_SERVER_PORT = 55184;
 var HMR_SECURE = false;
 var HMR_ENV_HASH = "439701173a9199ea";
 var HMR_USE_SSE = false;
@@ -32645,6 +32645,7 @@ function Images() {
                 const res = await axiosPrivate.get("http://localhost:4000/image/get-user-images", {
                     signal: abortController.signal
                 });
+                console.log(res.data);
                 isMounted && setImages(res.data.userImages);
             } catch (err) {
                 if ((0, _axiosDefault.default).isCancel(err)) return;
@@ -32660,34 +32661,57 @@ function Images() {
         };
     }, []);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        className: "p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4",
-        children: loading ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-            children: "Loading..."
-        }, void 0, false, {
-            fileName: "src/pages/Images.js",
-            lineNumber: 44,
-            columnNumber: 9
-        }, this) : images.length > 0 ? images.map((image, index)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
-                src: image.url,
-                alt: `User upload ${index + 1}`,
-                className: "w-full h-48 object-cover rounded border",
-                onClick: ()=>{
-                    navigate(`/image/${image.id}/transform`);
-                }
-            }, image.id ?? index, false, {
+        className: "flex h-full justify-between flex-col",
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "flex-1 overflow-y-auto min-h-0",
+                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                    className: "p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4",
+                    children: loading ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                        children: "Loading..."
+                    }, void 0, false, {
+                        fileName: "src/pages/Images.js",
+                        lineNumber: 47,
+                        columnNumber: 13
+                    }, this) : images.length > 0 ? images.map((image, index)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+                            src: image.url,
+                            alt: `User upload ${index + 1}`,
+                            className: "w-full h-48 object-cover rounded border",
+                            onClick: ()=>{
+                                navigate(`/image/${image.id}/transform`);
+                            }
+                        }, image.id ?? index, false, {
+                            fileName: "src/pages/Images.js",
+                            lineNumber: 50,
+                            columnNumber: 15
+                        }, this)) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                        children: "No images found."
+                    }, void 0, false, {
+                        fileName: "src/pages/Images.js",
+                        lineNumber: 61,
+                        columnNumber: 13
+                    }, this)
+                }, void 0, false, {
+                    fileName: "src/pages/Images.js",
+                    lineNumber: 45,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
                 fileName: "src/pages/Images.js",
-                lineNumber: 47,
-                columnNumber: 11
-            }, this)) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-            children: "No images found."
-        }, void 0, false, {
-            fileName: "src/pages/Images.js",
-            lineNumber: 58,
-            columnNumber: 9
-        }, this)
-    }, void 0, false, {
+                lineNumber: 44,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                children: "1 2 3 4 5"
+            }, void 0, false, {
+                fileName: "src/pages/Images.js",
+                lineNumber: 65,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
         fileName: "src/pages/Images.js",
-        lineNumber: 42,
+        lineNumber: 43,
         columnNumber: 5
     }, this);
 }
@@ -33077,12 +33101,7 @@ const TransformImage = ()=>{
             width: null,
             height: null
         },
-        crop: {
-            width: 10,
-            height: 10,
-            x: 0,
-            y: 0
-        },
+        crop: {},
         rotate: null,
         format: "",
         filters: {
@@ -33095,14 +33114,14 @@ const TransformImage = ()=>{
     const [backendURL, setBackendURL] = (0, _react.useState)("");
     const [isCropping, setIsCropping] = (0, _react.useState)(false);
     const [crop, setCrop] = (0, _react.useState)({
-        x: 50,
+        x: 0,
         y: 0
     });
     const [wh, setwh] = (0, _react.useState)({
-        width: 100,
-        height: 100,
-        x: 0,
-        y: 0
+        width: null,
+        height: null,
+        x: "",
+        y: ""
     });
     const [zoom, setZoom] = (0, _react.useState)(1);
     function onCropComplete(_, croppedAreaPixels) {
@@ -33221,7 +33240,7 @@ const TransformImage = ()=>{
                         min: 1,
                         max: 90,
                         step: 10,
-                        value: wh.width,
+                        value: wh.width == null ? "" : wh.width,
                         onChange: (e)=>setwh((wh)=>({
                                     ...wh,
                                     width: Number(e.target.value)
@@ -33252,7 +33271,7 @@ const TransformImage = ()=>{
                             onLoad: ()=>{
                                 setLoading(false);
                             },
-                            className: `max-w-full border ${loading ? `hidden` : `block`}`
+                            className: `max-w-full border`
                         }, void 0, false, {
                             fileName: "src/pages/TransformImage.js",
                             lineNumber: 162,
@@ -33323,7 +33342,7 @@ const TransformImage = ()=>{
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
                                 type: "number",
                                 placeholder: "Crop Height",
-                                value: wh.height,
+                                value: wh.height == null ? "" : wh.height,
                                 className: "border p-1",
                                 onChange: (e)=>{
                                     // setTransform((t) => ({
@@ -33344,7 +33363,7 @@ const TransformImage = ()=>{
                                 type: "number",
                                 placeholder: "Crop Width",
                                 className: "border p-1",
-                                value: wh.width,
+                                value: wh.width == null ? "" : wh.width,
                                 onChange: (e)=>{
                                     // setTransform((t) => ({
                                     //   ...t,
@@ -33391,11 +33410,37 @@ const TransformImage = ()=>{
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                                 onClick: ()=>{
                                     setIsCropping(!isCropping);
+                                    setwh({
+                                        width: 100,
+                                        height: 100,
+                                        x: 0,
+                                        y: 0
+                                    });
                                 },
                                 children: isCropping ? "Stop Crop" : "Start Crop"
                             }, void 0, false, {
                                 fileName: "src/pages/TransformImage.js",
                                 lineNumber: 251,
+                                columnNumber: 11
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                onClick: ()=>{
+                                    setIsCropping(false);
+                                    setwh({
+                                        width: null,
+                                        height: null,
+                                        x: null,
+                                        y: null
+                                    });
+                                    setCrop({
+                                        x: 0,
+                                        y: 0
+                                    });
+                                },
+                                children: "Clear Crop"
+                            }, void 0, false, {
+                                fileName: "src/pages/TransformImage.js",
+                                lineNumber: 259,
                                 columnNumber: 11
                             }, undefined)
                         ]
@@ -33414,7 +33459,7 @@ const TransformImage = ()=>{
                                 }))
                     }, void 0, false, {
                         fileName: "src/pages/TransformImage.js",
-                        lineNumber: 260,
+                        lineNumber: 270,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("select", {
@@ -33429,7 +33474,7 @@ const TransformImage = ()=>{
                                 children: "Format"
                             }, void 0, false, {
                                 fileName: "src/pages/TransformImage.js",
-                                lineNumber: 281,
+                                lineNumber: 291,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
@@ -33437,7 +33482,7 @@ const TransformImage = ()=>{
                                 children: "PNG"
                             }, void 0, false, {
                                 fileName: "src/pages/TransformImage.js",
-                                lineNumber: 282,
+                                lineNumber: 292,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
@@ -33445,7 +33490,7 @@ const TransformImage = ()=>{
                                 children: "JPEG"
                             }, void 0, false, {
                                 fileName: "src/pages/TransformImage.js",
-                                lineNumber: 283,
+                                lineNumber: 293,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
@@ -33453,13 +33498,13 @@ const TransformImage = ()=>{
                                 children: "WEBP"
                             }, void 0, false, {
                                 fileName: "src/pages/TransformImage.js",
-                                lineNumber: 284,
+                                lineNumber: 294,
                                 columnNumber: 11
                             }, undefined)
                         ]
                     }, void 0, true, {
                         fileName: "src/pages/TransformImage.js",
-                        lineNumber: 272,
+                        lineNumber: 282,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
@@ -33475,14 +33520,14 @@ const TransformImage = ()=>{
                                         }))
                             }, void 0, false, {
                                 fileName: "src/pages/TransformImage.js",
-                                lineNumber: 288,
+                                lineNumber: 298,
                                 columnNumber: 11
                             }, undefined),
                             "Grayscale"
                         ]
                     }, void 0, true, {
                         fileName: "src/pages/TransformImage.js",
-                        lineNumber: 287,
+                        lineNumber: 297,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
@@ -33498,14 +33543,14 @@ const TransformImage = ()=>{
                                         }))
                             }, void 0, false, {
                                 fileName: "src/pages/TransformImage.js",
-                                lineNumber: 301,
+                                lineNumber: 311,
                                 columnNumber: 11
                             }, undefined),
                             "Sepia"
                         ]
                     }, void 0, true, {
                         fileName: "src/pages/TransformImage.js",
-                        lineNumber: 300,
+                        lineNumber: 310,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
@@ -33518,14 +33563,14 @@ const TransformImage = ()=>{
                                         }))
                             }, void 0, false, {
                                 fileName: "src/pages/TransformImage.js",
-                                lineNumber: 314,
+                                lineNumber: 324,
                                 columnNumber: 11
                             }, undefined),
                             "Remove Background"
                         ]
                     }, void 0, true, {
                         fileName: "src/pages/TransformImage.js",
-                        lineNumber: 313,
+                        lineNumber: 323,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -33534,7 +33579,7 @@ const TransformImage = ()=>{
                         children: "Apply Transform"
                     }, void 0, false, {
                         fileName: "src/pages/TransformImage.js",
-                        lineNumber: 326,
+                        lineNumber: 336,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -33547,7 +33592,7 @@ const TransformImage = ()=>{
                                 disabled: backendURL === ""
                             }, void 0, false, {
                                 fileName: "src/pages/TransformImage.js",
-                                lineNumber: 331,
+                                lineNumber: 341,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -33556,13 +33601,13 @@ const TransformImage = ()=>{
                                 children: "Copy"
                             }, void 0, false, {
                                 fileName: "src/pages/TransformImage.js",
-                                lineNumber: 337,
+                                lineNumber: 347,
                                 columnNumber: 11
                             }, undefined)
                         ]
                     }, void 0, true, {
                         fileName: "src/pages/TransformImage.js",
-                        lineNumber: 330,
+                        lineNumber: 340,
                         columnNumber: 9
                     }, undefined)
                 ]
@@ -33578,7 +33623,7 @@ const TransformImage = ()=>{
         columnNumber: 5
     }, undefined);
 };
-_s(TransformImage, "vvCeVxrLLHGX6/vIxX27GUozSV0=", false, function() {
+_s(TransformImage, "2EkMYR5429DUZOIQaFsf8V1SFwU=", false, function() {
     return [
         (0, _reactRouter.useParams),
         (0, _useAxiosPrivateDefault.default)
@@ -35424,16 +35469,14 @@ var _s = $RefreshSig$();
 const UploadImage = ()=>{
     _s();
     const fileInputRef = (0, _react.useRef)();
-    const [fileName, setFileName] = (0, _react.useState)("");
-    const [file, setFile] = (0, _react.useState)(null);
+    const [files, setFiles] = (0, _react.useState)(null);
     const abortRef = (0, _react.useRef)(null);
     const [isUploading, setUploading] = (0, _react.useState)(false);
     const axiosPrivate = (0, _useAxiosPrivateDefault.default)();
     const handleDrop = (event)=>{
         event.preventDefault();
-        const file = event.dataTransfer.files[0];
-        setFileName(file.name);
-        setFile(file);
+        const files = event.dataTransfer.files[0];
+        setFiles(files);
     };
     const handleDragOver = (event)=>{
         event.preventDefault();
@@ -35442,16 +35485,19 @@ const UploadImage = ()=>{
         fileInputRef.current.click();
     };
     const handleFileChange = (event)=>{
-        const file = event.target.files[0];
-        setFileName(file.name);
-        setFile(file);
+        const files = event.target.files;
+        setFiles(files);
     };
     const handleSubmit = async ()=>{
         const formData = new FormData();
+        console.log(fileInputRef.current);
         try {
             const abortController = new AbortController();
             abortRef.current = abortController;
-            formData.append("file", file);
+            console.log(files);
+            Array.from(files).map((file)=>{
+                formData.append("file", file);
+            });
             setUploading(true);
             const res = await axiosPrivate.post("/image/upload", formData, {
                 signal: abortController.signal
@@ -35477,7 +35523,7 @@ const UploadImage = ()=>{
                 children: "Upload File"
             }, void 0, false, {
                 fileName: "src/pages/UploadImage.js",
-                lineNumber: 64,
+                lineNumber: 65,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -35488,7 +35534,7 @@ const UploadImage = ()=>{
                 children: "Drop file here or click"
             }, void 0, false, {
                 fileName: "src/pages/UploadImage.js",
-                lineNumber: 65,
+                lineNumber: 66,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -35498,56 +35544,59 @@ const UploadImage = ()=>{
                 onChange: handleFileChange,
                 style: {
                     display: "none"
-                }
+                },
+                multiple: true
             }, void 0, false, {
                 fileName: "src/pages/UploadImage.js",
-                lineNumber: 74,
+                lineNumber: 75,
                 columnNumber: 7
             }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                children: fileName && "File: " + fileName
-            }, void 0, false, {
-                fileName: "src/pages/UploadImage.js",
-                lineNumber: 82,
-                columnNumber: 7
-            }, undefined),
+            files && Array.from(files).map((file, index)=>{
+                return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                    children: "File: " + file.name
+                }, index, false, {
+                    fileName: "src/pages/UploadImage.js",
+                    lineNumber: 86,
+                    columnNumber: 18
+                }, undefined);
+            }),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                 className: "flex w-1/2 gap-5",
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                        className: "w-full p-2 border-2 my-2     disabled:border-gray-400   disabled:text-gray-400   disabled:bg-gray-100   disabled:cursor-not-allowed",
+                        className: "w-full p-2 border-2 my-2 disabled:border-gray-400 disabled:text-gray-400 disabled:bg-gray-100 disabled:cursor-not-allowed",
                         onClick: handleSubmit,
-                        disabled: !file,
+                        disabled: !files,
                         children: "Upload"
                     }, void 0, false, {
                         fileName: "src/pages/UploadImage.js",
-                        lineNumber: 84,
+                        lineNumber: 90,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                        className: "   w-full p-2 border-2 my-2 border-red-600 text-red-600   disabled:border-red-300   disabled:text-red-400   disabled:bg-red-100   disabled:cursor-not-allowed   ",
+                        className: " w-full p-2 border-2 my-2 border-red-600 text-red-600 disabled:border-red-300 disabled:text-red-400 disabled:bg-red-100 disabled:cursor-not-allowed ",
                         onClick: handleCancel,
                         disabled: !isUploading,
                         children: "Cancel"
                     }, void 0, false, {
                         fileName: "src/pages/UploadImage.js",
-                        lineNumber: 94,
+                        lineNumber: 101,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/pages/UploadImage.js",
-                lineNumber: 83,
+                lineNumber: 89,
                 columnNumber: 7
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/pages/UploadImage.js",
-        lineNumber: 63,
+        lineNumber: 64,
         columnNumber: 5
     }, undefined);
 };
-_s(UploadImage, "s6JT4gFDMcJAf+RQCQXfblcL+R0=", false, function() {
+_s(UploadImage, "1gPd44o7IQHpiW4dns9w7OXkCJE=", false, function() {
     return [
         (0, _useAxiosPrivateDefault.default)
     ];
@@ -35594,6 +35643,6 @@ $RefreshReg$(_c, "HomePage");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}]},["frqA7","hh6uc"], "hh6uc", "parcelRequire10c2", {}, null, null, "http://localhost:1234")
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}]},["3I8XU","hh6uc"], "hh6uc", "parcelRequire10c2", {}, null, null, "http://localhost:1234")
 
 //# sourceMappingURL=frontend.2c54e4d8.js.map

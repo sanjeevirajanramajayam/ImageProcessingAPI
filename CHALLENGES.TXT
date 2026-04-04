@@ -1,0 +1,2 @@
+It was so hard implementing prefix based image storage.
+Deletion should be easy.

@@ -19,6 +19,7 @@ function Images() {
           "http://localhost:4000/image/get-user-images",
           { signal: abortController.signal },
         );
+        console.log(res.data);
         isMounted && setImages(res.data.userImages);
       } catch (err) {
         if (axios.isCancel(err)) {
@@ -39,24 +40,29 @@ function Images() {
   }, []);
 
   return (
-    <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-      {loading ? (
-        <p>Loading...</p>
-      ) : images.length > 0 ? (
-        images.map((image, index) => (
-          <img
-            key={image.id ?? index}
-            src={image.url}
-            alt={`User upload ${index + 1}`}
-            className="w-full h-48 object-cover rounded border"
-            onClick={() => {
-              navigate(`/image/${image.id}/transform`);
-            }}
-          />
-        ))
-      ) : (
-        <p>No images found.</p>
-      )}
+    <div className="flex h-full justify-between flex-col">
+      <div className="flex-1 overflow-y-auto min-h-0">
+        <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {loading ? (
+            <p>Loading...</p>
+          ) : images.length > 0 ? (
+            images.map((image, index) => (
+              <img
+                key={image.id ?? index}
+                src={image.url}
+                alt={`User upload ${index + 1}`}
+                className="w-full h-48 object-cover rounded border"
+                onClick={() => {
+                  navigate(`/image/${image.id}/transform`);
+                }}
+              />
+            ))
+          ) : (
+            <p>No images found.</p>
+          )}
+        </div>
+      </div>
+      <div>1 2 3 4 5</div>
     </div>
   );
 }

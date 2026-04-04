@@ -374,10 +374,6 @@
     display: grid;
   }
 
-  .hidden {
-    display: none;
-  }
-
   .h-1\/2 {
     height: 50%;
   }
@@ -400,6 +396,10 @@
 
   .h-screen {
     height: 100vh;
+  }
+
+  .min-h-0 {
+    min-height: calc(var(--spacing) * 0);
   }
 
   .w-1\/2 {
@@ -472,6 +472,10 @@
 
   .gap-8 {
     gap: calc(var(--spacing) * 8);
+  }
+
+  .overflow-y-auto {
+    overflow-y: auto;
   }
 
   .rounded {

@@ -11,6 +11,9 @@ services:
       - 4000:4000
     env_file:
       - ./backend/.env
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      DATABASE_URL: mysql://${DB_USER}:${DB_PASSWORD}@db:3306/${DB_NAME}
     depends_on:
       db:
         condition: service_healthy
@@ -19,7 +22,7 @@ services:
     image: mysql:oraclelinux9
     container_name: mysql-db
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: imageprocessing
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p 1234"]
@@ -37,11 +40,16 @@ services:
       - "9000:9000"
       - "9001:9001"
     environment:
-      MINIO_ROOT_USER: password
+      MINIO_ROOT_USER: admin
       MINIO_ROOT_PASSWORD: password
     volumes:
       - minio_vol:/data
     command: server /data --console-address ":9001"
+  redis:
+    image: redis:8.6.2-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
 
 volumes:
   mysql_vol:

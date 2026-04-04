@@ -14,6 +14,9 @@ yarn-error.log
 .env.production
 .env.development
 uploads/
+dist
+./frontend/dist/
+dist/
 
 # Ignore database credential files
 backend/generated/prisma

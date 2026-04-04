@@ -4,8 +4,7 @@ import axios from "axios";
 
 const UploadImage = () => {
   const fileInputRef = useRef();
-  const [fileName, setFileName] = useState("");
-  const [file, setFile] = useState(null);
+  const [files, setFiles] = useState(null);
   const abortRef = useRef(null);
   const [isUploading, setUploading] = useState(false);
 
@@ -13,9 +12,8 @@ const UploadImage = () => {
 
   const handleDrop = (event) => {
     event.preventDefault();
-    const file = event.dataTransfer.files[0];
-    setFileName(file.name);
-    setFile(file);
+    const files = event.dataTransfer.files[0];
+    setFiles(files);
   };
 
   const handleDragOver = (event) => {
@@ -27,18 +25,21 @@ const UploadImage = () => {
   };
 
   const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setFileName(file.name);
-    setFile(file);
+    const files = event.target.files;
+    setFiles(files);
   };
 
   const handleSubmit = async () => {
     const formData = new FormData();
+    console.log(fileInputRef.current);
     try {
       const abortController = new AbortController();
       abortRef.current = abortController;
-      formData.append("file", file);
-      setUploading(true)
+      console.log(files);
+      Array.from(files).map((file) => {
+        formData.append("file", file);
+      });
+      setUploading(true);
       const res = await axiosPrivate.post("/image/upload", formData, {
         signal: abortController.signal,
       });
@@ -50,13 +51,13 @@ const UploadImage = () => {
       console.error(err);
     } finally {
       abortRef.current = null;
-      setUploading(false)
+      setUploading(false);
     }
   };
 
   const handleCancel = async () => {
     abortRef.current?.abort();
-    setUploading(false)
+    setUploading(false);
   };
 
   return (
@@ -77,17 +78,23 @@ const UploadImage = () => {
         ref={fileInputRef}
         onChange={handleFileChange}
         style={{ display: "none" }}
+        multiple
       />
 
-      <p>{fileName && "File: " + fileName}</p>
+      {files &&
+        Array.from(files).map((file, index) => {
+          return <p key={index}>{"File: " + file.name}</p>;
+        })}
+
       <div className="flex w-1/2 gap-5">
         <button
-          className="w-full p-2 border-2 my-2     disabled:border-gray-400
+          className="w-full p-2 border-2 my-2
+          disabled:border-gray-400
     disabled:text-gray-400
     disabled:bg-gray-100
     disabled:cursor-not-allowed"
           onClick={handleSubmit}
-          disabled={!file}
+          disabled={!files}
         >
           Upload
         </button>

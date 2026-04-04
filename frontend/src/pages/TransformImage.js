@@ -12,7 +12,7 @@ const TransformImage = () => {
   const [image, setImage] = useState("");
   const [transform, setTransform] = useState({
     resize: { width: null, height: null },
-    crop: { width: 10, height: 10, x: 0, y: 0 },
+    crop: {},
     rotate: null,
     format: "",
     filters: { grayscale: false, sepia: false },
@@ -21,8 +21,8 @@ const TransformImage = () => {
   const [transformedImage, setTransformedImage] = useState("");
   const [backendURL, setBackendURL] = useState("");
   const [isCropping, setIsCropping] = useState(false);
-  const [crop, setCrop] = useState({ x: 50, y: 0 });
-  const [wh, setwh] = useState({ width: 100, height: 100, x: 0, y: 0 });
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [wh, setwh] = useState({ width: null, height: null, x: "", y: "" });
 
   const [zoom, setZoom] = useState(1);
 
@@ -144,7 +144,7 @@ const TransformImage = () => {
             min={1}
             max={90}
             step={10}
-            value={wh.width}
+            value={wh.width == null ? "" : wh.width}
             onChange={(e) =>
               setwh((wh) => ({ ...wh, width: Number(e.target.value) }))
             }
@@ -164,7 +164,7 @@ const TransformImage = () => {
               onLoad={() => {
                 setLoading(false);
               }}
-              className={`max-w-full border ${loading ? `hidden` : `block`}`}
+              className={`max-w-full border`}
             />
           </>
         )}
@@ -203,7 +203,7 @@ const TransformImage = () => {
           <input
             type="number"
             placeholder="Crop Height"
-            value={wh.height}
+            value={wh.height == null ? "" : wh.height}
             className="border p-1"
             onChange={(e) => {
               // setTransform((t) => ({
@@ -218,7 +218,7 @@ const TransformImage = () => {
             type="number"
             placeholder="Crop Width"
             className="border p-1"
-            value={wh.width}
+            value={wh.width == null ? "" : wh.width}
             onChange={(e) => {
               // setTransform((t) => ({
               //   ...t,
@@ -251,9 +251,19 @@ const TransformImage = () => {
           <button
             onClick={() => {
               setIsCropping(!isCropping);
+              setwh({ width: 100, height: 100, x: 0, y: 0 });
             }}
           >
             {isCropping ? "Stop Crop" : "Start Crop"}
+          </button>
+          <button
+            onClick={() => {
+              setIsCropping(false);
+              setwh({ width: null, height: null, x: null, y: null });
+              setCrop({ x: 0, y: 0 });
+            }}
+          >
+            {"Clear Crop"}
           </button>
         </div>
 
