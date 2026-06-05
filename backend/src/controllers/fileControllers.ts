@@ -5,10 +5,12 @@ import {
   applyTransformations,
   generateHash,
 } from "../utils/utils";
+import { sendError, logError } from "../utils/errorHandler";
 import {
   PutObjectCommand,
   GetObjectCommand,
   HeadObjectCommand,
+  DeleteObjectCommand,
 } from "@aws-sdk/client-s3";
 import { Request, Response } from "express";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
@@ -16,24 +18,32 @@ import sharp from "sharp";
 import { redisClient } from "../config/redisClient";
 
 const bucketName = process.env.BUCKET_NAME!;
+const DEFAULT_PAGE = 1;
+const DEFAULT_LIMIT = 12;
+const MAX_LIMIT = 48;
+
+const parsePositiveInt = (value: unknown, fallback: number) => {
+  const parsed = Number(value);
+  return Number.isInteger(parsed) && parsed > 0 ? parsed : fallback;
+};
 
 export const uploadFiles = async (req: Request, res: Response) => {
   if (!req.files) {
-    return res.status(404).json({ message: "No files were added." });
+    return sendError(res, 400, "NO_FILES", "No files were provided");
   }
 
   const foundUser = await prisma.user.findFirst({
-    where: { email: req.user.email },
+    where: { email: req.user!.email },
   });
 
   if (!foundUser) {
-    return res.status(404).json({ error: "User not found" });
+    return sendError(res, 404, "USER_NOT_FOUND", "User not found");
   }
 
-  await redisClient.del("userImages");
+  await redisClient.incr(`userImagesVersion:${foundUser.id}`);
 
   const uploadedFiles = await Promise.all(
-    req.files?.map(async (file: Express.Multer.File) => {
+    (req.files as Express.Multer.File[]).map(async (file: Express.Multer.File) => {
       const ImageId = `image/${getRandomImageName()}`;
 
       const params = {
@@ -53,63 +63,93 @@ export const uploadFiles = async (req: Request, res: Response) => {
     }),
   );
 
-  return res.status(200).json({ uploadedFiles });
+  return res.status(200).json({
+    uploadedFiles,
+    message: `Successfully uploaded ${uploadedFiles.length} image(s)`,
+  });
 };
 
 export const viewFiles = async (req: Request, res: Response) => {
   const foundUser = await prisma.user.findFirst({
-    where: { email: req.user.email },
+    where: { email: req.user!.email },
   });
 
   if (!foundUser) {
-    return res.status(404).json({ error: "User not found" });
+    return sendError(res, 404, "USER_NOT_FOUND", "User not found");
   }
 
-  const cachedUserImages = await redisClient.get("userImages");
-  console.log(cachedUserImages);
+  const page = parsePositiveInt(req.query.page, DEFAULT_PAGE);
+  const limit = Math.min(
+    parsePositiveInt(req.query.limit, DEFAULT_LIMIT),
+    MAX_LIMIT,
+  );
+  const offset = (page - 1) * limit;
+  const cacheVersion = Number(
+    (await redisClient.get(`userImagesVersion:${foundUser.id}`)) ?? 0,
+  );
+  const cacheKey = `userImages:${foundUser.id}:v${cacheVersion}:page:${page}:limit:${limit}`;
+
+  const cachedUserImages = await redisClient.get(cacheKey);
   if (cachedUserImages) {
     return res.status(200).json(JSON.parse(cachedUserImages));
   }
 
-  const images = await prisma.images.findMany({
-    where: { user_id: foundUser.id },
-  });
-  const userImages: ((typeof images)[number] & { url: string })[] = [];
+  const [totalImages, images] = await Promise.all([
+    prisma.images.count({ where: { user_id: foundUser.id } }),
+    prisma.images.findMany({
+      where: { user_id: foundUser.id },
+      orderBy: { id: "desc" },
+      skip: offset,
+      take: limit,
+    }),
+  ]);
 
-  for (const image of images) {
-    const getObjectParams = {
-      Bucket: bucketName,
-      Key: image.image_id,
-      ResponseContentDisposition: "inline",
-    };
+  const userImages = await Promise.all(
+    images.map(async (image) => {
+      const getObjectParams = {
+        Bucket: bucketName,
+        Key: image.image_id,
+        ResponseContentDisposition: "inline",
+      };
 
-    const command = new GetObjectCommand(getObjectParams);
-    const url = await getSignedUrl(publicS3, command, { expiresIn: 3600 });
-    // const new_url = new URL
+      const command = new GetObjectCommand(getObjectParams);
+      const url = await getSignedUrl(publicS3, command, { expiresIn: 3600 });
 
-    userImages.push({ ...image, url });
-  }
+      return { ...image, url };
+    }),
+  );
 
-  await redisClient.set("userImages", JSON.stringify({ userImages }), {
+  const responseBody = {
+    userImages,
+    pagination: {
+      page,
+      limit,
+      totalImages,
+      totalPages: Math.max(1, Math.ceil(totalImages / limit)),
+      hasNextPage: page * limit < totalImages,
+      hasPreviousPage: page > 1,
+    },
+  };
+
+  await redisClient.set(cacheKey, JSON.stringify(responseBody), {
     EX: 900,
   });
 
-  return res.status(200).json({ userImages });
+  return res.status(200).json(responseBody);
 };
 
 export const viewFile = async (req: Request, res: Response) => {
   let image_id = Number(req.params.id);
 
   if (isNaN(image_id)) {
-    return res.status(400).json({ error: "Invalid imageId" });
+    return sendError(res, 400, "INVALID_IMAGE_ID", "Invalid image ID format");
   }
-  // console.log(image_id)
   const foundUser = await prisma.user.findFirst({
-    where: { email: req.user.email },
+    where: { email: req.user!.email },
   });
 
   if (!foundUser) {
-    return res.status(404).json({ message: "User not found!" });
+    return sendError(res, 404, "USER_NOT_FOUND", "User not found");
   }
 
   const cachedImage = await redisClient.get(image_id.toString());
@@ -119,9 +159,8 @@ export const viewFile = async (req: Request, res: Response) => {
   }
 
   const image = await prisma.images.findFirst({
-    where: { id: image_id, user_id: req.user.id },
+    where: { id: image_id, user_id: req.user!.id },
   });
-  // console.log(image)
 
   if (image) {
     const getObjectParams = {
@@ -140,12 +179,7 @@ export const viewFile = async (req: Request, res: Response) => {
 
     return res.status(200).json({ image_id: image.image_id, url: url });
   } else {
-    await redisClient.set(
-      image_id.toString(),
-      JSON.stringify({ message: "No Image found." }),
-    );
-
-    return res.status(404).json({ message: "No Image found." });
+    return sendError(res, 404, "IMAGE_NOT_FOUND", "Image not found");
   }
 };
 
@@ -185,8 +219,6 @@ export const transformImage = async (req: Request, res: Response) => {
       remove_bg: remove_bg === "true",
     };
 
-    console.log(transformations);
-
     if (!transformations) {
       return res.status(400).json({ error: "Invalid query" });
     }
@@ -197,7 +229,7 @@ export const transformImage = async (req: Request, res: Response) => {
       return res.status(400).json({ error: "Invalid imageId" });
     }
 
-    let requiredImage = await prisma.images.findFirst({
+    const requiredImage = await prisma.images.findFirst({
       where: {
         id: imageId,
       },
@@ -207,12 +239,9 @@ export const transformImage = async (req: Request, res: Response) => {
       return res.status(404).json({ error: "Image not found" });
     }
 
-    let finalVersion = requiredImage;
-
-    const cacheKey = `image/${finalVersion?.image_id!.slice(6)}/${generateHash(finalVersion?.image_id!, transformations)}`;
-    console.log(cacheKey);
+    const cacheKey = `image/${requiredImage.image_id.slice(6)}/${generateHash(requiredImage.image_id, transformations)}`;
     const getImageFromCache = await redisClient.get(cacheKey);
-    console.log(getImageFromCache);
+    
     if (getImageFromCache != null) {
       return res.redirect(getImageFromCache);
     }
@@ -229,15 +258,16 @@ export const transformImage = async (req: Request, res: Response) => {
         ResponseContentDisposition: "inline",
       });
       const url = await getSignedUrl(publicS3, command, { expiresIn: 3600 });
-      console.error({ message: "CACHE HIT SUCCESSFUL" });
+      
+      await redisClient.set(cacheKey, url, { EX: 3600 });
       return res.redirect(url);
     } catch (err) {
-      console.error({ message: "CACHE HIT FAILED", error: err });
+      // Continue
     }
 
     const command = new GetObjectCommand({
       Bucket: bucketName,
-      Key: finalVersion.image_id,
+      Key: requiredImage.image_id,
     });
 
     const response = await s3.send(command);
@@ -249,10 +279,7 @@ export const transformImage = async (req: Request, res: Response) => {
     const byteArray = await response.Body.transformToByteArray();
     const imageBuffer = Buffer.from(byteArray);
 
-    let metadata = await sharp(imageBuffer).metadata();
-    let outputFormat = metadata.format || "jpeg";
-
-    const finalBuffer = await applyTransformations(
+    const { finalBuffer, outputFormat } = await applyTransformations(
       imageBuffer,
       transformations,
     );
@@ -265,16 +292,15 @@ export const transformImage = async (req: Request, res: Response) => {
     };
 
     const putCommand = new PutObjectCommand(putCommandParams);
-
-    await s3.send(putCommand); // await ensures this runs now and not in the background while others is running.
+    await s3.send(putCommand);
 
     const getCommand = new GetObjectCommand({
       Bucket: bucketName,
       Key: cacheKey,
     });
     const url = await getSignedUrl(publicS3, getCommand, { expiresIn: 3600 });
-    console.log(cacheKey);
-    await redisClient.set(cacheKey, url);
+    
+    await redisClient.set(cacheKey, url, { EX: 3600 });
 
     return res.redirect(url);
   } catch (err) {
@@ -282,5 +308,57 @@ export const transformImage = async (req: Request, res: Response) => {
     return res.status(500).json({
       error: "Image processing failed",
     });
+  }
+};
+
+export const deleteImage = async (req: Request, res: Response) => {
+  try {
+    const imageId = Number(req.params.id);
+
+    if (isNaN(imageId)) {
+      return res.status(400).json({ error: "Invalid imageId" });
+    }
+
+    const foundUser = await prisma.user.findFirst({
+      where: { email: req.user!.email },
+    });
+
+    if (!foundUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const image = await prisma.images.findFirst({
+      where: { id: imageId, user_id: foundUser.id },
+    });
+
+    if (!image) {
+      return res.status(404).json({ error: "Image not found" });
+    }
+
+    try {
+      const deleteParams = {
+        Bucket: bucketName,
+        Key: image.image_id,
+      };
+      const deleteCommand = new DeleteObjectCommand(deleteParams);
+      await s3.send(deleteCommand);
+    } catch (s3Error) {
+      console.error("S3 deletion error:", s3Error);
+    }
+
+    await prisma.imageVersion.deleteMany({
+      where: { orig_image_id: imageId },
+    });
+
+    await prisma.images.delete({
+      where: { id: imageId },
+    });
+
+    await redisClient.incr(`userImagesVersion:${foundUser.id}`);
+
+    return res.status(200).json({ message: "Image deleted successfully" });
+  } catch (err) {
+    console.error("Delete error:", err);
+    return res.status(500).json({ error: "Failed to delete image" });
   }
 };

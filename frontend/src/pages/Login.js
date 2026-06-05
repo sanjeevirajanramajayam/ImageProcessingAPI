@@ -2,18 +2,35 @@ import { useContext, useState } from "react";
 import { authContext } from "../context/AuthContext";
 import { NavLink, useNavigate } from "react-router-dom";
 import loadContext from "../context/LoadingContext";
+import { useToast, ToastContainer } from "../hooks/useToast";
+import { validateEmail } from "../utils/validation";
 
 function Login() {
   const [loginPayload, setLoginPayload] = useState({ email: "", password: "" });
-  const [errMesg, setErrMesg] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const navigate = useNavigate();
 
   const { auth, setAuth } = useContext(authContext);
   const { loading, setLoading } = useContext(loadContext);
+  const { toasts, showToast } = useToast();
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setIsSubmitting(true);
+
+    if (!validateEmail(loginPayload.email)) {
+      showToast("Please provide a valid email address", "error");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!loginPayload.password) {
+      showToast("Password is required", "error");
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       let res = await fetch("http://localhost:4000/login", {
         method: "POST",
@@ -28,7 +45,8 @@ function Login() {
       });
 
       if (res.status !== 200) {
-        setErrMesg("Login Failed!");
+        const data = await res.json();
+        showToast(data.message || "Login failed", "error");
       } else {
         res = await res.json();
 
@@ -36,21 +54,19 @@ function Login() {
           return { ...p, accessToken: res.accessToken };
         });
 
+        showToast("Login successful!", "success");
         navigate("/images");
       }
     } catch (err) {
+      showToast("Login error. Please try again.", "error");
       console.error(err);
     }
+    setIsSubmitting(false);
   }
 
   return (
     <div className="h-screen">
       <div className="flex flex-col gap-4 justify-center items-center h-full">
-        {errMesg !== "" && (
-          <div className="border border-red-800 w-1/4 p-3">
-            <p className="text-red-600">{"Error : " + errMesg}</p>
-          </div>
-        )}
         {loading ? (
           <p>Loading...</p>
         ) : (
@@ -80,10 +96,11 @@ function Login() {
                 }}
               />
               <button
-                className="bg-black text-white p-2 w-full my-4"
+                disabled={isSubmitting}
+                className="bg-black text-white p-2 w-full my-4 disabled:opacity-50 disabled:cursor-not-allowed"
                 type="submit"
               >
-                Login
+                {isSubmitting ? "Logging in..." : "Login"}
               </button>
               <p>
                 <NavLink to="/register">
@@ -94,6 +111,7 @@ function Login() {
           </div>
         )}
       </div>
+      <ToastContainer toasts={toasts} />
     </div>
   );
 }

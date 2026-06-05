@@ -5,8 +5,12 @@ import { MulterError } from "multer";
 import fileRoutes from "./routes/fileRoutes";
 import userRoutes from "./routes/userRoutes";
 import refreshRoutes from "./routes/refreshRoutes";
+import systemRoutes from "./routes/systemRoutes";
 import cors from "cors";
+import helmet from "helmet";
+import morgan from "morgan";
 import { redisClient } from "./config/redisClient";
+import { sendError, logError } from "./utils/errorHandler";
 
 dotenv.config();
 
@@ -14,29 +18,39 @@ const app = express();
 const PORT = parseInt(process.env.PORT || "4000", 10);
 
 app.use(
-  cors({
-    origin: "http://localhost:1234",
-    credentials: true, // allow credentials to be sent from browser
+  helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
   }),
 );
-console.log(process.env.NODE_ENV);
+app.use(morgan("combined"));
+
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN || "http://localhost:1234",
+    credentials: true,
+  }),
+);
+
 app.use(express.json());
 app.use(cookieParser());
 
 app.use("/image", fileRoutes);
 app.use("/", refreshRoutes);
 app.use("/", userRoutes);
+app.use("/system", systemRoutes);
 
 app.use(
-  async (
+  (
     err: Error,
     req: express.Request,
     res: express.Response,
     next: express.NextFunction,
   ) => {
     if (err instanceof MulterError) {
-      return res.status(400).json({ error: err });
+      logError("Multer", err);
+      return sendError(res, 400, "UPLOAD_ERROR", err.message);
     }
+    return next(err);
   },
 );
 
@@ -47,23 +61,19 @@ app.use(
     res: express.Response,
     next: express.NextFunction,
   ) => {
-    console.error("Body parse error:", err.message);
-    res.status(400).json({ error: "Invalid JSON body" });
+    logError("Global error", err);
+    const statusCode = err.statusCode || 500;
+    const code = err.code || "INTERNAL_ERROR";
+    const message = err.message || "An unexpected error occurred";
+    return sendError(res, statusCode, code, message);
   },
 );
 
-// const testData = await redisClient.get("TEST");
-// console.log(testData);
-
 const server = app.listen(PORT, () => {
-  console.log(process.env.DB_HOST);
-  console.log(`Server running on ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
 
 server.on("error", (err) => {
-  console.error("Server error:", err);
+  logError("Server startup", err);
   process.exit(1);
 });
-
-redisClient.on("connect", () => console.log("Redis connected"));
-redisClient.on("error", (err) => console.log(err));

@@ -1,12 +1,16 @@
 import { useState, useRef } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import axios from "axios";
+import { useToast, ToastContainer } from "../hooks/useToast";
+import { useNavigate } from "react-router";
 
 const UploadImage = () => {
   const fileInputRef = useRef();
   const [files, setFiles] = useState(null);
   const abortRef = useRef(null);
   const [isUploading, setUploading] = useState(false);
+  const { toasts, showToast } = useToast();
+  const navigate = useNavigate();
 
   const axiosPrivate = useAxiosPrivate();
 
@@ -21,6 +25,7 @@ const UploadImage = () => {
   };
 
   const handleClick = () => {
+    if (isUploading) return;
     fileInputRef.current.click();
   };
 
@@ -30,24 +35,31 @@ const UploadImage = () => {
   };
 
   const handleSubmit = async () => {
+    if (isUploading) return;
+
     const formData = new FormData();
     console.log(fileInputRef.current);
     try {
+      setUploading(true);
       const abortController = new AbortController();
       abortRef.current = abortController;
       console.log(files);
       Array.from(files).map((file) => {
         formData.append("file", file);
       });
-      setUploading(true);
       const res = await axiosPrivate.post("/image/upload", formData, {
         signal: abortController.signal,
       });
       console.log(res);
+      showToast(`Successfully uploaded ${Array.from(files).length} image(s)!`, "success");
+      setFiles(null);
+      setTimeout(() => navigate("/images"), 1500);
     } catch (err) {
       if (axios.isCancel(err)) {
         return;
       }
+      const errorMsg = err.response?.data?.message || "Upload failed";
+      showToast(errorMsg, "error");
       console.error(err);
     } finally {
       abortRef.current = null;
@@ -88,30 +100,21 @@ const UploadImage = () => {
 
       <div className="flex w-1/2 gap-5">
         <button
-          className="w-full p-2 border-2 my-2
-          disabled:border-gray-400
-    disabled:text-gray-400
-    disabled:bg-gray-100
-    disabled:cursor-not-allowed"
+          className="w-full p-2 border-2 my-2 disabled:border-gray-400 disabled:text-gray-400 disabled:bg-gray-100 disabled:cursor-not-allowed"
           onClick={handleSubmit}
-          disabled={!files}
+          disabled={!files || isUploading}
         >
-          Upload
+          {isUploading ? "Uploading..." : "Upload"}
         </button>
         <button
-          className="
-    w-full p-2 border-2 my-2 border-red-600 text-red-600
-    disabled:border-red-300
-    disabled:text-red-400
-    disabled:bg-red-100
-    disabled:cursor-not-allowed
-  "
+          className="w-full p-2 border-2 my-2 border-red-600 text-red-600 disabled:border-red-300 disabled:text-red-400 disabled:bg-red-100 disabled:cursor-not-allowed"
           onClick={handleCancel}
           disabled={!isUploading}
         >
           Cancel
         </button>
       </div>
+      <ToastContainer toasts={toasts} />
     </div>
   );
 };

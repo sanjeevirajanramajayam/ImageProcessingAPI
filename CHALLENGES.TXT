@@ -1,2 +1,4 @@
 It was so hard implementing prefix based image storage.
 Deletion should be easy.
+
+Learnt AWS S3 CLI.

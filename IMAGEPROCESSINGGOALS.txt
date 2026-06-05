@@ -1,0 +1,7 @@
+- Implement pagination
+- Implement redis
+- Implement deletion
+- Implement nginx
+- Implement CDN
+- Implement Rate-limiting
+- Implement Job based Queue System

@@ -133,7 +133,7 @@ export const applyTransformations = async (imageBuffer: Buffer, transformations:
 
     const finalBuffer = await image.toBuffer()
 
-    return finalBuffer
+    return { finalBuffer, outputFormat }
 }
 
 export function normalizeTransformations(t: any) {

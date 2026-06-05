@@ -207,11 +207,11 @@
       });
     }
   }
-})({"3I8XU":[function(require,module,exports,__globalThis) {
+})({"frqA7":[function(require,module,exports,__globalThis) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
-var HMR_SERVER_PORT = 55184;
+var HMR_SERVER_PORT = 1234;
 var HMR_SECURE = false;
 var HMR_ENV_HASH = "439701173a9199ea";
 var HMR_USE_SSE = false;
@@ -17560,6 +17560,8 @@ var _authContext = require("../context/AuthContext");
 var _reactRouterDom = require("react-router-dom");
 var _loadingContext = require("../context/LoadingContext");
 var _loadingContextDefault = parcelHelpers.interopDefault(_loadingContext);
+var _useToast = require("../hooks/useToast");
+var _validation = require("../utils/validation");
 var _s = $RefreshSig$();
 function Login() {
     _s();
@@ -17567,12 +17569,24 @@ function Login() {
         email: "",
         password: ""
     });
-    const [errMesg, setErrMesg] = (0, _react.useState)("");
+    const [isSubmitting, setIsSubmitting] = (0, _react.useState)(false);
     const navigate = (0, _reactRouterDom.useNavigate)();
     const { auth, setAuth } = (0, _react.useContext)((0, _authContext.authContext));
     const { loading, setLoading } = (0, _react.useContext)((0, _loadingContextDefault.default));
+    const { toasts, showToast } = (0, _useToast.useToast)();
     async function handleSubmit(e) {
         e.preventDefault();
+        setIsSubmitting(true);
+        if (!(0, _validation.validateEmail)(loginPayload.email)) {
+            showToast("Please provide a valid email address", "error");
+            setIsSubmitting(false);
+            return;
+        }
+        if (!loginPayload.password) {
+            showToast("Password is required", "error");
+            setIsSubmitting(false);
+            return;
+        }
         try {
             let res = await fetch("http://localhost:4000/login", {
                 method: "POST",
@@ -17585,8 +17599,10 @@ function Login() {
                     password: loginPayload.password
                 })
             });
-            if (res.status !== 200) setErrMesg("Login Failed!");
-            else {
+            if (res.status !== 200) {
+                const data = await res.json();
+                showToast(data.message || "Login failed", "error");
+            } else {
                 res = await res.json();
                 setAuth((p)=>{
                     return {
@@ -17594,37 +17610,25 @@ function Login() {
                         accessToken: res.accessToken
                     };
                 });
+                showToast("Login successful!", "success");
                 navigate("/images");
             }
         } catch (err) {
+            showToast("Login error. Please try again.", "error");
             console.error(err);
         }
+        setIsSubmitting(false);
     }
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         className: "h-screen",
-        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-            className: "flex flex-col gap-4 justify-center items-center h-full",
-            children: [
-                errMesg !== "" && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                    className: "border border-red-800 w-1/4 p-3",
-                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                        className: "text-red-600",
-                        children: "Error : " + errMesg
-                    }, void 0, false, {
-                        fileName: "src/pages/Login.js",
-                        lineNumber: 51,
-                        columnNumber: 13
-                    }, this)
-                }, void 0, false, {
-                    fileName: "src/pages/Login.js",
-                    lineNumber: 50,
-                    columnNumber: 11
-                }, this),
-                loading ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "flex flex-col gap-4 justify-center items-center h-full",
+                children: loading ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
                     children: "Loading..."
                 }, void 0, false, {
                     fileName: "src/pages/Login.js",
-                    lineNumber: 55,
+                    lineNumber: 71,
                     columnNumber: 11
                 }, this) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                     className: "border p-5 w-1/4",
@@ -17634,7 +17638,7 @@ function Login() {
                             children: "Login"
                         }, void 0, false, {
                             fileName: "src/pages/Login.js",
-                            lineNumber: 58,
+                            lineNumber: 74,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("form", {
@@ -17644,7 +17648,7 @@ function Login() {
                                     children: "Email"
                                 }, void 0, false, {
                                     fileName: "src/pages/Login.js",
-                                    lineNumber: 60,
+                                    lineNumber: 76,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -17660,14 +17664,14 @@ function Login() {
                                     required: true
                                 }, void 0, false, {
                                     fileName: "src/pages/Login.js",
-                                    lineNumber: 61,
+                                    lineNumber: 77,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
                                     children: "Password"
                                 }, void 0, false, {
                                     fileName: "src/pages/Login.js",
-                                    lineNumber: 70,
+                                    lineNumber: 86,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -17682,16 +17686,17 @@ function Login() {
                                     }
                                 }, void 0, false, {
                                     fileName: "src/pages/Login.js",
-                                    lineNumber: 71,
+                                    lineNumber: 87,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                    className: "bg-black text-white p-2 w-full my-4",
+                                    disabled: isSubmitting,
+                                    className: "bg-black text-white p-2 w-full my-4 disabled:opacity-50 disabled:cursor-not-allowed",
                                     type: "submit",
-                                    children: "Login"
+                                    children: isSubmitting ? "Logging in..." : "Login"
                                 }, void 0, false, {
                                     fileName: "src/pages/Login.js",
-                                    lineNumber: 82,
+                                    lineNumber: 98,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -17700,41 +17705,49 @@ function Login() {
                                         children: "Don't have an account? Register..."
                                     }, void 0, false, {
                                         fileName: "src/pages/Login.js",
-                                        lineNumber: 89,
+                                        lineNumber: 106,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "src/pages/Login.js",
-                                    lineNumber: 88,
+                                    lineNumber: 105,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "src/pages/Login.js",
-                            lineNumber: 59,
+                            lineNumber: 75,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "src/pages/Login.js",
-                    lineNumber: 57,
+                    lineNumber: 73,
                     columnNumber: 11
                 }, this)
-            ]
-        }, void 0, true, {
-            fileName: "src/pages/Login.js",
-            lineNumber: 48,
-            columnNumber: 7
-        }, this)
-    }, void 0, false, {
+            }, void 0, false, {
+                fileName: "src/pages/Login.js",
+                lineNumber: 69,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _useToast.ToastContainer), {
+                toasts: toasts
+            }, void 0, false, {
+                fileName: "src/pages/Login.js",
+                lineNumber: 114,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
         fileName: "src/pages/Login.js",
-        lineNumber: 47,
+        lineNumber: 68,
         columnNumber: 5
     }, this);
 }
-_s(Login, "3LMjX//EAha3E2jYb6JW4Pnhr9c=", false, function() {
+_s(Login, "XgX0s6n8NBtfKOwZKMyZHz0jumY=", false, function() {
     return [
-        (0, _reactRouterDom.useNavigate)
+        (0, _reactRouterDom.useNavigate),
+        (0, _useToast.useToast)
     ];
 });
 _c = Login;
@@ -17747,7 +17760,7 @@ $RefreshReg$(_c, "Login");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","../context/AuthContext":"lhbhb","react-router-dom":"61z4w","../context/LoadingContext":"feAfd","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"lhbhb":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","../context/AuthContext":"lhbhb","react-router-dom":"61z4w","../context/LoadingContext":"feAfd","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","../hooks/useToast":"lSDfS","../utils/validation":"jwyht"}],"lhbhb":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$34b5 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$34b5.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -27406,7 +27419,118 @@ $RefreshReg$(_c, "LoadProvdier");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"k8Hue":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"lSDfS":[function(require,module,exports,__globalThis) {
+var $parcel$ReactRefreshHelpers$77a5 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+$parcel$ReactRefreshHelpers$77a5.init();
+var prevRefreshReg = globalThis.$RefreshReg$;
+var prevRefreshSig = globalThis.$RefreshSig$;
+$parcel$ReactRefreshHelpers$77a5.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "useToast", ()=>useToast);
+parcelHelpers.export(exports, "ToastContainer", ()=>ToastContainer);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _s = $RefreshSig$();
+const useToast = ()=>{
+    _s();
+    const [toasts, setToasts] = (0, _react.useState)([]);
+    const showToast = (0, _react.useCallback)((message, type = "info", duration = 4000)=>{
+        const id = Date.now();
+        setToasts((prev)=>[
+                ...prev,
+                {
+                    id,
+                    message,
+                    type
+                }
+            ]);
+        setTimeout(()=>{
+            setToasts((prev)=>prev.filter((t)=>t.id !== id));
+        }, duration);
+    }, []);
+    return {
+        toasts,
+        showToast
+    };
+};
+_s(useToast, "bva7iOXLAgwOJBzZ6Hx6GD8IQA4=");
+const Toast = ({ message, type })=>{
+    const bgColor = {
+        success: "bg-green-500",
+        error: "bg-red-500",
+        info: "bg-blue-500",
+        warning: "bg-yellow-500"
+    }[type];
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        className: `${bgColor} text-white px-4 py-3 rounded shadow-lg animate-pulse`,
+        children: message
+    }, void 0, false, {
+        fileName: "src/hooks/useToast.js",
+        lineNumber: 26,
+        columnNumber: 5
+    }, undefined);
+};
+_c = Toast;
+const ToastContainer = ({ toasts })=>{
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        className: "fixed bottom-4 right-4 space-y-2 pointer-events-none",
+        children: toasts.map((toast)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "pointer-events-auto",
+                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(Toast, {
+                    message: toast.message,
+                    type: toast.type
+                }, void 0, false, {
+                    fileName: "src/hooks/useToast.js",
+                    lineNumber: 39,
+                    columnNumber: 11
+                }, undefined)
+            }, toast.id, false, {
+                fileName: "src/hooks/useToast.js",
+                lineNumber: 38,
+                columnNumber: 9
+            }, undefined))
+    }, void 0, false, {
+        fileName: "src/hooks/useToast.js",
+        lineNumber: 36,
+        columnNumber: 5
+    }, undefined);
+};
+_c1 = ToastContainer;
+var _c, _c1;
+$RefreshReg$(_c, "Toast");
+$RefreshReg$(_c1, "ToastContainer");
+
+  $parcel$ReactRefreshHelpers$77a5.postlude(module);
+} finally {
+  globalThis.$RefreshReg$ = prevRefreshReg;
+  globalThis.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"jwyht":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "validateEmail", ()=>validateEmail);
+parcelHelpers.export(exports, "validatePassword", ()=>validatePassword);
+parcelHelpers.export(exports, "validateUsername", ()=>validateUsername);
+const validateEmail = (email)=>{
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+};
+const validatePassword = (password)=>{
+    if (password.length < 6) return "Password must be at least 6 characters";
+    if (!/[a-z]/.test(password)) return "Password must contain lowercase letters";
+    if (!/[A-Z]/.test(password)) return "Password must contain uppercase letters";
+    if (!/[0-9]/.test(password)) return "Password must contain numbers";
+    return null;
+};
+const validateUsername = (username)=>{
+    if (!username || username.trim().length < 2) return "Username must be at least 2 characters";
+    return null;
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"k8Hue":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$a9c9 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$a9c9.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -27421,55 +27545,64 @@ var _react = require("react");
 var _reactRouterDom = require("react-router-dom");
 var _axios = require("../api/axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
+var _useToast = require("../hooks/useToast");
+var _validation = require("../utils/validation");
 var _s = $RefreshSig$();
 function Register() {
     _s();
-    const [errMesg, setErr] = (0, _react.useState)("");
+    const [isSubmitting, setIsSubmitting] = (0, _react.useState)(false);
     const [registerPayload, setRegisterPayload] = (0, _react.useState)({
         username: "",
         password: "",
         email: ""
     });
     const navigate = (0, _reactRouterDom.useNavigate)();
+    const { toasts, showToast } = (0, _useToast.useToast)();
     const handleSubmit = async (e)=>{
         e.preventDefault();
-        try {
-            const res = await (0, _axiosDefault.default).post("/register", registerPayload);
-        } catch (err) {
-            console.error(err);
-            setErr(err);
+        setIsSubmitting(true);
+        const usernameError = (0, _validation.validateUsername)(registerPayload.username);
+        if (usernameError) {
+            showToast(usernameError, "error");
+            setIsSubmitting(false);
+            return;
         }
-        navigate('/login');
+        if (!(0, _validation.validateEmail)(registerPayload.email)) {
+            showToast("Please provide a valid email address", "error");
+            setIsSubmitting(false);
+            return;
+        }
+        const passwordError = (0, _validation.validatePassword)(registerPayload.password);
+        if (passwordError) {
+            showToast(passwordError, "error");
+            setIsSubmitting(false);
+            return;
+        }
+        try {
+            await (0, _axiosDefault.default).post("/register", registerPayload);
+            showToast("Registration successful! Redirecting to login...", "success");
+            setTimeout(()=>navigate("/login"), 1500);
+        } catch (err) {
+            const errorMsg = err.response?.data?.message || "Registration failed";
+            showToast(errorMsg, "error");
+            console.error(err);
+        }
+        setIsSubmitting(false);
     };
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         className: "h-screen",
-        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-            className: "flex flex-col gap-4 justify-center items-center h-full",
-            children: [
-                errMesg !== "" && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                    className: "border border-red-800 w-1/4 p-3",
-                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                        className: "text-red-600",
-                        children: "Error : " + errMesg
-                    }, void 0, false, {
-                        fileName: "src/pages/Register.js",
-                        lineNumber: 29,
-                        columnNumber: 13
-                    }, this)
-                }, void 0, false, {
-                    fileName: "src/pages/Register.js",
-                    lineNumber: 28,
-                    columnNumber: 11
-                }, this),
-                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "flex flex-col gap-4 justify-center items-center h-full",
+                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                     className: "border p-5 w-1/4",
                     children: [
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                            className: "text-lg my-1 text-center ",
+                            className: "text-lg my-1 text-center",
                             children: "Register"
                         }, void 0, false, {
                             fileName: "src/pages/Register.js",
-                            lineNumber: 33,
+                            lineNumber: 57,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("form", {
@@ -27479,11 +27612,11 @@ function Register() {
                                     children: "Username"
                                 }, void 0, false, {
                                     fileName: "src/pages/Register.js",
-                                    lineNumber: 35,
+                                    lineNumber: 59,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                    type: "te",
+                                    type: "text",
                                     className: "border border-black h-10 w-full p-2 my-2",
                                     value: registerPayload.username,
                                     onChange: (e)=>{
@@ -27495,14 +27628,14 @@ function Register() {
                                     required: true
                                 }, void 0, false, {
                                     fileName: "src/pages/Register.js",
-                                    lineNumber: 36,
+                                    lineNumber: 60,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
                                     children: "Email"
                                 }, void 0, false, {
                                     fileName: "src/pages/Register.js",
-                                    lineNumber: 48,
+                                    lineNumber: 72,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -27518,14 +27651,14 @@ function Register() {
                                     required: true
                                 }, void 0, false, {
                                     fileName: "src/pages/Register.js",
-                                    lineNumber: 49,
+                                    lineNumber: 73,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
                                     children: "Password"
                                 }, void 0, false, {
                                     fileName: "src/pages/Register.js",
-                                    lineNumber: 61,
+                                    lineNumber: 85,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -27541,16 +27674,17 @@ function Register() {
                                     required: true
                                 }, void 0, false, {
                                     fileName: "src/pages/Register.js",
-                                    lineNumber: 62,
+                                    lineNumber: 86,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                    className: "bg-black text-white p-2 w-full my-4",
+                                    disabled: isSubmitting,
+                                    className: "bg-black text-white p-2 w-full my-4 disabled:opacity-50 disabled:cursor-not-allowed",
                                     type: "submit",
-                                    children: "Register"
+                                    children: isSubmitting ? "Registering..." : "Register"
                                 }, void 0, false, {
                                     fileName: "src/pages/Register.js",
-                                    lineNumber: 74,
+                                    lineNumber: 98,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -27559,41 +27693,49 @@ function Register() {
                                         children: "Have an account? Login..."
                                     }, void 0, false, {
                                         fileName: "src/pages/Register.js",
-                                        lineNumber: 81,
+                                        lineNumber: 106,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "src/pages/Register.js",
-                                    lineNumber: 80,
+                                    lineNumber: 105,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "src/pages/Register.js",
-                            lineNumber: 34,
+                            lineNumber: 58,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "src/pages/Register.js",
-                    lineNumber: 32,
+                    lineNumber: 56,
                     columnNumber: 9
                 }, this)
-            ]
-        }, void 0, true, {
-            fileName: "src/pages/Register.js",
-            lineNumber: 26,
-            columnNumber: 7
-        }, this)
-    }, void 0, false, {
+            }, void 0, false, {
+                fileName: "src/pages/Register.js",
+                lineNumber: 55,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _useToast.ToastContainer), {
+                toasts: toasts
+            }, void 0, false, {
+                fileName: "src/pages/Register.js",
+                lineNumber: 111,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
         fileName: "src/pages/Register.js",
-        lineNumber: 25,
+        lineNumber: 54,
         columnNumber: 5
     }, this);
 }
-_s(Register, "WJlZjMUcocqDWnzURPmFf/q62SM=", false, function() {
+_s(Register, "FkySzqpYj2+tpp56HL4GIOUzmx4=", false, function() {
     return [
-        (0, _reactRouterDom.useNavigate)
+        (0, _reactRouterDom.useNavigate),
+        (0, _useToast.useToast)
     ];
 });
 _c = Register;
@@ -27606,7 +27748,7 @@ $RefreshReg$(_c, "Register");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","react-router-dom":"61z4w","../api/axios":"2wcbt","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"2wcbt":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","react-router-dom":"61z4w","../api/axios":"2wcbt","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","../hooks/useToast":"lSDfS","../utils/validation":"jwyht"}],"2wcbt":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "privateAxios", ()=>privateAxios);
@@ -32630,23 +32772,45 @@ var _axiosDefault = parcelHelpers.interopDefault(_axios);
 var _reactRouter = require("react-router");
 var _loadingContext = require("../context/LoadingContext");
 var _loadingContextDefault = parcelHelpers.interopDefault(_loadingContext);
+var _confirmDialog = require("../components/ConfirmDialog");
+var _confirmDialogDefault = parcelHelpers.interopDefault(_confirmDialog);
+var _useToast = require("../hooks/useToast");
 var _s = $RefreshSig$();
 function Images() {
     _s();
     const [images, setImages] = (0, _react.useState)([]);
+    const [selectedImage, setSelectedImage] = (0, _react.useState)(null);
+    const [showDeleteConfirm, setShowDeleteConfirm] = (0, _react.useState)(false);
+    const [pagination, setPagination] = (0, _react.useState)({
+        page: 1,
+        limit: 12,
+        totalImages: 0,
+        totalPages: 1,
+        hasNextPage: false,
+        hasPreviousPage: false
+    });
     const { loading, setLoading } = (0, _react.useContext)((0, _loadingContextDefault.default));
     const axiosPrivate = (0, _useAxiosPrivateDefault.default)();
     const navigate = (0, _reactRouter.useNavigate)();
+    const { toasts, showToast } = (0, _useToast.useToast)();
     (0, _react.useEffect)(()=>{
         const abortController = new AbortController();
         let isMounted = true;
         async function getUserImages() {
             try {
                 const res = await axiosPrivate.get("http://localhost:4000/image/get-user-images", {
+                    params: {
+                        page: pagination.page,
+                        limit: pagination.limit
+                    },
                     signal: abortController.signal
                 });
                 console.log(res.data);
                 isMounted && setImages(res.data.userImages);
+                isMounted && setPagination((prev)=>({
+                        ...prev,
+                        ...res.data.pagination
+                    }));
             } catch (err) {
                 if ((0, _axiosDefault.default).isCancel(err)) return;
                 console.error(err);
@@ -32654,71 +32818,196 @@ function Images() {
         }
         getUserImages();
         return ()=>{
-            // Clean up function which is called when the component unmounts,
-            // cancels any network request that occurs when request changes
             abortController.abort();
             isMounted = false;
         };
-    }, []);
+    }, [
+        pagination.page,
+        pagination.limit
+    ]);
+    const goToPage = (nextPage)=>{
+        setPagination((prev)=>({
+                ...prev,
+                page: nextPage
+            }));
+    };
+    const handleDeleteClick = (image)=>{
+        setSelectedImage(image);
+        setShowDeleteConfirm(true);
+    };
+    const handleConfirmDelete = async ()=>{
+        if (!selectedImage) return;
+        try {
+            setLoading(true);
+            await axiosPrivate.delete(`/image/${selectedImage.id}`);
+            showToast("Image deleted successfully", "success");
+            console.log(selectedImage);
+            setShowDeleteConfirm(false);
+            setImages(images.filter((img)=>img.image_id !== selectedImage.image_id));
+            setSelectedImage(null);
+            setPagination((prev)=>({
+                    ...prev,
+                    page: 1
+                }));
+        } catch (err) {
+            const errorMsg = err.response?.data?.message || "Failed to delete image";
+            showToast(errorMsg, "error");
+            console.error(err);
+        } finally{
+            setLoading(false);
+        }
+    };
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         className: "flex h-full justify-between flex-col",
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                 className: "flex-1 overflow-y-auto min-h-0",
                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                    className: "p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4",
+                    className: "p-3 sm:p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4",
                     children: loading ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                        children: "Loading..."
+                        className: "text-sm text-gray-600",
+                        children: "Loading images..."
                     }, void 0, false, {
                         fileName: "src/pages/Images.js",
-                        lineNumber: 47,
+                        lineNumber: 102,
                         columnNumber: 13
-                    }, this) : images.length > 0 ? images.map((image, index)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
-                            src: image.url,
-                            alt: `User upload ${index + 1}`,
-                            className: "w-full h-48 object-cover rounded border",
-                            onClick: ()=>{
-                                navigate(`/image/${image.id}/transform`);
-                            }
-                        }, image.id ?? index, false, {
+                    }, this) : images.length > 0 ? images.map((image, index)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                            className: "relative overflow-hidden rounded border bg-white",
+                            children: [
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+                                    src: image.url,
+                                    alt: `User upload ${index + 1}`,
+                                    loading: "lazy",
+                                    decoding: "async",
+                                    className: "w-full aspect-square object-cover cursor-pointer hover:opacity-80 transition",
+                                    onClick: ()=>{
+                                        navigate(`/image/${image.id}/transform`);
+                                    }
+                                }, void 0, false, {
+                                    fileName: "src/pages/Images.js",
+                                    lineNumber: 109,
+                                    columnNumber: 17
+                                }, this),
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                    onClick: ()=>handleDeleteClick(image),
+                                    className: "absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded text-xs hover:bg-red-700 transition",
+                                    children: "Delete"
+                                }, void 0, false, {
+                                    fileName: "src/pages/Images.js",
+                                    lineNumber: 119,
+                                    columnNumber: 17
+                                }, this)
+                            ]
+                        }, image.id ?? index, true, {
                             fileName: "src/pages/Images.js",
-                            lineNumber: 50,
+                            lineNumber: 105,
                             columnNumber: 15
                         }, this)) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
                         children: "No images found."
                     }, void 0, false, {
                         fileName: "src/pages/Images.js",
-                        lineNumber: 61,
+                        lineNumber: 128,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "src/pages/Images.js",
-                    lineNumber: 45,
+                    lineNumber: 100,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "src/pages/Images.js",
-                lineNumber: 44,
+                lineNumber: 99,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                children: "1 2 3 4 5"
+                className: "flex items-center justify-between gap-4 border-t p-4",
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                        className: "text-sm",
+                        children: [
+                            "Page ",
+                            pagination.page,
+                            " of ",
+                            pagination.totalPages,
+                            " \xb7",
+                            " ",
+                            pagination.totalImages,
+                            " images"
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/pages/Images.js",
+                        lineNumber: 133,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "flex gap-2",
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                className: "border px-3 py-1 disabled:opacity-50 disabled:cursor-not-allowed",
+                                onClick: ()=>goToPage(pagination.page - 1),
+                                disabled: !pagination.hasPreviousPage || loading,
+                                children: "Previous"
+                            }, void 0, false, {
+                                fileName: "src/pages/Images.js",
+                                lineNumber: 138,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                className: "border px-3 py-1 disabled:opacity-50 disabled:cursor-not-allowed",
+                                onClick: ()=>goToPage(pagination.page + 1),
+                                disabled: !pagination.hasNextPage || loading,
+                                children: "Next"
+                            }, void 0, false, {
+                                fileName: "src/pages/Images.js",
+                                lineNumber: 145,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/pages/Images.js",
+                        lineNumber: 137,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "src/pages/Images.js",
+                lineNumber: 132,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _confirmDialogDefault.default), {
+                isOpen: showDeleteConfirm,
+                title: "Delete Image",
+                message: `Are you sure you want to delete this image? This action cannot be undone.`,
+                onConfirm: handleConfirmDelete,
+                onCancel: ()=>{
+                    setShowDeleteConfirm(false);
+                    setSelectedImage(null);
+                },
+                isDangerous: true
             }, void 0, false, {
                 fileName: "src/pages/Images.js",
-                lineNumber: 65,
+                lineNumber: 154,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _useToast.ToastContainer), {
+                toasts: toasts
+            }, void 0, false, {
+                fileName: "src/pages/Images.js",
+                lineNumber: 165,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "src/pages/Images.js",
-        lineNumber: 43,
+        lineNumber: 98,
         columnNumber: 5
     }, this);
 }
-_s(Images, "JtANMHqiDleRDvA2ezh2sx08s3Y=", false, function() {
+_s(Images, "V4wNjga+QS+nWQi82Xsz1focNXo=", false, function() {
     return [
         (0, _useAxiosPrivateDefault.default),
-        (0, _reactRouter.useNavigate)
+        (0, _reactRouter.useNavigate),
+        (0, _useToast.useToast)
     ];
 });
 _c = Images;
@@ -32731,7 +33020,7 @@ $RefreshReg$(_c, "Images");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","./../hooks/useAxiosPrivate":"flztI","axios":"kooH4","react-router":"4ChVy","../context/LoadingContext":"feAfd","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"flztI":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","./../hooks/useAxiosPrivate":"flztI","axios":"kooH4","react-router":"4ChVy","../context/LoadingContext":"feAfd","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","../components/ConfirmDialog":"2s9Fd","../hooks/useToast":"lSDfS"}],"flztI":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$03b4 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$03b4.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -32857,7 +33146,92 @@ exports.default = useRefreshToken;
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react":"jMk1U","./../context/AuthContext":"lhbhb","../api/axios":"2wcbt","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"9xfJj":[function(require,module,exports,__globalThis) {
+},{"react":"jMk1U","./../context/AuthContext":"lhbhb","../api/axios":"2wcbt","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"2s9Fd":[function(require,module,exports,__globalThis) {
+var $parcel$ReactRefreshHelpers$cf60 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+$parcel$ReactRefreshHelpers$cf60.init();
+var prevRefreshReg = globalThis.$RefreshReg$;
+var prevRefreshSig = globalThis.$RefreshSig$;
+$parcel$ReactRefreshHelpers$cf60.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+const ConfirmDialog = ({ isOpen, title, message, onConfirm, onCancel, isDangerous })=>{
+    if (!isOpen) return null;
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        className: "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50",
+        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+            className: "bg-white rounded-lg shadow-lg p-6 max-w-sm",
+            children: [
+                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
+                    className: "text-lg font-semibold mb-2",
+                    children: title
+                }, void 0, false, {
+                    fileName: "src/components/ConfirmDialog.js",
+                    lineNumber: 9,
+                    columnNumber: 9
+                }, undefined),
+                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                    className: "text-gray-600 text-sm mb-6",
+                    children: message
+                }, void 0, false, {
+                    fileName: "src/components/ConfirmDialog.js",
+                    lineNumber: 10,
+                    columnNumber: 9
+                }, undefined),
+                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                    className: "flex gap-3",
+                    children: [
+                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                            onClick: onCancel,
+                            className: "flex-1 border px-4 py-2 rounded text-sm hover:bg-gray-100 transition",
+                            children: "Cancel"
+                        }, void 0, false, {
+                            fileName: "src/components/ConfirmDialog.js",
+                            lineNumber: 12,
+                            columnNumber: 11
+                        }, undefined),
+                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                            onClick: onConfirm,
+                            className: `flex-1 px-4 py-2 rounded text-sm text-white transition ${isDangerous ? "bg-red-600 hover:bg-red-700" : "bg-blue-600 hover:bg-blue-700"}`,
+                            children: "Confirm"
+                        }, void 0, false, {
+                            fileName: "src/components/ConfirmDialog.js",
+                            lineNumber: 18,
+                            columnNumber: 11
+                        }, undefined)
+                    ]
+                }, void 0, true, {
+                    fileName: "src/components/ConfirmDialog.js",
+                    lineNumber: 11,
+                    columnNumber: 9
+                }, undefined)
+            ]
+        }, void 0, true, {
+            fileName: "src/components/ConfirmDialog.js",
+            lineNumber: 8,
+            columnNumber: 7
+        }, undefined)
+    }, void 0, false, {
+        fileName: "src/components/ConfirmDialog.js",
+        lineNumber: 7,
+        columnNumber: 5
+    }, undefined);
+};
+_c = ConfirmDialog;
+exports.default = ConfirmDialog;
+var _c;
+$RefreshReg$(_c, "ConfirmDialog");
+
+  $parcel$ReactRefreshHelpers$cf60.postlude(module);
+} finally {
+  globalThis.$RefreshReg$ = prevRefreshReg;
+  globalThis.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"9xfJj":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$f8dd = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$f8dd.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -33081,25 +33455,37 @@ var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 var _reactRouter = require("react-router");
+var _reactRouterDom = require("react-router-dom");
 var _useAxiosPrivate = require("../hooks/useAxiosPrivate");
 var _useAxiosPrivateDefault = parcelHelpers.interopDefault(_useAxiosPrivate);
 var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
 var _reactEasyCrop = require("react-easy-crop");
 var _reactEasyCropDefault = parcelHelpers.interopDefault(_reactEasyCrop);
-var _loadingContext = require("../context/LoadingContext");
-var _loadingContextDefault = parcelHelpers.interopDefault(_loadingContext);
+var _confirmDialog = require("../components/ConfirmDialog");
+var _confirmDialogDefault = parcelHelpers.interopDefault(_confirmDialog);
+var _useToast = require("../hooks/useToast");
 var _s = $RefreshSig$();
 const TransformImage = ()=>{
     _s();
     const { id } = (0, _reactRouter.useParams)();
     const axiosPrivate = (0, _useAxiosPrivateDefault.default)();
+    const navigate = (0, _reactRouterDom.useNavigate)();
+    const { toasts, showToast } = (0, _useToast.useToast)();
     const [loading, setLoading] = (0, _react.useState)(true);
+    const [transforming, setTransforming] = (0, _react.useState)(false);
     const [image, setImage] = (0, _react.useState)("");
+    const [showDeleteConfirm, setShowDeleteConfirm] = (0, _react.useState)(false);
+    const [isDeleting, setIsDeleting] = (0, _react.useState)(false);
+    const [originalDimensions, setOriginalDimensions] = (0, _react.useState)({
+        width: 0,
+        height: 0
+    });
+    const [aspectRatioLock, setAspectRatioLock] = (0, _react.useState)(true);
     const [transform, setTransform] = (0, _react.useState)({
         resize: {
-            width: null,
-            height: null
+            width: "",
+            height: ""
         },
         crop: {},
         rotate: null,
@@ -33118,10 +33504,8 @@ const TransformImage = ()=>{
         y: 0
     });
     const [wh, setwh] = (0, _react.useState)({
-        width: null,
-        height: null,
-        x: "",
-        y: ""
+        width: 120,
+        height: 120
     });
     const [zoom, setZoom] = (0, _react.useState)(1);
     function onCropComplete(_, croppedAreaPixels) {
@@ -33136,51 +33520,128 @@ const TransformImage = ()=>{
                 }
             }));
     }
-    const applyTransform = ()=>{
+    const handleScale = (factor)=>{
+        if (originalDimensions.width && originalDimensions.height) setTransform((prev)=>({
+                ...prev,
+                resize: {
+                    width: Math.round(originalDimensions.width * factor),
+                    height: Math.round(originalDimensions.height * factor)
+                }
+            }));
+    };
+    const applyTransform = async ()=>{
+        if (isCropping && (!wh.width || !wh.height)) {
+            showToast("Set crop width and height before applying crop", "error");
+            return;
+        }
         const params = new URLSearchParams();
-        if (transform.resize.width != null) params.append("w", transform.resize.width);
-        if (transform.resize.height != null) params.append("h", transform.resize.height);
-        if (transform.crop.width != null) params.append("crop_w", transform.crop.width);
-        if (transform.crop.height != null) params.append("crop_h", transform.crop.height);
-        if (transform.crop.x != null) params.append("crop_x", Number(transform.crop.x));
-        if (transform.crop.y != null) params.append("crop_y", Number(transform.crop.y));
+        if (transform.resize.width !== "" && transform.resize.width != null && Number(transform.resize.width) > 0) params.append("w", transform.resize.width);
+        if (transform.resize.height !== "" && transform.resize.height != null && Number(transform.resize.height) > 0) params.append("h", transform.resize.height);
+        if (isCropping || transform.crop.width != null) {
+            const cropWidth = transform.crop.width ?? wh.width;
+            const cropHeight = transform.crop.height ?? wh.height;
+            const cropX = transform.crop.x ?? crop.x ?? 0;
+            const cropY = transform.crop.y ?? crop.y ?? 0;
+            params.append("crop_w", cropWidth);
+            params.append("crop_h", cropHeight);
+            params.append("crop_x", Number(cropX));
+            params.append("crop_y", Number(cropY));
+        }
         if (transform.rotate != null) params.append("rotate", transform.rotate);
         if (transform.format) params.append("format", transform.format);
         if (transform.filters.grayscale) params.append("gray", true);
         if (transform.filters.sepia) params.append("sepia", true);
-        if (transform.removeBackground) params.append("remove_bg", true);
-        const url = `http://localhost:4000/image/${id}/transform?${params.toString()}`;
-        console.log(url);
-        setTransformedImage(url);
-        setBackendURL(url);
-        setLoading(true);
+        if (transform.remove_bg) params.append("remove_bg", true);
+        const fullUrl = `http://localhost:4000/image/${id}/transform?${params.toString()}`;
+        setBackendURL(fullUrl);
+        setTransforming(true);
+        showToast("Processing transformation...", "info");
+        // The endpoint now redirects, so we set the img src directly to the URL
+        // We add a timestamp to bypass any browser image cache
+        setTransformedImage(`${fullUrl}&t=${Date.now()}`);
     };
     (0, _react.useEffect)(()=>{
         let isMounted = true;
         const abortController = new AbortController();
-        try {
-            const getImage = async ()=>{
+        const getImage = async ()=>{
+            try {
                 const res = await axiosPrivate.get(`/image/${id}`, {
                     signal: abortController.signal
                 });
-                console.log(res.data);
-                isMounted && setImage(res?.data?.url);
-                isMounted && setTransformedImage(res?.data?.url);
-            };
-            getImage();
-        } catch (err) {
-            if ((0, _axiosDefault.default).isCancel(err)) return;
-            console.error(err);
-        }
+                if (isMounted) {
+                    setImage(res?.data?.url);
+                    setTransformedImage(res?.data?.url);
+                    setLoading(false);
+                }
+            } catch (err) {
+                if (isMounted && !(0, _axiosDefault.default).isCancel(err)) {
+                    console.error("Failed to load image:", err);
+                    showToast("Failed to load image", "error");
+                    setLoading(false);
+                }
+            }
+        };
+        getImage();
         return ()=>{
             abortController.abort();
             isMounted = false;
         };
-    }, []);
+    }, [
+        id,
+        axiosPrivate
+    ]);
+    const handleDeleteClick = ()=>{
+        setShowDeleteConfirm(true);
+    };
+    const handleConfirmDelete = async ()=>{
+        try {
+            setIsDeleting(true);
+            await axiosPrivate.delete(`/image/${id}`);
+            showToast("Image deleted successfully", "success");
+            setShowDeleteConfirm(false);
+            setTimeout(()=>navigate("/images"), 1500);
+        } catch (err) {
+            const errorMsg = err.response?.data?.message || "Failed to delete image";
+            showToast(errorMsg, "error");
+            console.error(err);
+        } finally{
+            setIsDeleting(false);
+        }
+    };
     const handleCopy = async ()=>{
         console.log("copy");
         await navigator.clipboard.writeText(backendURL);
     };
+    const handleTransformedLoad = ()=>{
+        setLoading(false);
+        setTransforming(false);
+        showToast("\u2728 Transform completed!", "success");
+    };
+    const handleTransformedError = ()=>{
+        setLoading(false);
+        setTransforming(false);
+        showToast("\u26A0\uFE0F Failed to load transformed image. Try again.", "error");
+    };
+    const handleRetryTransform = ()=>{
+        if (backendURL) {
+            setTransforming(true);
+            showToast("Retrying transformation...", "info");
+            setTransformedImage(`${backendURL}&t=${Date.now()}`);
+        }
+    };
+    // Safety timeout: if image is still transforming after 10s, force reset state
+    (0, _react.useEffect)(()=>{
+        if (!transforming) return;
+        const timeoutId = setTimeout(()=>{
+            console.warn("Transform timeout: Image took too long to load");
+            setTransforming(false);
+            showToast("\u23F1\uFE0F Transformation took too long. Please try simpler transforms.", "error");
+        }, 10000);
+        return ()=>clearTimeout(timeoutId);
+    }, [
+        transforming,
+        showToast
+    ]);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         className: "flex h-full gap-8 p-6",
         children: [
@@ -33188,11 +33649,11 @@ const TransformImage = ()=>{
                 className: "w-1/2 flex flex-col items-center ",
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                        className: "font-bold mb-3",
+                        className: "font-bold mb-3 text-lg",
                         children: "Original Image"
                     }, void 0, false, {
                         fileName: "src/pages/TransformImage.js",
-                        lineNumber: 108,
+                        lineNumber: 198,
                         columnNumber: 9
                     }, undefined),
                     isCropping ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -33206,134 +33667,291 @@ const TransformImage = ()=>{
                                 height: wh.height
                             },
                             onCropChange: setCrop,
-                            // onCropSizeChange={(size) => {
-                            //   setTransform((t) => ({
-                            //     ...t,
-                            //     crop: {
-                            //       ...t.crop,
-                            //       width: Math.round(size.width),
-                            //       height: Math.round(size.height),
-                            //     },
-                            //   }));
-                            // }}
                             onCropComplete: onCropComplete,
                             onZoomChange: setZoom
                         }, void 0, false, {
                             fileName: "src/pages/TransformImage.js",
-                            lineNumber: 111,
+                            lineNumber: 201,
                             columnNumber: 13
                         }, undefined)
                     }, void 0, false, {
                         fileName: "src/pages/TransformImage.js",
-                        lineNumber: 110,
+                        lineNumber: 200,
                         columnNumber: 11
                     }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
                         src: image === "" ? null : image,
-                        className: "max-w-full border"
+                        onLoad: (e)=>{
+                            setOriginalDimensions({
+                                width: e.target.naturalWidth,
+                                height: e.target.naturalHeight
+                            });
+                        },
+                        className: "max-w-full border border-blue-300 rounded shadow-md"
                     }, void 0, false, {
                         fileName: "src/pages/TransformImage.js",
-                        lineNumber: 135,
+                        lineNumber: 215,
                         columnNumber: 11
                     }, undefined),
                     isCropping ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
                         type: "range",
-                        min: 1,
-                        max: 90,
+                        min: 60,
+                        max: 400,
                         step: 10,
-                        value: wh.width == null ? "" : wh.width,
-                        onChange: (e)=>setwh((wh)=>({
-                                    ...wh,
+                        value: wh.width,
+                        onChange: (e)=>setwh((current)=>({
+                                    ...current,
                                     width: Number(e.target.value)
                                 }))
                     }, void 0, false, {
                         fileName: "src/pages/TransformImage.js",
-                        lineNumber: 142,
+                        lineNumber: 228,
                         columnNumber: 11
                     }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {}, void 0, false),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                        className: "font-bold mt-6 mb-3",
-                        children: "Transformed Image"
+                        className: "font-bold mt-8 mb-3 text-lg",
+                        children: "Transformed Result"
                     }, void 0, false, {
                         fileName: "src/pages/TransformImage.js",
-                        lineNumber: 157,
+                        lineNumber: 242,
                         columnNumber: 9
                     }, undefined),
-                    loading ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        className: "loader"
-                    }, void 0, false, {
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "relative w-full min-h-[300px] flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded bg-gray-50 overflow-hidden",
+                        children: [
+                            transforming && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                className: "absolute inset-0 z-10 flex flex-col items-center justify-center bg-white bg-opacity-80 gap-3",
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                        className: "loader"
+                                    }, void 0, false, {
+                                        fileName: "src/pages/TransformImage.js",
+                                        lineNumber: 246,
+                                        columnNumber: 15
+                                    }, undefined),
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                        className: "text-sm font-semibold text-blue-600 animate-pulse",
+                                        children: "Processing transformation..."
+                                    }, void 0, false, {
+                                        fileName: "src/pages/TransformImage.js",
+                                        lineNumber: 247,
+                                        columnNumber: 15
+                                    }, undefined)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/pages/TransformImage.js",
+                                lineNumber: 245,
+                                columnNumber: 13
+                            }, undefined),
+                            transformedImage ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                className: "flex flex-col items-center",
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+                                        src: transformedImage,
+                                        onLoad: handleTransformedLoad,
+                                        onError: handleTransformedError,
+                                        alt: "Transformed",
+                                        className: `max-w-full max-h-[500px] object-contain shadow-md transition-opacity duration-300 ${transforming ? 'opacity-0' : 'opacity-100'}`
+                                    }, void 0, false, {
+                                        fileName: "src/pages/TransformImage.js",
+                                        lineNumber: 253,
+                                        columnNumber: 15
+                                    }, undefined),
+                                    !transforming && transformedImage && backendURL && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                        onClick: handleRetryTransform,
+                                        className: "mt-3 text-sm border-2 border-yellow-500 text-yellow-600 px-3 py-1 rounded hover:bg-yellow-50 transition font-medium",
+                                        children: "\u21BB Retry Transform"
+                                    }, void 0, false, {
+                                        fileName: "src/pages/TransformImage.js",
+                                        lineNumber: 261,
+                                        columnNumber: 17
+                                    }, undefined)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/pages/TransformImage.js",
+                                lineNumber: 252,
+                                columnNumber: 13
+                            }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                className: "text-gray-400",
+                                children: "Apply transformations to see the result"
+                            }, void 0, false, {
+                                fileName: "src/pages/TransformImage.js",
+                                lineNumber: 270,
+                                columnNumber: 13
+                            }, undefined)
+                        ]
+                    }, void 0, true, {
                         fileName: "src/pages/TransformImage.js",
-                        lineNumber: 159,
-                        columnNumber: 20
-                    }, undefined) : null,
-                    transformedImage && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
-                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
-                            src: transformedImage === "" ? null : transformedImage,
-                            onLoad: ()=>{
-                                setLoading(false);
-                            },
-                            className: `max-w-full border`
-                        }, void 0, false, {
-                            fileName: "src/pages/TransformImage.js",
-                            lineNumber: 162,
-                            columnNumber: 13
-                        }, undefined)
-                    }, void 0, false)
+                        lineNumber: 243,
+                        columnNumber: 9
+                    }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/pages/TransformImage.js",
-                lineNumber: 107,
+                lineNumber: 197,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                 className: "w-1/2 flex flex-col gap-4",
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
-                        className: "text-xl font-bold",
-                        children: "Apply Transformations"
+                        className: "text-2xl font-bold text-gray-800",
+                        children: "\u2728 Apply Transformations"
                     }, void 0, false, {
                         fileName: "src/pages/TransformImage.js",
-                        lineNumber: 174,
+                        lineNumber: 276,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        className: "flex gap-2",
+                        className: "flex gap-3",
                         children: [
-                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                type: "number",
-                                placeholder: "Width",
-                                className: "border p-1",
-                                onChange: (e)=>setTransform((prev)=>({
-                                            ...prev,
-                                            resize: {
-                                                ...prev.resize,
-                                                width: Number(e.target.value)
-                                            }
-                                        }))
-                            }, void 0, false, {
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                className: "flex-1",
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                        className: "text-sm font-medium text-gray-700",
+                                        children: "Width"
+                                    }, void 0, false, {
+                                        fileName: "src/pages/TransformImage.js",
+                                        lineNumber: 280,
+                                        columnNumber: 13
+                                    }, undefined),
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                        type: "number",
+                                        placeholder: originalDimensions.width || "Width",
+                                        value: transform.resize.width ?? "",
+                                        className: "w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 transition",
+                                        onChange: (e)=>{
+                                            const rawValue = e.target.value;
+                                            const newWidth = rawValue === "" ? "" : Number(rawValue);
+                                            setTransform((prev)=>{
+                                                const newHeight = aspectRatioLock && rawValue !== "" && originalDimensions.width ? Math.round(newWidth * originalDimensions.height / originalDimensions.width) : prev.resize.height;
+                                                return {
+                                                    ...prev,
+                                                    resize: {
+                                                        width: newWidth,
+                                                        height: newHeight
+                                                    }
+                                                };
+                                            });
+                                        }
+                                    }, void 0, false, {
+                                        fileName: "src/pages/TransformImage.js",
+                                        lineNumber: 281,
+                                        columnNumber: 13
+                                    }, undefined)
+                                ]
+                            }, void 0, true, {
                                 fileName: "src/pages/TransformImage.js",
-                                lineNumber: 177,
+                                lineNumber: 279,
                                 columnNumber: 11
                             }, undefined),
-                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                type: "number",
-                                placeholder: "Height",
-                                className: "border p-1",
-                                onChange: (e)=>setTransform((prev)=>({
-                                            ...prev,
-                                            resize: {
-                                                ...prev.resize,
-                                                height: Number(e.target.value)
-                                            }
-                                        }))
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                className: "flex-1",
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                        className: "text-sm font-medium text-gray-700",
+                                        children: "Height"
+                                    }, void 0, false, {
+                                        fileName: "src/pages/TransformImage.js",
+                                        lineNumber: 303,
+                                        columnNumber: 13
+                                    }, undefined),
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                        type: "number",
+                                        placeholder: originalDimensions.height || "Height",
+                                        value: transform.resize.height ?? "",
+                                        className: "w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 transition",
+                                        onChange: (e)=>{
+                                            const rawValue = e.target.value;
+                                            const newHeight = rawValue === "" ? "" : Number(rawValue);
+                                            setTransform((prev)=>{
+                                                const newWidth = aspectRatioLock && rawValue !== "" && originalDimensions.height ? Math.round(newHeight * originalDimensions.width / originalDimensions.height) : prev.resize.width;
+                                                return {
+                                                    ...prev,
+                                                    resize: {
+                                                        width: newWidth,
+                                                        height: newHeight
+                                                    }
+                                                };
+                                            });
+                                        }
+                                    }, void 0, false, {
+                                        fileName: "src/pages/TransformImage.js",
+                                        lineNumber: 304,
+                                        columnNumber: 13
+                                    }, undefined)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/pages/TransformImage.js",
+                                lineNumber: 302,
+                                columnNumber: 11
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                className: "flex items-end",
+                                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                    onClick: ()=>setAspectRatioLock(!aspectRatioLock),
+                                    className: `px-3 py-2 rounded border-2 transition font-medium ${aspectRatioLock ? "border-blue-500 bg-blue-50 text-blue-600" : "border-gray-300 bg-gray-50 text-gray-600 hover:border-gray-400"}`,
+                                    title: "Lock aspect ratio",
+                                    children: aspectRatioLock ? "\uD83D\uDD12" : "\uD83D\uDD13"
+                                }, void 0, false, {
+                                    fileName: "src/pages/TransformImage.js",
+                                    lineNumber: 326,
+                                    columnNumber: 13
+                                }, undefined)
                             }, void 0, false, {
                                 fileName: "src/pages/TransformImage.js",
-                                lineNumber: 189,
+                                lineNumber: 325,
                                 columnNumber: 11
                             }, undefined)
                         ]
                     }, void 0, true, {
                         fileName: "src/pages/TransformImage.js",
-                        lineNumber: 176,
+                        lineNumber: 278,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "flex gap-2 mb-2",
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                onClick: ()=>handleScale(0.5),
+                                className: "bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded text-sm font-medium",
+                                children: "0.5x"
+                            }, void 0, false, {
+                                fileName: "src/pages/TransformImage.js",
+                                lineNumber: 341,
+                                columnNumber: 13
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                onClick: ()=>handleScale(1),
+                                className: "bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded text-sm font-medium",
+                                children: "1x"
+                            }, void 0, false, {
+                                fileName: "src/pages/TransformImage.js",
+                                lineNumber: 345,
+                                columnNumber: 13
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                onClick: ()=>handleScale(2),
+                                className: "bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded text-sm font-medium",
+                                children: "2x"
+                            }, void 0, false, {
+                                fileName: "src/pages/TransformImage.js",
+                                lineNumber: 349,
+                                columnNumber: 13
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                onClick: ()=>handleScale(3),
+                                className: "bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded text-sm font-medium",
+                                children: "3x"
+                            }, void 0, false, {
+                                fileName: "src/pages/TransformImage.js",
+                                lineNumber: 353,
+                                columnNumber: 13
+                            }, undefined)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/pages/TransformImage.js",
+                        lineNumber: 340,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -33342,111 +33960,127 @@ const TransformImage = ()=>{
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
                                 type: "number",
                                 placeholder: "Crop Height",
-                                value: wh.height == null ? "" : wh.height,
+                                value: wh.height,
                                 className: "border p-1",
                                 onChange: (e)=>{
-                                    // setTransform((t) => ({
-                                    //   ...t,
-                                    //   crop: { ...t.crop, height: Number(e.target.value) },
-                                    // }));
+                                    const nextHeight = Number(e.target.value);
                                     setwh({
                                         ...wh,
-                                        height: Number(e.target.value)
+                                        height: nextHeight
                                     });
+                                    setTransform((prev)=>({
+                                            ...prev,
+                                            crop: {
+                                                ...prev.crop,
+                                                height: nextHeight
+                                            }
+                                        }));
                                 }
                             }, void 0, false, {
                                 fileName: "src/pages/TransformImage.js",
-                                lineNumber: 203,
+                                lineNumber: 360,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
                                 type: "number",
                                 placeholder: "Crop Width",
                                 className: "border p-1",
-                                value: wh.width == null ? "" : wh.width,
+                                value: wh.width,
                                 onChange: (e)=>{
-                                    // setTransform((t) => ({
-                                    //   ...t,
-                                    //   crop: { ...t.crop, width: Number(e.target.value) },
-                                    // }));
+                                    const nextWidth = Number(e.target.value);
                                     setwh({
                                         ...wh,
-                                        width: Number(e.target.value)
+                                        width: nextWidth
                                     });
+                                    setTransform((prev)=>({
+                                            ...prev,
+                                            crop: {
+                                                ...prev.crop,
+                                                width: nextWidth
+                                            }
+                                        }));
                                 }
                             }, void 0, false, {
                                 fileName: "src/pages/TransformImage.js",
-                                lineNumber: 217,
+                                lineNumber: 375,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
                                 type: "number",
                                 placeholder: "Crop X",
                                 className: "border p-1",
-                                value: parseInt(crop.x),
-                                onChange: (e)=>setCrop((crop)=>({
-                                            ...crop,
+                                value: crop.x,
+                                onChange: (e)=>setCrop((current)=>({
+                                            ...current,
                                             x: Number(e.target.value)
                                         }))
                             }, void 0, false, {
                                 fileName: "src/pages/TransformImage.js",
-                                lineNumber: 231,
+                                lineNumber: 390,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
                                 type: "number",
                                 placeholder: "Crop Y",
                                 className: "border p-1",
-                                value: parseInt(crop.y),
-                                onChange: (e)=>setCrop((crop)=>({
-                                            ...crop,
+                                value: crop.y,
+                                onChange: (e)=>setCrop((current)=>({
+                                            ...current,
                                             y: Number(e.target.value)
                                         }))
                             }, void 0, false, {
                                 fileName: "src/pages/TransformImage.js",
-                                lineNumber: 241,
+                                lineNumber: 403,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                                 onClick: ()=>{
                                     setIsCropping(!isCropping);
                                     setwh({
-                                        width: 100,
-                                        height: 100,
-                                        x: 0,
-                                        y: 0
+                                        width: 120,
+                                        height: 120
                                     });
+                                    setTransform((prev)=>({
+                                            ...prev,
+                                            crop: {
+                                                ...prev.crop,
+                                                width: 120,
+                                                height: 120
+                                            }
+                                        }));
                                 },
                                 children: isCropping ? "Stop Crop" : "Start Crop"
                             }, void 0, false, {
                                 fileName: "src/pages/TransformImage.js",
-                                lineNumber: 251,
+                                lineNumber: 416,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                                 onClick: ()=>{
                                     setIsCropping(false);
                                     setwh({
-                                        width: null,
-                                        height: null,
-                                        x: null,
-                                        y: null
+                                        width: 120,
+                                        height: 120
                                     });
                                     setCrop({
                                         x: 0,
                                         y: 0
                                     });
+                                    setTransform((prev)=>({
+                                            ...prev,
+                                            crop: {}
+                                        }));
                                 },
                                 children: "Clear Crop"
                             }, void 0, false, {
                                 fileName: "src/pages/TransformImage.js",
-                                lineNumber: 259,
+                                lineNumber: 428,
                                 columnNumber: 11
                             }, undefined)
                         ]
                     }, void 0, true, {
                         fileName: "src/pages/TransformImage.js",
-                        lineNumber: 202,
+                        lineNumber: 359,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -33459,7 +34093,7 @@ const TransformImage = ()=>{
                                 }))
                     }, void 0, false, {
                         fileName: "src/pages/TransformImage.js",
-                        lineNumber: 270,
+                        lineNumber: 443,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("select", {
@@ -33474,7 +34108,7 @@ const TransformImage = ()=>{
                                 children: "Format"
                             }, void 0, false, {
                                 fileName: "src/pages/TransformImage.js",
-                                lineNumber: 291,
+                                lineNumber: 464,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
@@ -33482,7 +34116,7 @@ const TransformImage = ()=>{
                                 children: "PNG"
                             }, void 0, false, {
                                 fileName: "src/pages/TransformImage.js",
-                                lineNumber: 292,
+                                lineNumber: 465,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
@@ -33490,7 +34124,7 @@ const TransformImage = ()=>{
                                 children: "JPEG"
                             }, void 0, false, {
                                 fileName: "src/pages/TransformImage.js",
-                                lineNumber: 293,
+                                lineNumber: 466,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
@@ -33498,13 +34132,13 @@ const TransformImage = ()=>{
                                 children: "WEBP"
                             }, void 0, false, {
                                 fileName: "src/pages/TransformImage.js",
-                                lineNumber: 294,
+                                lineNumber: 467,
                                 columnNumber: 11
                             }, undefined)
                         ]
                     }, void 0, true, {
                         fileName: "src/pages/TransformImage.js",
-                        lineNumber: 282,
+                        lineNumber: 455,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
@@ -33520,14 +34154,14 @@ const TransformImage = ()=>{
                                         }))
                             }, void 0, false, {
                                 fileName: "src/pages/TransformImage.js",
-                                lineNumber: 298,
+                                lineNumber: 471,
                                 columnNumber: 11
                             }, undefined),
                             "Grayscale"
                         ]
                     }, void 0, true, {
                         fileName: "src/pages/TransformImage.js",
-                        lineNumber: 297,
+                        lineNumber: 470,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
@@ -33543,14 +34177,14 @@ const TransformImage = ()=>{
                                         }))
                             }, void 0, false, {
                                 fileName: "src/pages/TransformImage.js",
-                                lineNumber: 311,
+                                lineNumber: 484,
                                 columnNumber: 11
                             }, undefined),
                             "Sepia"
                         ]
                     }, void 0, true, {
                         fileName: "src/pages/TransformImage.js",
-                        lineNumber: 310,
+                        lineNumber: 483,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
@@ -33559,74 +34193,108 @@ const TransformImage = ()=>{
                                 type: "checkbox",
                                 onChange: (e)=>setTransform((prev)=>({
                                             ...prev,
-                                            removeBackground: e.target.checked
+                                            remove_bg: e.target.checked
                                         }))
                             }, void 0, false, {
                                 fileName: "src/pages/TransformImage.js",
-                                lineNumber: 324,
+                                lineNumber: 497,
                                 columnNumber: 11
                             }, undefined),
                             "Remove Background"
                         ]
                     }, void 0, true, {
                         fileName: "src/pages/TransformImage.js",
-                        lineNumber: 323,
+                        lineNumber: 496,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                        className: "border p-2 mt-4",
                         onClick: applyTransform,
-                        children: "Apply Transform"
+                        disabled: transforming,
+                        className: "bg-blue-600 text-white p-2 mt-4 rounded font-medium hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition shadow-md",
+                        children: transforming ? "\u23F3 Applying..." : "\u2728 Apply Transform"
                     }, void 0, false, {
                         fileName: "src/pages/TransformImage.js",
-                        lineNumber: 336,
+                        lineNumber: 509,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        className: "max-w flex gap-4",
+                        className: "flex gap-2",
                         children: [
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                className: "flex-1 outline-none border p-2 disabled:bg-gray-200 disabled:border-gray-500  ",
+                                className: "flex-1 outline-none border border-gray-300 p-2 rounded disabled:bg-gray-100 disabled:text-gray-500 text-sm font-mono bg-gray-50 transition",
                                 value: backendURL,
                                 readOnly: true,
-                                disabled: backendURL === ""
+                                disabled: backendURL === "",
+                                placeholder: "Transform URL will appear here"
                             }, void 0, false, {
                                 fileName: "src/pages/TransformImage.js",
-                                lineNumber: 341,
+                                lineNumber: 518,
                                 columnNumber: 11
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                                 onClick: handleCopy,
-                                className: "border p-2",
-                                children: "Copy"
+                                disabled: !backendURL,
+                                className: "border border-gray-300 bg-white hover:bg-gray-50 p-2 rounded disabled:opacity-50 disabled:cursor-not-allowed transition font-medium",
+                                children: "\uD83D\uDCCB Copy"
                             }, void 0, false, {
                                 fileName: "src/pages/TransformImage.js",
-                                lineNumber: 347,
+                                lineNumber: 525,
                                 columnNumber: 11
                             }, undefined)
                         ]
                     }, void 0, true, {
                         fileName: "src/pages/TransformImage.js",
-                        lineNumber: 340,
+                        lineNumber: 517,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                        onClick: handleDeleteClick,
+                        disabled: isDeleting,
+                        className: "border-2 border-red-500 text-red-600 p-2 mt-4 rounded hover:bg-red-50 disabled:opacity-50 disabled:cursor-not-allowed transition font-medium",
+                        children: isDeleting ? "\uD83D\uDDD1\uFE0F Deleting..." : "\uD83D\uDDD1\uFE0F Delete Image"
+                    }, void 0, false, {
+                        fileName: "src/pages/TransformImage.js",
+                        lineNumber: 533,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/pages/TransformImage.js",
-                lineNumber: 173,
+                lineNumber: 275,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _confirmDialogDefault.default), {
+                isOpen: showDeleteConfirm,
+                title: "Delete Image",
+                message: "Are you sure you want to delete this image? This action cannot be undone.",
+                onConfirm: handleConfirmDelete,
+                onCancel: ()=>setShowDeleteConfirm(false),
+                isDangerous: true
+            }, void 0, false, {
+                fileName: "src/pages/TransformImage.js",
+                lineNumber: 541,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _useToast.ToastContainer), {
+                toasts: toasts
+            }, void 0, false, {
+                fileName: "src/pages/TransformImage.js",
+                lineNumber: 549,
                 columnNumber: 7
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/pages/TransformImage.js",
-        lineNumber: 106,
+        lineNumber: 196,
         columnNumber: 5
     }, undefined);
 };
-_s(TransformImage, "2EkMYR5429DUZOIQaFsf8V1SFwU=", false, function() {
+_s(TransformImage, "l6NTCvkjWPIDNz1Xa3K3I85bJYk=", false, function() {
     return [
         (0, _reactRouter.useParams),
-        (0, _useAxiosPrivateDefault.default)
+        (0, _useAxiosPrivateDefault.default),
+        (0, _reactRouterDom.useNavigate),
+        (0, _useToast.useToast)
     ];
 });
 _c = TransformImage;
@@ -33639,7 +34307,7 @@ $RefreshReg$(_c, "TransformImage");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","react-router":"4ChVy","../hooks/useAxiosPrivate":"flztI","axios":"kooH4","react-easy-crop":"aYjYs","../context/LoadingContext":"feAfd","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"aYjYs":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","react-router":"4ChVy","../hooks/useAxiosPrivate":"flztI","axios":"kooH4","react-easy-crop":"aYjYs","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","react-router-dom":"61z4w","../components/ConfirmDialog":"2s9Fd","../hooks/useToast":"lSDfS"}],"aYjYs":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "default", ()=>Cropper);
@@ -35465,6 +36133,8 @@ var _useAxiosPrivate = require("../hooks/useAxiosPrivate");
 var _useAxiosPrivateDefault = parcelHelpers.interopDefault(_useAxiosPrivate);
 var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
+var _useToast = require("../hooks/useToast");
+var _reactRouter = require("react-router");
 var _s = $RefreshSig$();
 const UploadImage = ()=>{
     _s();
@@ -35472,6 +36142,8 @@ const UploadImage = ()=>{
     const [files, setFiles] = (0, _react.useState)(null);
     const abortRef = (0, _react.useRef)(null);
     const [isUploading, setUploading] = (0, _react.useState)(false);
+    const { toasts, showToast } = (0, _useToast.useToast)();
+    const navigate = (0, _reactRouter.useNavigate)();
     const axiosPrivate = (0, _useAxiosPrivateDefault.default)();
     const handleDrop = (event)=>{
         event.preventDefault();
@@ -35482,6 +36154,7 @@ const UploadImage = ()=>{
         event.preventDefault();
     };
     const handleClick = ()=>{
+        if (isUploading) return;
         fileInputRef.current.click();
     };
     const handleFileChange = (event)=>{
@@ -35489,22 +36162,28 @@ const UploadImage = ()=>{
         setFiles(files);
     };
     const handleSubmit = async ()=>{
+        if (isUploading) return;
         const formData = new FormData();
         console.log(fileInputRef.current);
         try {
+            setUploading(true);
             const abortController = new AbortController();
             abortRef.current = abortController;
             console.log(files);
             Array.from(files).map((file)=>{
                 formData.append("file", file);
             });
-            setUploading(true);
             const res = await axiosPrivate.post("/image/upload", formData, {
                 signal: abortController.signal
             });
             console.log(res);
+            showToast(`Successfully uploaded ${Array.from(files).length} image(s)!`, "success");
+            setFiles(null);
+            setTimeout(()=>navigate("/images"), 1500);
         } catch (err) {
             if ((0, _axiosDefault.default).isCancel(err)) return;
+            const errorMsg = err.response?.data?.message || "Upload failed";
+            showToast(errorMsg, "error");
             console.error(err);
         } finally{
             abortRef.current = null;
@@ -35523,7 +36202,7 @@ const UploadImage = ()=>{
                 children: "Upload File"
             }, void 0, false, {
                 fileName: "src/pages/UploadImage.js",
-                lineNumber: 65,
+                lineNumber: 77,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -35534,7 +36213,7 @@ const UploadImage = ()=>{
                 children: "Drop file here or click"
             }, void 0, false, {
                 fileName: "src/pages/UploadImage.js",
-                lineNumber: 66,
+                lineNumber: 78,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -35548,7 +36227,7 @@ const UploadImage = ()=>{
                 multiple: true
             }, void 0, false, {
                 fileName: "src/pages/UploadImage.js",
-                lineNumber: 75,
+                lineNumber: 87,
                 columnNumber: 7
             }, undefined),
             files && Array.from(files).map((file, index)=>{
@@ -35556,7 +36235,7 @@ const UploadImage = ()=>{
                     children: "File: " + file.name
                 }, index, false, {
                     fileName: "src/pages/UploadImage.js",
-                    lineNumber: 86,
+                    lineNumber: 98,
                     columnNumber: 18
                 }, undefined);
             }),
@@ -35566,38 +36245,47 @@ const UploadImage = ()=>{
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                         className: "w-full p-2 border-2 my-2 disabled:border-gray-400 disabled:text-gray-400 disabled:bg-gray-100 disabled:cursor-not-allowed",
                         onClick: handleSubmit,
-                        disabled: !files,
-                        children: "Upload"
+                        disabled: !files || isUploading,
+                        children: isUploading ? "Uploading..." : "Upload"
                     }, void 0, false, {
                         fileName: "src/pages/UploadImage.js",
-                        lineNumber: 90,
+                        lineNumber: 102,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                        className: " w-full p-2 border-2 my-2 border-red-600 text-red-600 disabled:border-red-300 disabled:text-red-400 disabled:bg-red-100 disabled:cursor-not-allowed ",
+                        className: "w-full p-2 border-2 my-2 border-red-600 text-red-600 disabled:border-red-300 disabled:text-red-400 disabled:bg-red-100 disabled:cursor-not-allowed",
                         onClick: handleCancel,
                         disabled: !isUploading,
                         children: "Cancel"
                     }, void 0, false, {
                         fileName: "src/pages/UploadImage.js",
-                        lineNumber: 101,
+                        lineNumber: 109,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/pages/UploadImage.js",
-                lineNumber: 89,
+                lineNumber: 101,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _useToast.ToastContainer), {
+                toasts: toasts
+            }, void 0, false, {
+                fileName: "src/pages/UploadImage.js",
+                lineNumber: 117,
                 columnNumber: 7
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/pages/UploadImage.js",
-        lineNumber: 64,
+        lineNumber: 76,
         columnNumber: 5
     }, undefined);
 };
-_s(UploadImage, "1gPd44o7IQHpiW4dns9w7OXkCJE=", false, function() {
+_s(UploadImage, "A6p0u+O1fekkVjOqxYVHHissw1Q=", false, function() {
     return [
+        (0, _useToast.useToast),
+        (0, _reactRouter.useNavigate),
         (0, _useAxiosPrivateDefault.default)
     ];
 });
@@ -35611,7 +36299,7 @@ $RefreshReg$(_c, "UploadImage");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","../hooks/useAxiosPrivate":"flztI","axios":"kooH4","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"eq3nB":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","../hooks/useAxiosPrivate":"flztI","axios":"kooH4","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","../hooks/useToast":"lSDfS","react-router":"4ChVy"}],"eq3nB":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$4392 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$4392.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -35624,15 +36312,186 @@ parcelHelpers.defineInteropFlag(exports);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
+var _useAxiosPrivate = require("../hooks/useAxiosPrivate");
+var _useAxiosPrivateDefault = parcelHelpers.interopDefault(_useAxiosPrivate);
+var _axios = require("axios");
+var _axiosDefault = parcelHelpers.interopDefault(_axios);
+var _reactRouter = require("react-router");
+var _loadingContext = require("../context/LoadingContext");
+var _loadingContextDefault = parcelHelpers.interopDefault(_loadingContext);
+var _useToast = require("../hooks/useToast");
+var _s = $RefreshSig$();
 const HomePage = ()=>{
+    _s();
+    const [images, setImages] = (0, _react.useState)([]);
+    const [stats, setStats] = (0, _react.useState)({
+        totalImages: 0
+    });
+    const { loading, setLoading } = (0, _react.useContext)((0, _loadingContextDefault.default));
+    const axiosPrivate = (0, _useAxiosPrivateDefault.default)();
+    const navigate = (0, _reactRouter.useNavigate)();
+    const { toasts, showToast } = (0, _useToast.useToast)();
+    (0, _react.useEffect)(()=>{
+        const fetchDashboard = async ()=>{
+            try {
+                setLoading(true);
+                const res = await axiosPrivate.get("http://localhost:4000/image/get-user-images", {
+                    params: {
+                        page: 1,
+                        limit: 6
+                    }
+                });
+                const { userImages, pagination } = res.data;
+                setStats({
+                    totalImages: pagination.totalImages
+                });
+                setImages(userImages);
+                setLoading(false);
+            } catch (err) {
+                const errorMsg = err.response?.data?.message || "Failed to load dashboard";
+                showToast(errorMsg, "error");
+                console.error("Dashboard error:", err);
+                setLoading(false);
+            }
+        };
+        fetchDashboard();
+    }, []);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        children: "Home."
-    }, void 0, false, {
+        className: "flex h-full justify-between flex-col",
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "flex-1 overflow-y-auto min-h-0",
+                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                    className: "p-4",
+                    children: [
+                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
+                            className: "text-2xl font-bold mb-1",
+                            children: "Welcome Back"
+                        }, void 0, false, {
+                            fileName: "src/pages/HomePage.js",
+                            lineNumber: 49,
+                            columnNumber: 11
+                        }, undefined),
+                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                            className: "text-gray-600 text-sm mb-6",
+                            children: [
+                                stats.totalImages,
+                                " image",
+                                stats.totalImages !== 1 ? "s" : "",
+                                " in your library"
+                            ]
+                        }, void 0, true, {
+                            fileName: "src/pages/HomePage.js",
+                            lineNumber: 50,
+                            columnNumber: 11
+                        }, undefined),
+                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
+                            className: "text-lg font-semibold mb-4",
+                            children: "Recent Images"
+                        }, void 0, false, {
+                            fileName: "src/pages/HomePage.js",
+                            lineNumber: 54,
+                            columnNumber: 11
+                        }, undefined),
+                        loading ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                            className: "text-sm",
+                            children: "Loading..."
+                        }, void 0, false, {
+                            fileName: "src/pages/HomePage.js",
+                            lineNumber: 56,
+                            columnNumber: 13
+                        }, undefined) : images.length > 0 ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                            className: "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6",
+                            children: images.map((image, index)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+                                    src: image.url,
+                                    alt: `Recent upload ${index + 1}`,
+                                    className: "w-full h-48 object-cover rounded border cursor-pointer hover:opacity-80 transition",
+                                    onClick: ()=>{
+                                        navigate(`/image/${image.id}/transform`);
+                                    }
+                                }, image.id ?? index, false, {
+                                    fileName: "src/pages/HomePage.js",
+                                    lineNumber: 60,
+                                    columnNumber: 17
+                                }, undefined))
+                        }, void 0, false, {
+                            fileName: "src/pages/HomePage.js",
+                            lineNumber: 58,
+                            columnNumber: 13
+                        }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                            className: "border rounded p-8 text-center mb-6",
+                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                className: "text-sm text-gray-600",
+                                children: "No images yet"
+                            }, void 0, false, {
+                                fileName: "src/pages/HomePage.js",
+                                lineNumber: 73,
+                                columnNumber: 15
+                            }, undefined)
+                        }, void 0, false, {
+                            fileName: "src/pages/HomePage.js",
+                            lineNumber: 72,
+                            columnNumber: 13
+                        }, undefined)
+                    ]
+                }, void 0, true, {
+                    fileName: "src/pages/HomePage.js",
+                    lineNumber: 48,
+                    columnNumber: 9
+                }, undefined)
+            }, void 0, false, {
+                fileName: "src/pages/HomePage.js",
+                lineNumber: 47,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "border-t p-4 flex gap-3",
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                        onClick: ()=>navigate("/upload-image"),
+                        className: "flex-1 border px-4 py-2 rounded text-sm font-medium hover:bg-gray-100 transition",
+                        children: "Upload Image"
+                    }, void 0, false, {
+                        fileName: "src/pages/HomePage.js",
+                        lineNumber: 80,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                        onClick: ()=>navigate("/images"),
+                        className: "flex-1 border px-4 py-2 rounded text-sm font-medium hover:bg-gray-100 transition",
+                        children: "Browse All"
+                    }, void 0, false, {
+                        fileName: "src/pages/HomePage.js",
+                        lineNumber: 86,
+                        columnNumber: 9
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "src/pages/HomePage.js",
+                lineNumber: 79,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _useToast.ToastContainer), {
+                toasts: toasts
+            }, void 0, false, {
+                fileName: "src/pages/HomePage.js",
+                lineNumber: 93,
+                columnNumber: 7
+            }, undefined)
+        ]
+    }, void 0, true, {
         fileName: "src/pages/HomePage.js",
-        lineNumber: 5,
+        lineNumber: 46,
         columnNumber: 5
     }, undefined);
 };
+_s(HomePage, "Bgu95Y/s+pTaBRHSgyXAQqK02X0=", false, function() {
+    return [
+        (0, _useAxiosPrivateDefault.default),
+        (0, _reactRouter.useNavigate),
+        (0, _useToast.useToast)
+    ];
+});
 _c = HomePage;
 exports.default = HomePage;
 var _c;
@@ -35643,6 +36502,6 @@ $RefreshReg$(_c, "HomePage");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}]},["3I8XU","hh6uc"], "hh6uc", "parcelRequire10c2", {}, null, null, "http://localhost:1234")
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","../hooks/useAxiosPrivate":"flztI","axios":"kooH4","react-router":"4ChVy","../context/LoadingContext":"feAfd","../hooks/useToast":"lSDfS"}]},["frqA7","hh6uc"], "hh6uc", "parcelRequire10c2", {}, null, null, "http://localhost:1234")
 
 //# sourceMappingURL=frontend.2c54e4d8.js.map

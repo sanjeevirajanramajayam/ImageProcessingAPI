@@ -16,6 +16,7 @@ if (process.env.NODE_ENV === "docker") {
     ssl: false,
   });
 } else {
+  console.log(process.env.DB_HOST, Number(process.env.DB_PORT), process.env.DB_PASSWORD, process.env.DB_NAME)
   adapter = new PrismaMariaDb({
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),

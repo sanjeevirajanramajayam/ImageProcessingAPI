@@ -19,11 +19,11 @@ services:
         condition: service_healthy
     command: sh -c "npx prisma db push && npm run dev"
   db:
-    image: mysql:oraclelinux9
+    image: mariadb:10.6
     container_name: mysql-db
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: imageprocessing
+      MARIADB_ROOT_PASSWORD: ${DB_PASSWORD}
+      MARIADB_DATABASE: imageprocessing
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p 1234"]
       interval: 5s
