@@ -32843,7 +32843,6 @@ function Images() {
             showToast("Image deleted successfully", "success");
             console.log(selectedImage);
             setShowDeleteConfirm(false);
-            setImages(images.filter((img)=>img.image_id !== selectedImage.image_id));
             setSelectedImage(null);
             setPagination((prev)=>({
                     ...prev,
@@ -32869,7 +32868,7 @@ function Images() {
                         children: "Loading images..."
                     }, void 0, false, {
                         fileName: "src/pages/Images.js",
-                        lineNumber: 102,
+                        lineNumber: 99,
                         columnNumber: 13
                     }, this) : images.length > 0 ? images.map((image, index)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                             className: "relative overflow-hidden rounded border bg-white",
@@ -32885,7 +32884,7 @@ function Images() {
                                     }
                                 }, void 0, false, {
                                     fileName: "src/pages/Images.js",
-                                    lineNumber: 109,
+                                    lineNumber: 106,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -32894,29 +32893,29 @@ function Images() {
                                     children: "Delete"
                                 }, void 0, false, {
                                     fileName: "src/pages/Images.js",
-                                    lineNumber: 119,
+                                    lineNumber: 116,
                                     columnNumber: 17
                                 }, this)
                             ]
                         }, image.id ?? index, true, {
                             fileName: "src/pages/Images.js",
-                            lineNumber: 105,
+                            lineNumber: 102,
                             columnNumber: 15
                         }, this)) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
                         children: "No images found."
                     }, void 0, false, {
                         fileName: "src/pages/Images.js",
-                        lineNumber: 128,
+                        lineNumber: 125,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "src/pages/Images.js",
-                    lineNumber: 100,
+                    lineNumber: 97,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "src/pages/Images.js",
-                lineNumber: 99,
+                lineNumber: 96,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -32936,7 +32935,7 @@ function Images() {
                         ]
                     }, void 0, true, {
                         fileName: "src/pages/Images.js",
-                        lineNumber: 133,
+                        lineNumber: 130,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -32949,7 +32948,7 @@ function Images() {
                                 children: "Previous"
                             }, void 0, false, {
                                 fileName: "src/pages/Images.js",
-                                lineNumber: 138,
+                                lineNumber: 135,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -32959,19 +32958,19 @@ function Images() {
                                 children: "Next"
                             }, void 0, false, {
                                 fileName: "src/pages/Images.js",
-                                lineNumber: 145,
+                                lineNumber: 142,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "src/pages/Images.js",
-                        lineNumber: 137,
+                        lineNumber: 134,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/pages/Images.js",
-                lineNumber: 132,
+                lineNumber: 129,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _confirmDialogDefault.default), {
@@ -32986,20 +32985,20 @@ function Images() {
                 isDangerous: true
             }, void 0, false, {
                 fileName: "src/pages/Images.js",
-                lineNumber: 154,
+                lineNumber: 151,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _useToast.ToastContainer), {
                 toasts: toasts
             }, void 0, false, {
                 fileName: "src/pages/Images.js",
-                lineNumber: 165,
+                lineNumber: 162,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "src/pages/Images.js",
-        lineNumber: 98,
+        lineNumber: 95,
         columnNumber: 5
     }, this);
 }

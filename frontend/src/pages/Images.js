@@ -78,11 +78,10 @@ function Images() {
       setLoading(true);
       await axiosPrivate.delete(`/image/${selectedImage.id}`);
       showToast("Image deleted successfully", "success");
-      console.log(selectedImage);
-      setShowDeleteConfirm(false);
       setImages(
         images.filter((img) => img.image_id !== selectedImage.image_id),
       );
+      setShowDeleteConfirm(false);
       setSelectedImage(null);
       setPagination((prev) => ({ ...prev, page: 1 }));
     } catch (err) {
