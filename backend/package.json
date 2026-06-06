@@ -25,12 +25,14 @@
     "express": "^5.2.1",
     "express-rate-limit": "^7.1.5",
     "helmet": "^8.1.0",
+    "jest": "^30.4.2",
     "jsonwebtoken": "^9.0.3",
     "morgan": "^1.10.1",
     "multer": "^2.0.2",
     "pg": "^8.17.2",
     "redis": "^5.11.0",
-    "sharp": "^0.34.5"
+    "sharp": "^0.34.5",
+    "supertest": "^7.2.2"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
