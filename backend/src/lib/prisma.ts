@@ -7,7 +7,7 @@ let adapter: PrismaMariaDb;
 
 if (process.env.NODE_ENV === "docker") {
   adapter = new PrismaMariaDb({
-    host: process.env.DOCKER_DB_HOST,
+    host: process.env.DOCKER_DB_HOST, // Database Host Is Different
     port: Number(process.env.DB_PORT),
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
@@ -16,7 +16,6 @@ if (process.env.NODE_ENV === "docker") {
     ssl: false,
   });
 } else {
-  console.log(process.env.DB_HOST, Number(process.env.DB_PORT), process.env.DB_PASSWORD, process.env.DB_NAME)
   adapter = new PrismaMariaDb({
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
