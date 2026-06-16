@@ -5,7 +5,7 @@
   "main": "server.ts",
   "scripts": {
     "dev": "nodemon --exec npx tsx ./src/server.ts",
-    "test": "vitest"
+    "test": "docker compose -f testingDocker.yaml up -d && npx wait-on tcp:3307 tcp:6379 && dotenv -e .env.test -- prisma db push && dotenv -e .env.test -- vitest && docker-compose -f testingDocker.yaml down"
   },
   "keywords": [],
   "author": "",
