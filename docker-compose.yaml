@@ -12,8 +12,13 @@ services:
     env_file:
       - ./backend/.env
     environment:
-      NODE_ENV: ${NODE_ENV}
-      DATABASE_URL: mysql://${DB_USER}:${DB_PASSWORD}@db:3306/${DB_NAME}
+      NODE_ENV: development
+      DB_HOST: db
+      DB_PORT: 3306
+      REDIS_URL: redis://redis:6379
+      S3_ENDPOINT: http://minio:9000
+      PUBLIC_S3_ENDPOINT: http://localhost:9000
+      DATABASE_URL: mysql://${DB_USER:-root}:${DB_PASSWORD:-1234}@db:3306/${DB_NAME:-imageprocessing}
     depends_on:
       db:
         condition: service_healthy
@@ -22,10 +27,10 @@ services:
     image: mariadb:10.6
     container_name: mysql-db
     environment:
-      MARIADB_ROOT_PASSWORD: ${DB_PASSWORD}
-      MARIADB_DATABASE: imageprocessing
+      MARIADB_ROOT_PASSWORD: ${DB_PASSWORD:-1234}
+      MARIADB_DATABASE: ${DB_NAME:-imageprocessing}
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p 1234"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 5s
       timeout: 5s
       retries: 20
