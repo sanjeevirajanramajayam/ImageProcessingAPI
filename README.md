@@ -1,4 +1,4 @@
-# ⚡ CloudScale Image Processing & Transformation API
+# ⚡ Image Processing & Transformation API
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-Express_5-green?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
