@@ -1,5 +1,7 @@
 # ⚡ Image Processing & Transformation API
 
+[![CI Backend Tests](https://github.com/sanjeevirajanramajayam/ImageProcessingAPI/actions/workflows/ci.yml/badge.svg)](https://github.com/sanjeevirajanramajayam/ImageProcessingAPI/actions/workflows/ci.yml)
+[![CodeQL Security Scan](https://github.com/sanjeevirajanramajayam/ImageProcessingAPI/actions/workflows/codeql.yml/badge.svg)](https://github.com/sanjeevirajanramajayam/ImageProcessingAPI/actions/workflows/codeql.yml)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-Express_5-green?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)

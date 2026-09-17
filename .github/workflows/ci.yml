@@ -1,21 +1,41 @@
-name: Run Backend Tests
+name: CI - Backend Test Suite
 
-on: push
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test-backend:
+    name: Run Backend Tests
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./backend
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: "npm"
+          cache-dependency-path: ./backend/package-lock.json
+
       - name: Copy test environment file
         run: cp .env.test.example .env.test
+
       - name: Install dependencies
-        run: npm i
-      - name: Run tests
+        run: npm ci || npm i
+
+      - name: Run Prisma Generate
+        run: npx prisma generate
+
+      - name: Run Vitest & Supertest suite
         run: npm test
