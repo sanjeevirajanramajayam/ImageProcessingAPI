@@ -1,0 +1,48 @@
+name: 🚀 Feature Request
+description: Suggest an enhancement or architectural improvement for ImageProcessingAPI
+title: "[FEAT]: "
+labels: ["needs-triage", "enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        We welcome proposals for new features, image transformation filters, or architectural deepenings.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Is your feature request related to a problem?
+      description: A clear and concise description of what problem this proposal solves.
+      placeholder: Currently, image transformations block synchronous node requests for large files...
+    validations:
+      required: true
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: Proposed Solution / Architectural Seam
+      description: Describe the solution you'd like to see, including interface changes or new adapters.
+      placeholder: Deepen an asynchronous job queue module using BullMQ and Redis...
+    validations:
+      required: true
+  - type: dropdown
+    id: impact-area
+    attributes:
+      label: Impact Area
+      options:
+        - Image Processing Core
+        - Storage Backends
+        - Caching & Performance
+        - Developer Experience & Testing
+        - API Security & Auth
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Considered Alternatives
+      description: Any alternative solutions or workarounds you have considered.
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      options:
+        - label: I am willing to submit a Pull Request to implement this feature.

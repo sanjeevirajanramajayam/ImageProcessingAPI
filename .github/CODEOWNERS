@@ -1,0 +1,11 @@
+# Global owners
+* @sanjeevirajanramajayam
+
+# Backend ownership
+/backend/ @sanjeevirajanramajayam
+
+# Frontend ownership
+/frontend/ @sanjeevirajanramajayam
+
+# CI/CD & Workflows
+/.github/ @sanjeevirajanramajayam
